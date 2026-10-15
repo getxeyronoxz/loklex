@@ -25,6 +25,11 @@ import {
   showSystemNotification,
 } from "@/lib/services/notify";
 
+/* Session brain: account, prefs, and everything the visitor creates
+   (filings, threads, replies, messages, mutes, closures). All of it
+   resets on reload — the backend replaces this whole file one day.
+   Full map: docs/Architecture.md. */
+
 export type AccountKey = "member" | "moderator" | "anonymous";
 
 interface FiledComplaint {
@@ -92,6 +97,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
+    /* Saved prefs load here (in an effect, never during render) so the
+       server HTML and the first client render always match. */
     setNotifyPermission(getNotifyPermission());
     try {
       if (localStorage.getItem("lx-system-alerts") === "1") {
@@ -243,12 +250,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         attachments: attachments.length > 0 ? attachments : undefined,
       };
       setSessionMessages((prev) => [...prev, msg]);
+      /* Mock network: "sent" appears only after the delay above.
+         Never mark a message sent before its time is up. */
       timers.current.push(
         setTimeout(() => {
           setSessionMessages((prev) =>
             prev.map((m) => (m.id === id ? { ...m, state: "sent" as const } : m)),
           );
-        }, 900),
+        }, 400),
       );
     },
     [],
@@ -263,7 +272,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setSessionMessages((prev) =>
           prev.map((m) => (m.id === id ? { ...m, state: "sent" as const } : m)),
         );
-      }, 900),
+      }, 400),
     );
   }, []);
 

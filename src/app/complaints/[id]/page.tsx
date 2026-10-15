@@ -173,6 +173,8 @@ function ComplaintDetailView() {
     (closedIds.includes(complaint.id) || complaint.status === "closed");
   const status = complaintStatuses[isClosed ? "closed" : complaint.status];
   const isPrivate = complaint.visibility === "moderators";
+  /* Outsiders were already turned away above; moderators and the filer
+     themself get the full record from here on. */
   /* Moderators and the filer themself can read the body; everyone else
      was stopped by the restricted branch above. */
   const canRead = !isPrivate || accountKey === "moderator" || ownFiling;

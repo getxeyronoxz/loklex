@@ -169,7 +169,7 @@ function ChatView() {
     retryMessage(id);
     window.setTimeout(() => {
       setRevived((prev) => ({ ...prev, [id]: "sent" }));
-    }, 900);
+    }, 400);
   };
 
   const select = (id: string) => router.push(`/chat?v=${id}`);
@@ -267,6 +267,8 @@ function ChatView() {
     />
   );
 
+  /* One thread, drawn twice (phone layout + desktop layout), so every
+     element id carries a prefix — otherwise the page holds duplicates. */
   const renderThread = (prefix: string) => {
     if (!active) return emptyThread;
     return (
@@ -369,7 +371,7 @@ function ChatView() {
               return (
               <Fragment key={m.id}>
               {day !== prevDay && (
-                <li className="flex justify-center pt-1" aria-label={day}>
+                <li className="flex justify-center pt-1">
                   <span className="tnum rounded-full border border-navy-700 bg-navy-950 px-3 py-1 text-xs text-ink-3">
                     {day}
                   </span>
@@ -591,6 +593,8 @@ function ChatView() {
                 multiple
                 className="sr-only"
                 onChange={(e) => {
+                  /* Chosen files become session-local preview URLs. They work
+                     until reload; stored file URLs replace them later. */
                   const picked: Attachment[] = Array.from(e.target.files ?? []).map(
                     (f) => ({ name: f.name, url: URL.createObjectURL(f) }),
                   );

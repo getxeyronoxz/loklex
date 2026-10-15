@@ -14,6 +14,7 @@ import { channels } from "@/lib/data/chat";
 import { complaintStatuses } from "@/lib/types";
 
 function useStored(key: string, initial: string): [string, (v: string) => void] {
+  /* Device prefs only. Everything else about the visit is forgotten. */
   const [value, setValue] = useState(initial);
   useEffect(() => {
     try {

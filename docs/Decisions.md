@@ -10,6 +10,17 @@ fixed; waiting on moderators for every closure doesn't scale. Moderators
 keep removal/restriction powers via the review queue. Status flips are
 session-local until the backend owns status transitions.
 
+## 2026-10 — Snappier mock timings (140 ms lists, 400 ms sends)
+
+Service latency 220→140 ms, message send 900→400 ms. Reason: the old
+delays made every navigation flash skeletons and every message feel slow.
+Loading and sending states still show honestly — just briefer. Real
+network timing replaces both.
+Reason: in a community tool the reporter knows first when something is
+fixed; waiting on moderators for every closure doesn't scale. Moderators
+keep removal/restriction powers via the review queue. Status flips are
+session-local until the backend owns status transitions.
+
 ## 2026-10 — Complaint photos stored as `{name, url}`, counts kept
 
 Seed complaints keep `attachments: number`; session filings add

@@ -60,6 +60,8 @@ const kindIcon = {
 export default function ModPage() {
   const { accountKey, setAccountKey, account } = useApp();
   const isModerator = accountKey === "moderator";
+  /* Moderation decisions live in memory for this visit; a real backend
+     would persist them and notify the people involved. */
   const [decisions, setDecisions] = useState<Record<string, string>>({});
 
   const decide = (id: string, action: string) =>

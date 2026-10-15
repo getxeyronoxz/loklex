@@ -39,6 +39,8 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
     } catch {
       /* ignore */
     }
+    /* The home title bar resets the panels through this event,
+       so the workspace never needs to know who its parent is. */
     const reset = () => {
       setWidths(DEFAULT_WIDTHS);
       setCollapsed([false, false, false]);
