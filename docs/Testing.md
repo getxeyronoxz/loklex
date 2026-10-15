@@ -55,3 +55,12 @@ extensions disabled for `localhost` (see Bugs.md B-06).
 - Oct 2026: real file upload → preview → image bubble with view/download.
 - Oct 2026: cross-links verified in a11y tree (complaint→thread,
   thread→complaint, channel→forum/complaint).
+- Oct 2026 (UI remediation): `tsc --noEmit` clean; `next build` green,
+  13 routes + `/_not-found` listed. Chat geometry probe: 360×640
+  composer gap −36px above nav (was +90 overlap), log is the internal
+  scroller, page scroll 0, 1 visible composer, no duplicate ids;
+  390×844 and 1440×900 also clean. Contrast computed via the skill
+  checker: ink-3/navy-900 5.76:1, ink-2 7.77:1, ink 17.81:1, gold
+  10.42:1, navy-on-teal 10.07:1 — all PASS incl. 13px normal text.
+  Pending: fresh-tab console audit + palette 3-read re-measure (no
+  browser tool in this session).

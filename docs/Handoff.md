@@ -38,3 +38,24 @@ saves hours tomorrow.
   channel menu dismissal, optional Field labels, initialsOf centralized,
   removed 5 SVGs + 4 dead exports + dead alert/CSS. Verified live both
   roles; build green.
+
+## 2026-10 — session: loklex UI remediation from the desktop plan (done, pending live re-measure)
+
+- Done: chat composer fitted-height fix (C4) + per-instance scroll refs
+  with reduced-motion respect; support-toggle override (C2); shared
+  catalog seam across panes/pages/palette (H1/H3/P1/P2); palette
+  remount (fresh query, focus restore, placeholders out of the list);
+  pane `aria-expanded`/`aria-controls` (H4); ⌘K toggle + IME guard +
+  search-button dialog semantics; unread badges clamped to 99+ (L2)
+  with dot-in-pane (L3); locked-thread reason field + rendering (L1);
+  `viewport-fit=cover` + safe-area padding on nav and main.
+- Verified: `tsc --noEmit` clean; `next build` green (13 routes +
+  `/_not-found`); contrast computed for all text pairs incl. `ink-3`
+  at 13px (5.76:1, PASS); chat geometry probe at 360×640 / 390×844 /
+  1440×900 (B-10). `npm run lint` advisory-red on the pre-existing
+  effect pattern (B-14); palette 3-read re-measure pending a browser.
+- Plan corrections recorded in Bugs.md (B-13): C3/M1/A5/P3/M4
+  non-issues, M5 wrong, M2 reversed (untracked modules committed).
+- Watch out for: no browser tool in this session — the final
+  fresh-tab console audit and palette read-count re-measure still need
+  one live pass before the PR can claim them.

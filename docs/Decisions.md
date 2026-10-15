@@ -82,3 +82,19 @@ Tailwind v4 sorts same-specificity utilities by stylesheet order, so
 appended overrides (e.g. `min-h-[40px]` vs base `min-h-[120px]`) can lose.
 `min-h-[40px]!` wins deterministically. Custom unlayered CSS is a fallback,
 not the mechanism.
+
+## 2026-10 — Shared catalog seam for the mock reads
+
+`lib/services/catalog.ts` holds one in-flight promise per catalog
+(complaints / threads / channels / categories). Panes, pages, and the
+palette all read through it instead of each fetching independently.
+Reason: the duplication was N reads per surface per visit; the seam
+keeps one read each and survives the backend swap (real requests +
+invalidation replace the promise cache, signatures stay).
+
+## 2026-10 — Untracked `visibility.ts` + `users.ts` kept as canonical
+
+The desktop plan said to delete them; verification showed they are the
+modules everything imports (`canSeeComplaint`, account helpers). Reason:
+deleting the imported copy would break the tree — the plan claim was
+wrong, so both files are committed, recorded here and in B-13.

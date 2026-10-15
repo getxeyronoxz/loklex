@@ -2,33 +2,53 @@
 
 import Link from "next/link";
 import { ArrowRight, MessageSquare, MessagesSquare } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useApp } from "@/components/app-state";
 import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Panel, PanelHeader } from "@/components/ui/Panel";
 import type { ForumCategory, Thread } from "@/lib/types";
-import { listCategories, listThreads } from "@/lib/services/forums";
+import { catalogCategories, catalogThreads } from "@/lib/services/catalog";
 
 export default function ForumsPage() {
+  const { sessionThreads, sessionReplies } = useApp();
   const [categories, setCategories] = useState<ForumCategory[] | null>(null);
-  const [latest, setLatest] = useState<Thread[] | null>(null);
+  const [seedThreads, setSeedThreads] = useState<Thread[] | null>(null);
 
   useEffect(() => {
-    listCategories().then(setCategories).catch(() => setCategories([]));
-    listThreads()
-      .then((all) => setLatest(all.slice(0, 5)))
-      .catch(() => setLatest([]));
+    catalogCategories().then(setCategories).catch(() => setCategories([]));
+    catalogThreads()
+      .then(setSeedThreads)
+      .catch(() => setSeedThreads([]));
   }, []);
+
+  const latest = useMemo(() => {
+    if (seedThreads === null) return null;
+    return [
+      ...sessionThreads,
+      ...seedThreads.filter((t) => !sessionThreads.some((s) => s.id === t.id)),
+    ].slice(0, 5);
+  }, [seedThreads, sessionThreads]);
+
+  const shownCategories = useMemo(() => {
+    if (!categories) return null;
+    return categories.map((c) => ({
+      ...c,
+      threads:
+        c.threads +
+        sessionThreads.filter((t) => t.categorySlug === c.slug).length,
+    }));
+  }, [categories, sessionThreads]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-4">
       <h1 className="sr-only">Forums</h1>
       <Panel>
         <PanelHeader eyebrow="Forums" title="Find your conversation" />
-        {categories === null ? (
+        {shownCategories === null ? (
           <SkeletonRows rows={4} />
         ) : (
           <ul className="grid gap-3 px-5 py-5 sm:grid-cols-2">
-            {categories.map((c) => (
+            {shownCategories.map((c) => (
               <li key={c.slug}>
                 <Link
                   href={`/forums/${c.slug}`}
@@ -83,7 +103,8 @@ export default function ForumsPage() {
                     </span>
                     <span className="flex items-center gap-1">
                       <MessageSquare className="h-3 w-3" aria-hidden />
-                      {t.replies}
+                      {t.replies +
+                        sessionReplies.filter((r) => r.threadId === t.id).length}
                     </span>
                   </span>
                 </Link>

@@ -15,6 +15,7 @@ const MIN_PCT = 18;
 export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
   const [widths, setWidths] = useState<number[]>(DEFAULT_WIDTHS);
   const [collapsed, setCollapsed] = useState<boolean[]>([false, false, false]);
+  const [ready, setReady] = useState(false);
   const [resizing, setResizing] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ index: number; startX: number; start: number[] } | null>(
@@ -39,6 +40,10 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
     } catch {
       /* ignore */
     }
+    /* Wait until the saved layout is in state before writing back —
+       otherwise the persist effect stores the defaults and Strict Mode
+       remounts then load those defaults (erasing the visitor's layout). */
+    setReady(true);
     /* The home title bar resets the panels through this event,
        so the workspace never needs to know who its parent is. */
     const reset = () => {
@@ -50,12 +55,13 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
   }, []);
 
   useEffect(() => {
+    if (!ready) return;
     try {
       localStorage.setItem("lx-panes", JSON.stringify({ widths, collapsed }));
     } catch {
       /* ignore */
     }
-  }, [widths, collapsed]);
+  }, [ready, widths, collapsed]);
 
   const onDividerDown = useCallback(
     (index: number, e: React.PointerEvent) => {
@@ -147,6 +153,8 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
               type="button"
               onClick={() => toggle(i)}
               aria-label={`Expand ${pane.title} panel`}
+              aria-expanded={false}
+              aria-controls={`pane-${pane.id}`}
               title={`Expand ${pane.title}`}
               className="hidden shrink-0 items-center justify-center self-stretch rounded-xl border border-navy-700 bg-navy-900 px-2 py-4 transition-colors duration-150 hover:border-navy-600 lg:flex"
             >
@@ -162,6 +170,7 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
             {/* Collapsed panels still render fully on small screens,
                 where the rail control is unavailable. */}
             <section
+              id={`pane-${pane.id}`}
               aria-label={pane.title}
               className="flex min-h-[320px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:hidden"
             >
@@ -178,6 +187,7 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
             </>
           ) : (
             <section
+              id={`pane-${pane.id}`}
               aria-label={pane.title}
               className="flex min-h-[320px] min-w-0 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:h-full lg:min-h-0 lg:flex-1"
             >
@@ -192,6 +202,8 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
                   type="button"
                   onClick={() => toggle(i)}
                   aria-label={`Collapse ${pane.title} panel`}
+                  aria-expanded={true}
+                  aria-controls={`pane-${pane.id}`}
                   title={`Collapse ${pane.title}`}
                   className="hidden rounded-md p-1.5 text-ink-3 transition-colors duration-150 hover:bg-navy-800 hover:text-ink lg:block"
                 >

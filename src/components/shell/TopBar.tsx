@@ -6,9 +6,9 @@ import { Bell, Check, ChevronDown, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { Avatar } from "@/components/ui/Avatar";
-import { useApp, type AccountKey } from "@/components/app-state";
-import { accountOrder, accounts } from "@/lib/data/users";
+import { useApp } from "@/components/app-state";
 import { unreadNotifications } from "@/lib/services/activity";
+import { getAccount, listDemoAccounts } from "@/lib/services/users";
 import { CommandPalette } from "./CommandPalette";
 
 const nav = [
@@ -36,9 +36,9 @@ function AccountMenu() {
       document.removeEventListener("mousedown", onClick);
       document.removeEventListener("keydown", onKey);
     };
-  }, [open ]);
+  }, [open]);
 
-  const account = accounts[accountKey];
+  const account = getAccount(accountKey);
 
   return (
     <div ref={boxRef} className="relative">
@@ -66,8 +66,7 @@ function AccountMenu() {
           <p className="eyebrow px-2.5 pb-1 pt-2 text-ink-3">
             Viewing as (demo accounts)
           </p>
-          {accountOrder.map((key: AccountKey) => {
-            const a = accounts[key];
+          {listDemoAccounts().map(({ key, account: a }) => {
             const active = key === accountKey;
             return (
               <button
@@ -122,10 +121,12 @@ export function TopBar() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setPalette(true);
-      }
+      if (e.key.toLowerCase() !== "k" || !(e.metaKey || e.ctrlKey)) return;
+      /* Leave the shortcut alone mid-composition — IMEs use chords like
+         this to commit a candidate. */
+      if (e.isComposing) return;
+      e.preventDefault();
+      setPalette((v) => !v);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -176,6 +177,8 @@ export function TopBar() {
               onClick={() => setPalette(true)}
               className="hidden items-center gap-2 rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-[13px] text-ink-3 hover:border-navy-600 hover:text-ink-2 md:flex"
               aria-label="Search (Control or Command K)"
+              aria-haspopup="dialog"
+              aria-expanded={palette}
             >
               <Search className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               <span>Search…</span>
@@ -187,6 +190,8 @@ export function TopBar() {
               type="button"
               onClick={() => setPalette(true)}
               aria-label="Search"
+              aria-haspopup="dialog"
+              aria-expanded={palette}
               className="rounded-lg p-2.5 text-ink-2 hover:bg-navy-800 hover:text-ink md:hidden"
             >
               <Search className="h-5 w-5" strokeWidth={1.75} aria-hidden />
@@ -198,9 +203,10 @@ export function TopBar() {
               className="relative rounded-lg p-2.5 text-ink-2 hover:bg-navy-800 hover:text-ink"
             >
               <Bell className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+              {/* The label carries the real number; the pill stays narrow. */}
               {unread > 0 && (
                 <span className="tnum absolute right-1 top-1 rounded-full bg-gold px-1.5 py-px text-xs font-bold text-navy-950">
-                  {unread}
+                  {unread > 99 ? "99+" : unread}
                 </span>
               )}
             </button>

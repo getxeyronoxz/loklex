@@ -24,7 +24,7 @@ import { initialsOf } from "@/lib/format";
 import { complaintCategories, complaintStatuses } from "@/lib/types";
 import type { Complaint, Thread } from "@/lib/types";
 import { getComplaint } from "@/lib/services/complaints";
-import { listThreads } from "@/lib/services/forums";
+import { catalogThreads } from "@/lib/services/catalog";
 
 export default function ComplaintDetailPage() {
   return (
@@ -46,7 +46,14 @@ function ComplaintDetailView() {
   const [complaint, setComplaint] = useState<Complaint | null | undefined>(
     undefined,
   );
-  const [supported, setSupported] = useState(false);
+  /* The visitor's own toggle for this filing. `null` means untouched —
+     the filing's own value stands. Keyed by id so a later session
+     update (a closure, another filing) can't silently flip a toggle
+     the visitor just made. */
+  const [supportOverride, setSupportOverride] = useState<{
+    id: string;
+    value: boolean;
+  } | null>(null);
   const [linked, setLinked] = useState<Thread[] | null>(null);
   const [reporting, setReporting] = useState(false);
   const [reportReason, setReportReason] = useState("");
@@ -60,10 +67,7 @@ function ComplaintDetailView() {
       return;
     }
     getComplaint(params.id)
-      .then((c) => {
-        setComplaint(c);
-        setSupported(c?.supported ?? false);
-      })
+      .then(setComplaint)
       .catch(() => setComplaint(null));
   }, [params.id, sessionComplaints]);
 
@@ -73,7 +77,7 @@ function ComplaintDetailView() {
       setLinked([]);
       return;
     }
-    listThreads()
+    catalogThreads()
       .then((all) => {
         const pool = [
           ...sessionThreads,
@@ -168,6 +172,15 @@ function ComplaintDetailView() {
     );
   }
 
+  /* The visitor's toggle wins once they touch it; otherwise the filing's
+     own value stands. */
+  const supported =
+    supportOverride?.id === complaint.id
+      ? supportOverride.value
+      : complaint.supported;
+  const supportCount =
+    complaint.supporters +
+    (supported === complaint.supported ? 0 : supported ? 1 : -1);
   const isClosed =
     !!complaint &&
     (closedIds.includes(complaint.id) || complaint.status === "closed");
@@ -318,12 +331,14 @@ function ComplaintDetailView() {
               <Button
                 variant={supported ? "primary" : "subtle"}
                 size="sm"
-                onClick={() => setSupported((v) => !v)}
+                onClick={() =>
+                  setSupportOverride({ id: complaint.id, value: !supported })
+                }
                 aria-pressed={supported}
               >
                 <HandHeart className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                 {supported ? "Supported" : "Support this"} ·{" "}
-                {complaint.supporters + (supported ? 1 : 0)}
+                {supportCount}
               </Button>
               <span className="tnum inline-flex items-center gap-1.5 text-[13px] text-ink-3">
                 <MessageSquare className="h-4 w-4" aria-hidden />

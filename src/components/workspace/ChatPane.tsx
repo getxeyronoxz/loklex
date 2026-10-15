@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import { Avatar } from "@/components/ui/Avatar";
 import { SkeletonRows } from "@/components/ui/EmptyState";
 import type { Channel } from "@/lib/types";
-import { listChannels } from "@/lib/services/chat";
+import { catalogChannels } from "@/lib/services/catalog";
 
 export function ChatPane() {
   const [items, setItems] = useState<Channel[] | null>(null);
 
   useEffect(() => {
-    listChannels()
+    catalogChannels()
       .then((all) => setItems(all.slice(0, 5)))
       .catch(() => setItems([]));
   }, []);
@@ -48,10 +48,16 @@ export function ChatPane() {
                       {c.lastAt}
                     </span>
                     <span className="flex h-4 items-center">
+                      {/* A dot, not a count — the number is a detail for
+                          the full channel list. */}
                       {c.unread > 0 && (
-                        <span className="tnum rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950">
-                          {c.unread}
-                        </span>
+                        <>
+                          <span
+                            aria-hidden
+                            className="h-2 w-2 rounded-full bg-teal"
+                          />
+                          <span className="sr-only">{c.unread} unread</span>
+                        </>
                       )}
                     </span>
                   </span>

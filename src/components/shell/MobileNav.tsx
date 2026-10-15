@@ -23,7 +23,7 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-navy-700 bg-navy-900/95 backdrop-blur lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-navy-700 bg-navy-900/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden"
     >
       <ul className="grid grid-cols-3">
         {items.map(({ href, label, icon: Icon }) => {
@@ -41,9 +41,16 @@ export function MobileNav() {
                 <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
                 {label}
                 {href === "/chat" && unread > 0 && (
-                  <span className="tnum absolute right-1/2 top-1.5 translate-x-5 rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950">
-                    {unread}
-                  </span>
+                  <>
+                    {/* The pill stays narrow; the count is announced. */}
+                    <span
+                      aria-hidden
+                      className="tnum absolute right-1/2 top-1.5 translate-x-5 rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950"
+                    >
+                      {unread > 99 ? "99+" : unread}
+                    </span>
+                    <span className="sr-only">{unread} unread</span>
+                  </>
                 )}
                 {active && (
                   <span

@@ -31,10 +31,13 @@ export const metadata: Metadata = {
     "Loklex is a community space for raising local concerns, discussing them in forums, and talking directly with neighbours.",
 };
 
-/* AMOLED chrome on phones + dark form controls everywhere. */
+/* AMOLED chrome on phones + dark form controls everywhere. `cover` lets
+   the black chrome run to the device edges; the bottom nav and main
+   padding carry the home-indicator inset. */
 export const viewport: Viewport = {
   themeColor: "#000000",
   colorScheme: "dark",
+  viewportFit: "cover",
 };
 
 /* Mock frontend: pages read account, session and URL state at runtime,

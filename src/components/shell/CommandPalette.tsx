@@ -3,11 +3,17 @@
 import { useRouter } from "next/navigation";
 import { FileText, MessagesSquare, MessageCircle } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { complaints } from "@/lib/data/complaints";
-import { threads } from "@/lib/data/forums";
-import { channels } from "@/lib/data/chat";
 import { useApp } from "@/components/app-state";
+import {
+  catalogChannels,
+  catalogComplaints,
+  catalogThreads,
+} from "@/lib/services/catalog";
+import type { Channel, Complaint, Thread } from "@/lib/types";
+import { canSeeComplaint } from "@/lib/visibility";
 
+/* Mounted only while open, so the box starts empty every time and no
+   reset effect is needed. */
 export function CommandPalette({
   open,
   onClose,
@@ -15,31 +21,56 @@ export function CommandPalette({
   open: boolean;
   onClose: () => void;
 }) {
+  if (!open) return null;
+  return <PaletteDialog onClose={onClose} />;
+}
+
+function PaletteDialog({ onClose }: { onClose: () => void }) {
   const router = useRouter();
-  const { sessionComplaints, sessionThreads } = useApp();
+  const { sessionComplaints, sessionThreads, accountKey } = useApp();
   const [query, setQuery] = useState("");
+  const [seedComplaints, setSeedComplaints] = useState<Complaint[]>([]);
+  const [seedThreads, setSeedThreads] = useState<Thread[]>([]);
+  const [seedChannels, setSeedChannels] = useState<Channel[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open) {
-      setQuery("");
-      requestAnimationFrame(() => inputRef.current?.focus());
-    }
-  }, [open ]);
+    /* Whatever had focus before the palette opened gets it back when the
+       dialog unmounts, instead of the caret landing on <body>. */
+    const returnTo =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    requestAnimationFrame(() => inputRef.current?.focus());
+    /* The catalogs are shared and read once per visit, so a repeat ⌘K
+       resolves from the same promise instead of re-reading all three. */
+    Promise.all([catalogComplaints(), catalogThreads(), catalogChannels()])
+      .then(([c, t, ch]) => {
+        setSeedComplaints(c);
+        setSeedThreads(t);
+        setSeedChannels(ch);
+      })
+      .catch(() => {
+        /* keep the last catalog if a load fails mid-search */
+      });
+    return () => returnTo?.focus();
+  }, []);
 
   useEffect(() => {
-    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  }, [onClose]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (q.length < 2) return [];
-    const all = [...sessionComplaints, ...complaints];
+    const ownIds = sessionComplaints.map((c) => c.id);
+    const all = [...sessionComplaints, ...seedComplaints].filter((c) =>
+      canSeeComplaint(c, accountKey, ownIds),
+    );
     return [
       ...all
         .filter((c) => `${c.title} ${c.ref}`.toLowerCase().includes(q))
@@ -51,7 +82,7 @@ export function CommandPalette({
           hint: "Complaint",
           href: `/complaints/${c.id}`,
         })),
-      ...[...sessionThreads, ...threads]
+      ...[...sessionThreads, ...seedThreads]
         .filter((t) => t.title.toLowerCase().includes(q))
         .slice(0, 4)
         .map((t) => ({
@@ -61,7 +92,7 @@ export function CommandPalette({
           hint: "Thread",
           href: `/forums/${t.categorySlug}/${t.id}`,
         })),
-      ...channels
+      ...seedChannels
         .filter((c) => c.name.toLowerCase().includes(q))
         .slice(0, 3)
         .map((c) => ({
@@ -72,9 +103,15 @@ export function CommandPalette({
           href: `/chat?v=${c.id}`,
         })),
     ];
-  }, [query, sessionComplaints, sessionThreads]);
-
-  if (!open) return null;
+  }, [
+    query,
+    sessionComplaints,
+    sessionThreads,
+    seedComplaints,
+    seedThreads,
+    seedChannels,
+    accountKey,
+  ]);
 
   const go = (href: string) => {
     onClose();
@@ -105,17 +142,19 @@ export function CommandPalette({
           aria-label="Search complaints, threads, channels"
           className="w-full border-b border-navy-700 bg-transparent px-5 py-4 text-[15px] text-ink placeholder:text-ink-3 focus:outline-none"
         />
-        <ul className="max-h-[40vh] overflow-y-auto p-2">
-          {query.trim().length < 2 ? (
-            <li className="px-3 py-6 text-center text-sm text-ink-3">
-              Type at least two letters to search.
-            </li>
-          ) : results.length === 0 ? (
-            <li className="px-3 py-6 text-center text-sm text-ink-3">
-              Nothing matches “{query.trim()}”. Try different words.
-            </li>
-          ) : (
-            results.map((r) => (
+        {query.trim().length < 2 ? (
+          <p className="px-3 py-6 text-center text-sm text-ink-3">
+            Type at least two letters to search.
+          </p>
+        ) : results.length === 0 ? (
+          <p className="px-3 py-6 text-center text-sm text-ink-3">
+            Nothing matches “{query.trim()}”. Try different words.
+          </p>
+        ) : (
+          /* The list wraps results only — the empty and prompt states are
+             not list items. */
+          <ul className="max-h-[40vh] overflow-y-auto p-2">
+            {results.map((r) => (
               <li key={`${r.hint}-${r.key}`}>
                 <button
                   type="button"
@@ -135,9 +174,9 @@ export function CommandPalette({
                   </span>
                 </button>
               </li>
-            ))
-          )}
-        </ul>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

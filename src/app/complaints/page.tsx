@@ -11,36 +11,38 @@ import { SelectInput, TextInput } from "@/components/ui/fields";
 import { ComplaintCard } from "@/components/complaints/ComplaintCard";
 import { complaintCategories } from "@/lib/types";
 import type { Complaint, ComplaintCategory, ComplaintStatus } from "@/lib/types";
-import { listComplaints } from "@/lib/services/complaints";
+import { catalogComplaints } from "@/lib/services/catalog";
+import { canSeeComplaint, effectiveStatus } from "@/lib/visibility";
 
 export default function ComplaintsPage() {
   const { sessionComplaints, closedIds, accountKey } = useApp();
-  const [all, setAll] = useState<Complaint[] | null>(null);
+  const [seed, setSeed] = useState<Complaint[] | null>(null);
   const [failed, setFailed] = useState(false);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"" | ComplaintCategory>("");
   const [status, setStatus] = useState<"" | ComplaintStatus>("");
 
   useEffect(() => {
-    listComplaints()
-      .then((seed) => setAll([...sessionComplaints, ...seed]))
+    catalogComplaints()
+      .then(setSeed)
       .catch(() => setFailed(true));
-  }, [sessionComplaints]);
+  }, []);
 
   const filtered = useMemo(() => {
-    if (!all) return null;
+    if (!seed) return null;
     const q = query.trim().toLowerCase();
-    const visible =
-      accountKey === "moderator"
-        ? all
-        : all.filter((c) => c.visibility !== "moderators");
-    return visible.filter(
-      (c) =>
+    const ownIds = sessionComplaints.map((c) => c.id);
+    const pool = [...sessionComplaints, ...seed];
+    return pool.filter((c) => {
+      if (!canSeeComplaint(c, accountKey, ownIds)) return false;
+      const shown = effectiveStatus(c, closedIds);
+      return (
         (!q || `${c.title} ${c.description} ${c.ref}`.toLowerCase().includes(q)) &&
         (!category || c.category === category) &&
-        (!status || c.status === status),
-    );
-  }, [all, query, category, status, accountKey]);
+        (!status || shown === status)
+      );
+    });
+  }, [seed, sessionComplaints, query, category, status, accountKey, closedIds]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-4">
@@ -139,17 +141,13 @@ export default function ComplaintsPage() {
           />
         ) : (
           <ul className="space-y-3 px-5 py-5">
-            {filtered.map((c) => {
-              const shown =
-                closedIds.includes(c.id) && c.status !== "closed"
-                  ? { ...c, status: "closed" as const }
-                  : c;
-              return (
+            {filtered.map((c) => (
                 <li key={c.id}>
-                  <ComplaintCard complaint={shown} />
+                  <ComplaintCard
+                    complaint={{ ...c, status: effectiveStatus(c, closedIds) }}
+                  />
                 </li>
-              );
-            })}
+              ))}
           </ul>
         )}
       </Panel>

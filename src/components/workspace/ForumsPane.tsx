@@ -2,32 +2,36 @@
 
 import Link from "next/link";
 import { ArrowRight, MessageSquare, Pin } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/app-state";
 import { SkeletonRows } from "@/components/ui/EmptyState";
-import type { Thread } from "@/lib/types";
-import { listThreads } from "@/lib/services/forums";
-import { forumCategories } from "@/lib/data/forums";
-
-const categoryName = (slug: string) =>
-  forumCategories.find((c) => c.slug === slug)?.name ?? slug;
+import type { ForumCategory, Thread } from "@/lib/types";
+import { catalogCategories, catalogThreads } from "@/lib/services/catalog";
 
 export function ForumsPane() {
   const { sessionThreads, sessionReplies } = useApp();
-  const [items, setItems] = useState<Thread[] | null>(null);
+  const [seed, setSeed] = useState<Thread[] | null>(null);
+  const [categories, setCategories] = useState<ForumCategory[]>([]);
 
   useEffect(() => {
-    listThreads()
-      .then((all) =>
-        setItems(
-          [
-            ...sessionThreads,
-            ...all.filter((t) => !sessionThreads.some((s) => s.id === t.id)),
-          ].slice(0, 6),
-        ),
-      )
-      .catch(() => setItems([]));
-  }, [sessionThreads]);
+    catalogThreads()
+      .then(setSeed)
+      .catch(() => setSeed([]));
+    catalogCategories()
+      .then(setCategories)
+      .catch(() => setCategories([]));
+  }, []);
+
+  const items = useMemo(() => {
+    if (seed === null) return null;
+    return [
+      ...sessionThreads,
+      ...seed.filter((t) => !sessionThreads.some((s) => s.id === t.id)),
+    ].slice(0, 6);
+  }, [seed, sessionThreads]);
+
+  const categoryName = (slug: string) =>
+    categories.find((c) => c.slug === slug)?.name ?? slug;
 
   return (
     <div className="flex min-h-0 flex-col lg:h-full">

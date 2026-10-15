@@ -9,7 +9,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { accounts } from "@/lib/data/users";
 import type {
   Account,
   Attachment,
@@ -24,6 +23,7 @@ import {
   requestNotifyPermission,
   showSystemNotification,
 } from "@/lib/services/notify";
+import { getAccount } from "@/lib/services/users";
 
 /* Session brain: account, prefs, and everything the visitor creates
    (filings, threads, replies, messages, mutes, closures). All of it
@@ -170,7 +170,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         pseudonym: c.pseudonym,
         author: c.anonymous
           ? (c.pseudonym ?? "Anonymous")
-          : (accounts[accountKey]?.displayName ?? "Member"),
+          : getAccount(accountKey).displayName,
         filedAt,
         status: "submitted" as ComplaintStatus,
         timeline: [
@@ -201,7 +201,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         id: `t-${Date.now()}`,
         categorySlug,
         title,
-        author: accounts[accountKey]?.displayName ?? "Member",
+        author: getAccount(accountKey).displayName,
         createdAt: "Just now",
         lastActivity: "Just now",
         replies: 0,
@@ -223,7 +223,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const reply: Reply = {
         id: `r-${Date.now()}`,
         threadId,
-        author: accounts[accountKey]?.displayName ?? "Member",
+        author: getAccount(accountKey).displayName,
         postedAt: "Just now",
         body,
         quote,
@@ -293,7 +293,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<AppState>(
     () => ({
       accountKey,
-      account: accounts[accountKey],
+      account: getAccount(accountKey),
       setAccountKey: changeAccount,
       notifyPermission,
       systemAlerts,

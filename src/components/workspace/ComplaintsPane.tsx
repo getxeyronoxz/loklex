@@ -3,14 +3,15 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, HandHeart, MessageSquare, Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/app-state";
 import { Button } from "@/components/ui/Button";
 import { SkeletonRows } from "@/components/ui/EmptyState";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { complaintStatuses } from "@/lib/types";
 import type { Complaint } from "@/lib/types";
-import { listComplaints } from "@/lib/services/complaints";
+import { catalogComplaints } from "@/lib/services/catalog";
+import { canSeeComplaint, effectiveStatus } from "@/lib/visibility";
 
 function QuickReport() {
   const router = useRouter();
@@ -69,20 +70,21 @@ function QuickReport() {
 
 export function ComplaintsPane() {
   const { sessionComplaints, closedIds, accountKey } = useApp();
-  const [items, setItems] = useState<Complaint[] | null>(null);
+  const [seed, setSeed] = useState<Complaint[] | null>(null);
 
   useEffect(() => {
-    listComplaints()
-      .then((all) => {
-        const pool = [...sessionComplaints, ...all];
-        const visible =
-          accountKey === "moderator"
-            ? pool
-            : pool.filter((c) => c.visibility !== "moderators");
-        setItems(visible.slice(0, 4));
-      })
-      .catch(() => setItems([]));
-  }, [sessionComplaints, accountKey]);
+    catalogComplaints()
+      .then(setSeed)
+      .catch(() => setSeed([]));
+  }, []);
+
+  const items = useMemo(() => {
+    if (seed === null) return null;
+    const ownIds = sessionComplaints.map((c) => c.id);
+    return [...sessionComplaints, ...seed]
+      .filter((c) => canSeeComplaint(c, accountKey, ownIds))
+      .slice(0, 4);
+  }, [seed, sessionComplaints, accountKey]);
 
   return (
     <div className="flex min-h-0 flex-col lg:h-full">
@@ -93,10 +95,7 @@ export function ComplaintsPane() {
         ) : (
           <ul className="divide-y divide-navy-700/60">
             {items.map((c, i) => {
-              const st =
-                closedIds.includes(c.id) && c.status !== "closed"
-                  ? "closed"
-                  : c.status;
+              const st = effectiveStatus(c, closedIds);
               return (
               <li
                 key={c.id}

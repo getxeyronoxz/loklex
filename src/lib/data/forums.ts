@@ -190,6 +190,7 @@ export const threads: Thread[] = [
     lastActivity: "Yesterday",
     replies: 23,
     locked: true,
+    lockReason: "Locked once the agreement copy was shared.",
     label: "Locked",
     excerpt:
       "Landlord says monsoon is an act of god, tenant says the drain was clogged before the lease. Locked after the agreement copy was shared.",
