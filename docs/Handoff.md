@@ -18,6 +18,6 @@ saves hours tomorrow.
 - Watch out for: B-05/B-06 (stale server, extension) whenever verification
   looks weird — clean tab first, code second. Never edit source with
   `powershell.exe` Set-Content (B-07).
-- Next suggested: complaint photo previews in the wizard review step;
-  mod-queue actions actually flipping a complaint's status ( backend will
-  own this); empty-state for a channel with zero messages is covered.
+- Later session verified: reply 28→29, resolve chip, close pill + timeline,
+  image upload → bubble, frozen composers (thread sticky bar, mobile chat),
+  profile/mod/rules render clean.

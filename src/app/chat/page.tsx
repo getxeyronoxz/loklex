@@ -532,7 +532,9 @@ function ChatView() {
         )}
       </div>
 
-      <div className="px-4 py-3">
+      {/* Frozen on phones (floats above the bottom nav); the desktop
+          panel already pins it via flex layout. */}
+      <div className="sticky bottom-[84px] z-10 border-t border-navy-700 bg-navy-900/95 px-4 py-3 backdrop-blur md:static md:z-auto md:border-t-0 md:bg-transparent md:backdrop-blur-none">
         {photos.length > 0 && (
           <ul className="mb-2 flex flex-wrap gap-2" aria-label="Attached photos">
             {photos.map((p) => (

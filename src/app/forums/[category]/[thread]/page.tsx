@@ -201,7 +201,7 @@ function ThreadView() {
               )
             )}
           </div>
-          <h1 className="mt-2 font-display text-[26px] font-light leading-tight text-ink">
+          <h1 className="mt-2 break-words font-display text-[26px] font-light leading-tight text-ink">
             {thread.title}
           </h1>
           <p className="tnum mt-2 text-[13px] text-ink-3">
@@ -233,10 +233,10 @@ function ThreadView() {
 
         <ol className="divide-y divide-navy-700/60">
           <li className="px-5 py-4 sm:px-6">
-            <div className="flex items-center gap-2.5">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
               <Avatar initials={initialsOf(thread.author)} size="sm" />
-              <span className="text-sm font-semibold text-ink">{thread.author}</span>
-              <span className="tnum text-xs text-ink-3">{thread.createdAt}</span>
+              <span className="min-w-0 break-words text-sm font-semibold text-ink">{thread.author}</span>
+              <span className="tnum shrink-0 text-xs text-ink-3">{thread.createdAt}</span>
             </div>
             <p className="mt-2 whitespace-pre-line break-words text-[15px] leading-relaxed text-ink">
               {thread.excerpt}
@@ -244,14 +244,14 @@ function ThreadView() {
           </li>
           {replies.map((r) => (
             <li key={r.id} className="px-5 py-4 sm:px-6">
-              <div className="flex items-center gap-2.5">
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
                 <Avatar
                   initials={initialsOf(r.author)}
                   size="sm"
                   tone={r.mine ? "gold" : "default"}
                 />
-                <span className="text-sm font-semibold text-ink">{r.author}</span>
-                <span className="tnum text-xs text-ink-3">{r.postedAt}</span>
+                <span className="min-w-0 break-words text-sm font-semibold text-ink">{r.author}</span>
+                <span className="tnum shrink-0 text-xs text-ink-3">{r.postedAt}</span>
                 {!locked && (
                   <button
                     type="button"
@@ -286,7 +286,9 @@ function ThreadView() {
           ))}
         </ol>
 
-        <div className="border-t border-navy-700 px-5 py-5 sm:px-6">
+        {/* Frozen reply bar: stays pinned while the discussion scrolls.
+            On phones it floats above the bottom navigation. */}
+        <div className="sticky bottom-[84px] z-10 rounded-b-xl border-t border-navy-700 bg-navy-900/95 px-5 py-5 backdrop-blur sm:px-6 md:bottom-0">
           {locked ? (
             <p className="flex items-center gap-2 rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-ink-3">
               <Lock className="h-4 w-4" aria-hidden />
