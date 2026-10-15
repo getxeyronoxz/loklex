@@ -93,6 +93,7 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
+      <h1 className="sr-only">Profile and settings</h1>
       <Panel>
         <div className="flex items-center gap-4 px-5 py-5 sm:px-6">
           <Avatar initials={account.initials} size="lg" tone="gold" />

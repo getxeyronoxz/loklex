@@ -119,6 +119,7 @@ function CategoryView() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
+      <h1 className="sr-only">Forum threads</h1>
       <Link
         href="/forums"
         className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"

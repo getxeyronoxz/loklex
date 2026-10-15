@@ -40,6 +40,7 @@ export default function ComplaintsPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
+      <h1 className="sr-only">Complaints raised by the community</h1>
       <Panel>
         <PanelHeader
           eyebrow="Complaints"

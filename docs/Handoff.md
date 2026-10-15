@@ -21,3 +21,6 @@ saves hours tomorrow.
 - Later session verified: reply 28→29, resolve chip, close pill + timeline,
   image upload → bubble, frozen composers (thread sticky bar, mobile chat),
   profile/mod/rules render clean.
+- Proper-way pass: branded `error.tsx` + `not-found.tsx`, per-route tab
+  titles (client pages can't export metadata), `themeColor #000000` +
+  dark `colorScheme`, sr-only h1 on all 8 h1-less routes. B-08 logged.

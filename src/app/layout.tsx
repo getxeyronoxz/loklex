@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/components/app-state";
@@ -29,6 +29,12 @@ export const metadata: Metadata = {
   },
   description:
     "Loklex is a community space for raising local concerns, discussing them in forums, and talking directly with neighbours.",
+};
+
+/* AMOLED chrome on phones + dark form controls everywhere. */
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  colorScheme: "dark",
 };
 
 /* Mock frontend: pages read account, session and URL state at runtime,

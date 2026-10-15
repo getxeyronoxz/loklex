@@ -40,6 +40,7 @@ export default function NotificationsPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
+      <h1 className="sr-only">Notifications</h1>
       <Panel>
         <PanelHeader eyebrow="Alerts" title="System alerts on this device" />
         <div className="px-5 py-4 sm:px-6">

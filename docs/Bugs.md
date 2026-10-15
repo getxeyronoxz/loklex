@@ -61,7 +61,14 @@
   tools, or `pwsh` with explicit `[UTF8Encoding]::new($false)`.
   Never `powershell.exe Set-Content` on source files.
 
-## Non-bugs (investigated, no change)
+## B-08 · `usePathname` outside Suspense breaks `next build`
+
+- Found: production build prerender error, Oct 2026.
+- Cause: `RouteTitle` (uses `usePathname`) mounted directly in `AppShell`.
+  Any client hook that reads the URL must sit under `<Suspense>` or static
+  prerendering fails — same rule that already covers TopBar/MobileNav.
+- Fix: wrapped in `<Suspense fallback={null}>`.
+- Evidence: build green, all 13 routes + `/_not-found` listed.
 
 - "doable" typo report: byte-level check proved the file already reads
   `doable`. Screenshot misread. No change.

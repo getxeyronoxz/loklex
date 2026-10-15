@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { TopBar } from "./TopBar";
 import { MobileNav } from "./MobileNav";
+import { RouteTitle } from "./RouteTitle";
 
 /* Viewport-locked shell: header + footer stay put, only <main> scrolls.
    The dashboard fills the visible height with internally-scrolling panes;
@@ -10,6 +11,9 @@ import { MobileNav } from "./MobileNav";
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen flex-col overflow-hidden">
+      <Suspense fallback={null}>
+        <RouteTitle />
+      </Suspense>
       <Suspense fallback={<div aria-hidden className="h-16 shrink-0 border-b border-navy-700" />}>
         <TopBar />
       </Suspense>

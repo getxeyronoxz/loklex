@@ -50,6 +50,7 @@ const process = [
 export default function RulesPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
+      <h1 className="sr-only">Community rules</h1>
       <Panel>
         <PanelHeader eyebrow="Community" title="Rules of the square" />
         <ol className="space-y-1 px-5 py-4 sm:px-6">
