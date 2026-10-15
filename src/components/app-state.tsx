@@ -12,6 +12,7 @@ import {
 import { accounts } from "@/lib/data/users";
 import type {
   Account,
+  Attachment,
   ChatMessage,
   Complaint,
   ComplaintStatus,
@@ -60,7 +61,7 @@ interface AppState {
     quote?: { author: string; body: string },
   ) => void;
   sessionMessages: ChatMessage[];
-  sendMessage: (channelId: string, body: string, attachments?: string[]) => void;
+  sendMessage: (channelId: string, body: string, attachments?: Attachment[]) => void;
   retryMessage: (id: string) => void;
   mutedIds: string[];
   toggleMute: (id: string) => void;
@@ -227,7 +228,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
 
   const sendMessage = useCallback(
-    (channelId: string, body: string, attachments: string[] = []) => {
+    (channelId: string, body: string, attachments: Attachment[] = []) => {
       const id = `m-${Date.now()}`;
       const at = new Date()
         .toLocaleString("en", { hour: "numeric", minute: "2-digit", hour12: true })

@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Field, TextArea, TextInput } from "@/components/ui/fields";
 import { forumCategories } from "@/lib/data/forums";
-import type { Channel, ChatMessage, MessageState } from "@/lib/types";
+import type { Attachment, Channel, ChatMessage, MessageState } from "@/lib/types";
 import { listChannels, listMessages } from "@/lib/services/chat";
 import { getComplaintByRef } from "@/lib/services/complaints";
 
@@ -76,7 +76,7 @@ function ChatView() {
   const [reported, setReported] = useState(false);
   const [finding, setFinding] = useState("");
   const [draft, setDraft] = useState("");
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [photos, setPhotos] = useState<Attachment[]>([]);
   /* Retry state for seeded failed messages (they don't live in session
      state, so their sending/sent flip is tracked here). */
   const [revived, setRevived] = useState<Record<string, MessageState>>({});
@@ -248,13 +248,17 @@ function ChatView() {
     </div>
   );
 
-  const threadNode = !active ? (
+  const emptyThread = (
     <EmptyState
       icon={Hash}
       title="No channel open"
       body="Choose one from the list to read and reply."
     />
-  ) : (
+  );
+
+  const renderThread = (prefix: string) => {
+    if (!active) return emptyThread;
+    return (
     <div className="flex h-full flex-col">
       <header className="flex items-center gap-3 border-b border-navy-700 px-4 py-3">
         <Link
@@ -383,18 +387,38 @@ function ChatView() {
                     </p>
                   )}
                   {m.attachments && m.attachments.length > 0 && (
-                    <ul className="mb-1.5 space-y-1">
-                      {m.attachments.map((name) => (
-                        <li
-                          key={name}
-                          className={`tnum flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs ${
-                            m.fromMe ? "bg-navy-950/10" : "bg-navy-950"
-                          }`}
-                        >
-                          <Paperclip className="h-3 w-3 shrink-0" aria-hidden />
-                          <span className="truncate">{name}</span>
-                        </li>
-                      ))}
+                    <ul className="mb-1.5 space-y-1.5">
+                      {m.attachments.map((a) =>
+                        a.url ? (
+                          <li key={a.url}>
+                            <a
+                              href={a.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              title={`Open ${a.name} in full`}
+                              className="block overflow-hidden rounded-lg"
+                            >
+                              {/* Plain img: object URLs are session-local, not served files */}
+                              <img
+                                src={a.url}
+                                alt={a.name}
+                                loading="lazy"
+                                className="max-h-64 w-full object-cover"
+                              />
+                            </a>
+                          </li>
+                        ) : (
+                          <li
+                            key={a.name}
+                            className={`tnum flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs ${
+                              m.fromMe ? "bg-navy-950/10" : "bg-navy-950"
+                            }`}
+                          >
+                            <Paperclip className="h-3 w-3 shrink-0" aria-hidden />
+                            <span className="truncate">{a.name}</span>
+                          </li>
+                        ),
+                      )}
                     </ul>
                   )}
                   {m.body && (
@@ -446,11 +470,11 @@ function ChatView() {
             }}
             className="flex items-center gap-2 py-1"
           >
-            <label htmlFor="chat-report" className="sr-only">
+            <label htmlFor={`${prefix}-chat-report`} className="sr-only">
               Reason for reporting
             </label>
             <select
-              id="chat-report"
+              id={`${prefix}-chat-report`}
               required
               defaultValue=""
               onChange={(e) => e.target.value && setReported(true)}
@@ -481,18 +505,28 @@ function ChatView() {
       <div className="px-4 py-3">
         {photos.length > 0 && (
           <ul className="mb-2 flex flex-wrap gap-2" aria-label="Attached photos">
-            {photos.map((name) => (
+            {photos.map((p) => (
               <li
-                key={name}
-                className="tnum flex items-center gap-1.5 rounded-lg border border-navy-700 bg-navy-950 px-2.5 py-1.5 text-xs text-ink-2"
+                key={p.url ?? p.name}
+                className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-navy-700 bg-navy-950"
+                title={p.name}
               >
-                <ImagePlus className="h-3.5 w-3.5 text-gold" aria-hidden />
-                <span className="max-w-[140px] truncate">{name}</span>
+                {p.url ? (
+                  <img src={p.url} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <span className="grid h-full w-full place-items-center">
+                    <ImagePlus className="h-4 w-4 text-gold" aria-hidden />
+                  </span>
+                )}
+                <span className="sr-only">{p.name}</span>
                 <button
                   type="button"
-                  onClick={() => setPhotos((prev) => prev.filter((p) => p !== name))}
-                  aria-label={`Remove ${name}`}
-                  className="rounded p-0.5 text-ink-3 hover:text-danger"
+                  onClick={() => {
+                    if (p.url) URL.revokeObjectURL(p.url);
+                    setPhotos((prev) => prev.filter((x) => x.url !== p.url || x.name !== p.name));
+                  }}
+                  aria-label={`Remove ${p.name}`}
+                  className="absolute right-0.5 top-0.5 rounded-full bg-navy-950/90 p-0.5 text-ink-3 hover:text-danger"
                 >
                   <X className="h-3.5 w-3.5" aria-hidden />
                 </button>
@@ -514,16 +548,18 @@ function ChatView() {
                 multiple
                 className="sr-only"
                 onChange={(e) => {
-                  const names = Array.from(e.target.files ?? []).map((f) => f.name);
-                  setPhotos((prev) => [...prev, ...names].slice(0, 4));
+                  const picked: Attachment[] = Array.from(e.target.files ?? []).map(
+                    (f) => ({ name: f.name, url: URL.createObjectURL(f) }),
+                  );
+                  setPhotos((prev) => [...prev, ...picked].slice(0, 4));
                   e.target.value = "";
                 }}
               />
             </label>
             <div className="min-w-0 flex-1">
-              <Field label="" htmlFor="composer">
+              <Field label="" htmlFor={`${prefix}-composer`}>
                 <TextArea
-                  id="composer"
+                  id={`${prefix}-composer`}
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   onKeyDown={(e) => {
@@ -555,13 +591,14 @@ function ChatView() {
         </p>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-col">
       <div className="md:hidden">
         <div className="overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
-          {selectedId ? threadNode : listNode}
+          {selectedId ? (active ? renderThread("m") : emptyThread) : listNode}
         </div>
       </div>
       <div className="hidden min-h-0 flex-1 gap-4 md:flex">
@@ -575,7 +612,7 @@ function ChatView() {
           aria-label={active ? `Channel ${active.name}` : "Channel"}
           className="flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900"
         >
-          {threadNode}
+          {active ? renderThread("d") : emptyThread}
         </section>
       </div>
     </div>

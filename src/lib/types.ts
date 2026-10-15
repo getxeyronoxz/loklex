@@ -155,7 +155,15 @@ export interface ChatMessage {
   body: string;
   at: string;
   state: MessageState;
-  attachments?: string[];
+  attachments?: Attachment[];
+}
+
+/* A photo attached in chat. `url` is a session-local object URL —
+   previews work while the app is open; a backend would replace this
+   with a stored file URL. */
+export interface Attachment {
+  name: string;
+  url?: string;
 }
 
 /* ----------------------------- Notifications ---------------------------- */
