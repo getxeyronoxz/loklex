@@ -1,0 +1,64 @@
+- generic [active] [ref=f2e1]:
+  - link "Skip to content" [ref=f2e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f2e3]:
+    - banner [ref=f2e4]:
+      - generic [ref=f2e5]:
+        - link "Loklex home" [ref=f2e6] [cursor=pointer]:
+          - /url: /
+          - img "Loklex — Lokeswaraiah Legal Associates LLP" [ref=f2e7]
+        - navigation "Sections" [ref=f2e8]:
+          - link "Complaints" [ref=f2e9] [cursor=pointer]:
+            - /url: /complaints
+          - link "Forums" [ref=f2e10] [cursor=pointer]:
+            - /url: /forums
+          - link "Chat" [ref=f2e11] [cursor=pointer]:
+            - /url: /chat
+        - generic [ref=f2e12]:
+          - button "Search (Control or Command K)" [ref=f2e13]:
+            - generic [ref=f2e17]: Search…
+            - generic [ref=f2e18]: ⌘K
+          - button "Notifications, 3 unread" [ref=f2e156]:
+            - generic [ref=f2e157]: "3"
+          - 'button "Account: Meera Krishnan. Change account" [ref=f2e24]':
+            - generic [aria-hidden] [ref=f2e25]: MK
+    - main [ref=f2e29]:
+      - generic [ref=f2e355]:
+        - generic [ref=f2e356]:
+          - paragraph [ref=f2e357]: New filing
+          - heading "What would you like to happen?" [level=1] [ref=f2e358]
+          - list "Filing progress" [ref=f2e360]:
+            - listitem [ref=f2e361]:
+              - generic "Intent (current step)" [ref=f2e362]
+            - listitem [ref=f2e363]:
+              - generic "Details" [ref=f2e364]
+            - listitem [ref=f2e365]:
+              - generic "Audience" [ref=f2e366]
+            - listitem [ref=f2e367]:
+              - generic "Privacy" [ref=f2e368]
+            - listitem [ref=f2e369]:
+              - generic "Review" [ref=f2e370]
+            - generic [ref=f2e371]: Step 1 of 5 · Intent
+        - generic [ref=f2e372]:
+          - radiogroup "What would you like to happen" [ref=f2e373]:
+            - radio "Raise awareness A public complaint the community can see, support and follow up on." [ref=f2e374]:
+              - generic [ref=f2e379]:
+                - generic [ref=f2e380]: Raise awareness
+                - generic [ref=f2e381]: A public complaint the community can see, support and follow up on.
+            - radio "Ask the community A forum discussion asking neighbours for advice or experiences." [ref=f2e382]:
+              - generic [ref=f2e387]:
+                - generic [ref=f2e388]: Ask the community
+                - generic [ref=f2e389]: A forum discussion asking neighbours for advice or experiences.
+            - radio "Report privately Seen only by moderators. For sensitive matters you'd rather not post publicly." [ref=f2e390]:
+              - generic [ref=f2e397]:
+                - generic [ref=f2e398]: Report privately
+                - generic [ref=f2e399]: Seen only by moderators. For sensitive matters you'd rather not post publicly.
+          - generic [ref=f2e400]:
+            - button "Cancel" [ref=f2e401]
+            - button "Continue" [ref=f2e404]
+    - contentinfo [ref=f2e151]:
+      - generic [ref=f2e152]:
+        - paragraph [ref=f2e153]: LOKLEX · JUSTICE · STRATEGY · RESULTS
+        - paragraph [ref=f2e154]: Lokeswaraiah Legal Associates LLP
+  - button "Open Next.js Dev Tools" [ref=f2e349] [cursor=pointer]
+  - alert [ref=f2e155]: File a complaint · Loklex

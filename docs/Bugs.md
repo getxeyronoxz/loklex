@@ -158,3 +158,27 @@
 - Fix: none yet — the effects are deliberate (server HTML and first
   client render must match). No `.github/workflows` exist, so lint is
   advisory, not a gate. `tsc --noEmit` clean, `next build` green.
+
+## B-15 · Hydration mismatch on full load with a persisted non-default account
+
+- Found: dev-server log `Uncaught Error: Hydration failed…` on `/`,
+  Oct 2026 — only when `lx-account` held a non-default value
+  (moderator); cleared storage loaded clean.
+- Cause: the server always renders the default account (Meera
+  Krishnan / MK) while the client converges to the saved one (Arvind
+  Rao / AR) via the restore effect — the account toggle's `aria-label`
+  and the Avatar initials differ at hydration time.
+- Fix: `suppressHydrationWarning` on the account toggle button
+  (`TopBar.tsx`) and on Avatar's decorative initials span
+  (`Avatar.tsx`) — React's sanctioned hatch for client-persisted UI.
+  No output or behavior change.
+- Evidence: live reload with `lx-account=moderator` → zero console
+  errors/warnings (was: 1 hydration error). `tsc` clean.
+
+## H2 retest note (Playwright, clean run)
+
+- Quick-report → Continue lands on Step 1 of 5 · Intent with the
+  subject and description prefilled in the Step-2 fields and the draft
+  consumed (`lx-draft` null). No step drift across the run. The one
+  earlier Step-2 sighting was a test artifact (stale click/snapshot
+  race), not app behavior — the Playwright run is definitive.

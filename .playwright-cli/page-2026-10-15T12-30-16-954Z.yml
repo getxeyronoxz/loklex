@@ -1,0 +1,84 @@
+- generic [active] [ref=f2e1]:
+  - link "Skip to content" [ref=f2e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f2e3]:
+    - banner [ref=f2e4]:
+      - generic [ref=f2e5]:
+        - link "Loklex home" [ref=f2e6] [cursor=pointer]:
+          - /url: /
+          - img "Loklex — Lokeswaraiah Legal Associates LLP" [ref=f2e7]
+        - navigation "Sections" [ref=f2e8]:
+          - link "Complaints" [ref=f2e9] [cursor=pointer]:
+            - /url: /complaints
+          - link "Forums" [ref=f2e10] [cursor=pointer]:
+            - /url: /forums
+          - link "Chat" [ref=f2e11] [cursor=pointer]:
+            - /url: /chat
+        - generic [ref=f2e12]:
+          - button "Search (Control or Command K)" [ref=f2e13]:
+            - generic [ref=f2e17]: Search…
+            - generic [ref=f2e18]: ⌘K
+          - button "Notifications" [ref=f2e19]
+          - 'button "Account: Meera Krishnan. Change account" [ref=f2e24]':
+            - generic [aria-hidden] [ref=f2e25]: MK
+    - main [ref=f2e29]:
+      - generic [ref=f2e30]:
+        - heading "Loklex community workspace" [level=1] [ref=f2e31]
+        - generic [ref=f2e32]:
+          - paragraph [ref=f2e33]:
+            - generic [ref=f2e37]: Community workspace
+          - button "Reset panel layout" [ref=f2e38]
+        - generic [ref=f2e40]:
+          - generic [ref=f2e41]:
+            - region "Complaints" [ref=f2e42]:
+              - generic [ref=f2e43]:
+                - heading "Complaints" [level=2] [ref=f2e44]: 01Complaints
+                - button "Collapse Complaints panel" [expanded] [ref=f2e45]
+              - generic [ref=f2e50]:
+                - generic [ref=f2e51]:
+                  - paragraph [ref=f2e52]: Report an issue
+                  - generic [ref=f2e53]: Subject
+                  - textbox "Subject" [ref=f2e54]:
+                    - /placeholder: Subject…
+                  - generic [ref=f2e55]: Description
+                  - textbox "Description" [ref=f2e56]:
+                    - /placeholder: Description…
+                  - button "Continue filing" [disabled] [ref=f2e57]
+                - generic "Loading" [ref=f2e61]
+                - generic [ref=f2e71]:
+                  - link "All complaints" [ref=f2e72] [cursor=pointer]:
+                    - /url: /complaints
+                  - link [ref=f2e75] [cursor=pointer]:
+                    - /url: /complaints/new
+                    - button "File a complaint" [ref=f2e76]
+            - separator "Resize Complaints and Forums. Arrow keys adjust." [ref=f2e78]
+          - generic [ref=f2e81]:
+            - region "Forums" [ref=f2e82]:
+              - generic [ref=f2e83]:
+                - heading "Forums" [level=2] [ref=f2e84]: 02Forums
+                - button "Collapse Forums panel" [expanded] [ref=f2e85]
+              - generic [ref=f2e90]:
+                - generic "Loading" [ref=f2e92]
+                - link "All forums" [ref=f2e109] [cursor=pointer]:
+                  - /url: /forums
+            - separator "Resize Forums and Text chat. Arrow keys adjust." [ref=f2e112]
+          - region "Text chat" [ref=f2e116]:
+            - generic [ref=f2e117]:
+              - heading "Text chat" [level=2] [ref=f2e118]: 03Text chat
+              - button "Collapse Text chat panel" [expanded] [ref=f2e119]
+            - generic [ref=f2e124]:
+              - generic "Loading" [ref=f2e126]
+              - link "Open chat" [ref=f2e140] [cursor=pointer]:
+                - /url: /chat
+        - generic [ref=f2e143]:
+          - generic [aria-hidden] [ref=f2e144]: MK
+          - paragraph [ref=f2e145]:
+            - text: Signed in as Meera Krishnan
+            - generic [ref=f2e146]: · member
+          - link "Settings" [ref=f2e147] [cursor=pointer]:
+            - /url: /profile
+    - contentinfo [ref=f2e151]:
+      - generic [ref=f2e152]:
+        - paragraph [ref=f2e153]: LOKLEX · JUSTICE · STRATEGY · RESULTS
+        - paragraph [ref=f2e154]: Lokeswaraiah Legal Associates LLP
+  - alert [ref=f2e155]

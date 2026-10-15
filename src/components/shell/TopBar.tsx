@@ -48,6 +48,10 @@ function AccountMenu() {
         aria-expanded={open}
         aria-haspopup="menu"
         aria-label={`Account: ${account.displayName}. Change account`}
+        /* The label names the saved account, which only the client
+           knows — the server always renders the default. The restore
+           effect converges it right after hydration. */
+        suppressHydrationWarning
         className="flex items-center gap-2 rounded-lg p-1.5 hover:bg-navy-800"
       >
         <Avatar initials={account.initials} size="sm" />

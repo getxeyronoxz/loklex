@@ -64,3 +64,7 @@ extensions disabled for `localhost` (see Bugs.md B-06).
   10.42:1, navy-on-teal 10.07:1 — all PASS incl. 13px normal text.
   Pending: fresh-tab console audit + palette 3-read re-measure (no
   browser tool in this session).
+- Oct 2026 (Playwright retest): handoff lands Step 1 of 5 with values
+  prefilled, draft consumed, no drift; wizard console 0 errors /
+  0 warnings. B-15 hydration fix verified live (persisted moderator
+  reload, 0 console errors).
