@@ -277,7 +277,7 @@ function ChatView() {
         <Link
           href="/chat"
           aria-label="Back to channels"
-          className="rounded-lg p-2 text-ink-2 hover:bg-navy-800 hover:text-ink md:hidden"
+          className="rounded-lg p-2 text-ink-2 hover:bg-navy-800 hover:text-ink lg:hidden"
         >
           <ArrowLeft className="h-5 w-5" strokeWidth={1.75} aria-hidden />
         </Link>
@@ -417,7 +417,7 @@ function ChatView() {
                                   src={a.url}
                                   alt={a.name}
                                   loading="lazy"
-                                  className="max-h-64 w-full object-cover"
+                                  className="aspect-[16/10] max-h-64 w-full object-cover"
                                 />
                               </a>
                               <span className="flex items-center justify-between gap-2 px-2.5 py-1.5">
@@ -645,12 +645,12 @@ function ChatView() {
   return (
     <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-col lg:h-full">
       <h1 className="sr-only">Text chat channels</h1>
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <div className="overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           {selectedId ? (active ? renderThread("m") : emptyThread) : listNode}
         </div>
       </div>
-      <div className="hidden min-h-0 flex-1 gap-4 md:flex">
+      <div className="hidden min-h-0 flex-1 gap-4 lg:flex">
         <section
           aria-label="Channels"
           className="flex w-[320px] shrink-0 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900"

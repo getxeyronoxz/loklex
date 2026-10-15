@@ -193,7 +193,7 @@ function ThreadView() {
               )
             )}
           </div>
-          <h1 className="mt-2 break-words font-display text-[26px] font-light leading-tight text-ink">
+          <h1 className="mt-2 break-words font-display text-[clamp(1.375rem,1rem+2vw,1.625rem)] font-light leading-tight text-ink">
             {thread.title}
           </h1>
           <p className="tnum mt-2 text-[13px] text-ink-3">

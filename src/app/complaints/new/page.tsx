@@ -298,7 +298,7 @@ export default function NewComplaintPage() {
       <Panel>
         <div className="border-b border-navy-700 px-5 pb-4 pt-5 sm:px-6">
           <p className="eyebrow text-gold">New filing</p>
-          <h1 className="mt-1 font-display text-[26px] font-light text-ink">
+          <h1 className="mt-1 font-display text-[clamp(1.375rem,1rem+2vw,1.625rem)] font-light text-ink">
             {step === 0
               ? "What would you like to happen?"
               : step === 1

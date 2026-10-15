@@ -147,7 +147,7 @@ function ComplaintDetailView() {
                 Moderators only
               </span>
             </div>
-            <h1 className="mt-2 font-display text-[26px] font-light leading-tight text-ink">
+            <h1 className="mt-2 font-display text-[clamp(1.375rem,1rem+2vw,1.625rem)] font-light leading-tight text-ink">
               Private report
             </h1>
           </div>
@@ -219,7 +219,7 @@ function ComplaintDetailView() {
               </span>
             )}
           </div>
-          <h1 className="mt-2 break-words font-display text-[28px] font-light leading-tight text-ink">
+          <h1 className="mt-2 break-words font-display text-[clamp(1.5rem,1.1rem+2vw,1.75rem)] font-light leading-tight text-ink">
             {complaint.title}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-ink-3">

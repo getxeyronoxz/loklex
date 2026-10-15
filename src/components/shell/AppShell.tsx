@@ -9,8 +9,10 @@ import { RouteTitle } from "./RouteTitle";
    The dashboard fills the visible height with internally-scrolling panes;
    longer pages scroll inside main while the footer stays visible. */
 export function AppShell({ children }: { children: React.ReactNode }) {
+  /* Dynamic viewport height: follows the mobile browser chrome instead
+     of hiding content behind it (see responsive-design guidance). */
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
+    <div className="flex h-dvh flex-col overflow-hidden">
       <Suspense fallback={null}>
         <RouteTitle />
       </Suspense>
