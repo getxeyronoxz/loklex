@@ -15,7 +15,7 @@ import {
   Send,
   X,
 } from "lucide-react";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/components/app-state";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
@@ -47,6 +47,12 @@ function initialsOf(name: string) {
     .map((w) => w[0])
     .join("")
     .toUpperCase();
+}
+
+/* Day chips like familiar chat apps: clock times mean today,
+   anything else ("Yesterday", weekday) is its own group. */
+function dayLabel(at: string): string {
+  return /\d{1,2}:\d{2}\s?(am|pm)/i.test(at) ? "Today" : at;
 }
 
 function ChatView() {
@@ -216,7 +222,7 @@ function ChatView() {
                         <span className="truncate text-sm font-medium text-ink">
                           {c.name}
                         </span>
-                        <span className="tnum shrink-0 text-[11px] text-ink-3">
+                        <span className="tnum shrink-0 text-xs text-ink-3">
                           {c.lastAt}
                         </span>
                       </span>
@@ -226,7 +232,7 @@ function ChatView() {
                           {liveLast}
                         </span>
                         {unread > 0 && (
-                          <span className="tnum shrink-0 rounded-full bg-teal px-1.5 py-px text-[10px] font-bold text-navy-950">
+                          <span className="tnum shrink-0 rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950">
                             {unread}
                           </span>
                         )}
@@ -277,7 +283,7 @@ function ChatView() {
         {linkedComplaintId && active.complaintRef && (
           <Link
             href={`/complaints/${linkedComplaintId}`}
-            className="tnum hidden shrink-0 rounded-full bg-gold-wash px-2.5 py-1 text-[11px] font-semibold text-gold-hi hover:bg-gold/20 sm:block"
+            className="tnum hidden shrink-0 rounded-full bg-gold-wash px-2.5 py-1 text-xs font-semibold text-gold-hi hover:bg-gold/20 sm:block"
           >
             Open {active.complaintRef} →
           </Link>
@@ -341,11 +347,20 @@ function ChatView() {
           />
         ) : (
           <ol className="space-y-4">
-            {messages.map((m) => {
+            {messages.map((m, idx) => {
               const shown = revived[m.id] ?? m.state;
+              const day = dayLabel(m.at);
+              const prevDay = idx === 0 ? null : dayLabel(messages[idx - 1].at);
               return (
+              <Fragment key={m.id}>
+              {day !== prevDay && (
+                <li className="flex justify-center pt-1" aria-label={day}>
+                  <span className="tnum rounded-full border border-navy-700 bg-navy-950 px-3 py-1 text-xs text-ink-3">
+                    {day}
+                  </span>
+                </li>
+              )}
               <li
-                key={m.id}
                 className={`lx-rise flex gap-2.5 ${m.fromMe ? "justify-end" : "justify-start"}`}
               >
                 {!m.fromMe && (
@@ -386,7 +401,7 @@ function ChatView() {
                     <p className="whitespace-pre-line break-words text-sm leading-relaxed">{m.body}</p>
                   )}
                   <p
-                    className={`tnum mt-1 text-right text-[11px] ${
+                    className={`tnum mt-1 text-right text-xs ${
                       m.fromMe ? "text-navy-950/70" : "text-ink-3"
                     }`}
                   >
@@ -409,6 +424,7 @@ function ChatView() {
                   </p>
                 </div>
               </li>
+              </Fragment>
               );
             })}
             <div ref={bottomRef} aria-hidden />
@@ -484,55 +500,57 @@ function ChatView() {
             ))}
           </ul>
         )}
-        <div className="flex items-end gap-2">
-          <label
-            className="cursor-pointer rounded-lg p-2.5 text-ink-2 hover:bg-navy-800 hover:text-ink"
-            title="Attach photos"
-          >
-            <span className="sr-only">Attach photos</span>
-            <ImagePlus className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              className="sr-only"
-              onChange={(e) => {
-                const names = Array.from(e.target.files ?? []).map((f) => f.name);
-                setPhotos((prev) => [...prev, ...names].slice(0, 4));
-                e.target.value = "";
-              }}
-            />
-          </label>
-          <div className="min-w-0 flex-1">
-            <Field label="" htmlFor="composer">
-              <TextArea
-                id="composer"
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    send();
-                  }
+        <div className="rounded-full border border-navy-700 bg-navy-950 transition-colors duration-150 focus-within:border-gold">
+          <div className="flex items-end gap-1 px-1.5 py-1.5">
+            <label
+              className="cursor-pointer rounded-full p-2.5 text-ink-2 transition-colors duration-150 hover:bg-navy-800 hover:text-ink"
+              title="Attach photos"
+            >
+              <span className="sr-only">Attach photos</span>
+              <ImagePlus className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="sr-only"
+                onChange={(e) => {
+                  const names = Array.from(e.target.files ?? []).map((f) => f.name);
+                  setPhotos((prev) => [...prev, ...names].slice(0, 4));
+                  e.target.value = "";
                 }}
-                rows={1}
-                placeholder={`Message ${active.name}…`}
-                aria-label={`Message ${active.name}`}
-                className="min-h-[44px] max-h-[140px] resize-none py-2.5"
               />
-            </Field>
+            </label>
+            <div className="min-w-0 flex-1">
+              <Field label="" htmlFor="composer">
+                <TextArea
+                  id="composer"
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      send();
+                    }
+                  }}
+                  rows={1}
+                  placeholder={`Message ${active.name}…`}
+                  aria-label={`Message ${active.name}`}
+                  className="composer-input min-h-[40px] max-h-[140px] resize-none border-transparent bg-transparent py-2 focus:border-transparent"
+                />
+              </Field>
+            </div>
+            <button
+              type="button"
+              onClick={send}
+              disabled={draft.trim().length === 0 && photos.length === 0}
+              aria-label="Send message"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold text-navy-950 transition-colors duration-150 hover:bg-gold-hi disabled:cursor-not-allowed disabled:bg-navy-700 disabled:text-ink-3"
+            >
+              <Send className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={send}
-            disabled={draft.trim().length === 0 && photos.length === 0}
-            aria-label="Send message"
-            className="rounded-lg bg-gold p-2.5 text-navy-950 transition-colors duration-150 hover:bg-gold-hi disabled:cursor-not-allowed disabled:bg-navy-700 disabled:text-ink-3"
-          >
-            <Send className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-          </button>
         </div>
-        <p className="tnum mt-1.5 text-[11px] text-ink-3">
+        <p className="tnum mt-1.5 text-xs text-ink-3">
           Enter to send · Shift+Enter for a new line
         </p>
       </div>

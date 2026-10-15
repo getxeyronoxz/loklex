@@ -21,8 +21,8 @@ export function ForumsPane() {
   }, []);
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="min-h-0 flex-1">
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="min-h-0 flex-1 overflow-y-auto">
         {items === null ? (
           <SkeletonRows rows={5} />
         ) : (
@@ -37,23 +37,27 @@ export function ForumsPane() {
                   href={`/forums/${t.categorySlug}/${t.id}`}
                   className="block px-4 py-3.5 transition-colors duration-150 hover:bg-navy-850"
                 >
-                  <span className="flex items-start gap-1.5 text-sm font-medium leading-snug text-ink">
-                    {t.pinned && (
-                      <Pin
-                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold"
-                        strokeWidth={2}
-                        aria-hidden
-                      />
-                    )}
-                    <span className="min-w-0 break-words">{t.title}</span>
+                  <span className="flex items-start gap-2">
+                    <span aria-hidden className="mt-0.5 w-3.5 shrink-0">
+                      {t.pinned && (
+                        <Pin
+                          className="h-3.5 w-3.5 text-gold"
+                          strokeWidth={2}
+                          aria-hidden
+                        />
+                      )}
+                    </span>
+                    <span className="line-clamp-2 min-w-0 flex-1 break-words text-sm font-medium leading-snug text-ink">
+                      {t.title}
+                    </span>
                   </span>
-                  <span className="tnum mt-1.5 flex items-center gap-3 text-[12px] text-ink-3">
-                    <span>{categoryName(t.categorySlug)}</span>
-                    <span className="flex items-center gap-1">
+                  <span className="tnum mt-1.5 flex items-center gap-3 pl-[22px] text-xs text-ink-3">
+                    <span className="truncate">{categoryName(t.categorySlug)}</span>
+                    <span className="flex shrink-0 items-center gap-1">
                       <MessageSquare className="h-3 w-3" aria-hidden />
                       {t.replies}
                     </span>
-                    <span>{t.lastActivity}</span>
+                    <span className="shrink-0">{t.lastActivity}</span>
                   </span>
                 </Link>
               </li>
@@ -61,10 +65,10 @@ export function ForumsPane() {
           </ul>
         )}
       </div>
-      <div className="border-t border-navy-700 px-4 py-3">
+      <div className="flex min-h-[60px] shrink-0 items-center border-t border-navy-700 px-4 py-3">
         <Link
           href="/forums"
-          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-gold-hi"
         >
           All forums <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </Link>

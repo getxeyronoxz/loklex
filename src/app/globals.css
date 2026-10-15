@@ -9,10 +9,11 @@
   --color-navy-700: #222228;
   --color-navy-600: #303038;
 
-  /* Warmed inks — match the gold instead of default blue-grey */
+  /* Warmed inks — match the gold instead of default blue-grey.
+     ink-3 holds ≥ 4.5:1 on near-black (WCAG AA for small text). */
   --color-ink: #f5f3ec;
   --color-ink-2: #a6a29a;
-  --color-ink-3: #6e6a63;
+  --color-ink-3: #8e8a83;
 
   --color-gold: #d8b96a;
   --color-gold-hi: #f2dda6;
@@ -86,7 +87,7 @@ body {
 /* Tracked caps for eyebrows, codes and references */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -182,12 +183,15 @@ body {
   animation: lx-sheen 0.7s ease;
 }
 
-/* Divider handles glow gold while resizing / hovering */
-.divider-handle {
-  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+/* Flat, inert disabled state — no sheen, no gradient */
+.btn-sheen:disabled::after {
+  display: none;
 }
-.divider-handle:hover > span,
-.divider-handle.resizing > span {
-  background-color: var(--color-gold);
-  box-shadow: 0 0 12px rgba(216, 185, 106, 0.55);
+
+/* Borderless composer field: the pill carries the focus ring instead.
+   Unlayered on purpose so it beats the shared input utilities. */
+.composer-input:focus {
+  border-color: transparent;
+  outline: none;
 }
+

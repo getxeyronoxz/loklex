@@ -34,14 +34,14 @@ export function MobileNav() {
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`relative flex min-h-[60px] flex-col items-center justify-center gap-1 text-[11px] font-semibold ${
+                className={`relative flex min-h-[60px] flex-col items-center justify-center gap-1 text-xs font-semibold ${
                   active ? "text-gold-hi" : "text-ink-3"
                 }`}
               >
                 <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
                 {label}
                 {href === "/chat" && unread > 0 && (
-                  <span className="tnum absolute right-1/2 top-1.5 translate-x-5 rounded-full bg-teal px-1.5 py-px text-[10px] font-bold text-navy-950">
+                  <span className="tnum absolute right-1/2 top-1.5 translate-x-5 rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950">
                     {unread}
                   </span>
                 )}

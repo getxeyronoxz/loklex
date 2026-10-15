@@ -109,7 +109,7 @@ export default function NotificationsPage() {
                       <span className="mt-0.5 line-clamp-2 block text-[13px] leading-relaxed text-ink-2">
                         {n.detail}
                       </span>
-                      <span className="tnum mt-1 block text-[11px] text-ink-3">
+                      <span className="tnum mt-1 block text-xs text-ink-3">
                         {n.at}
                       </span>
                     </span>

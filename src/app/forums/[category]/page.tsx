@@ -245,11 +245,11 @@ function CategoryView() {
                         aria-hidden
                       />
                     )}
-                    <span className="min-w-0 flex-1 break-words text-[15px] font-medium leading-snug text-ink">
+                    <span className="line-clamp-2 min-w-0 flex-1 break-words text-[15px] font-medium leading-snug text-ink">
                       {t.title}
                     </span>
                     {t.label && (
-                      <span className="tnum shrink-0 rounded-full bg-navy-800 px-2 py-0.5 text-[11px] font-semibold text-ink-2">
+                      <span className="tnum shrink-0 rounded-full bg-navy-800 px-2 py-0.5 text-xs font-semibold text-ink-2">
                         {t.label}
                       </span>
                     )}

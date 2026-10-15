@@ -5,7 +5,7 @@ type Size = "sm" | "md";
 
 const variants: Record<Variant, string> = {
   primary:
-    "btn-sheen bg-gold text-navy-950 font-semibold hover:bg-gold-hi active:bg-gold-deep active:scale-[0.98] disabled:bg-navy-700 disabled:text-ink-3",
+    "btn-sheen bg-gold text-navy-950 font-semibold hover:bg-gold-hi active:bg-gold-deep active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-navy-800 disabled:text-ink-3 disabled:opacity-70",
   ghost:
     "text-ink-2 hover:text-ink hover:bg-navy-800 active:bg-navy-700 disabled:text-ink-3 disabled:bg-transparent",
   subtle:

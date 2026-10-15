@@ -16,9 +16,9 @@ export function StatusPill({
   const t = tones[tone];
   return (
     <span
-      className={`tnum inline-flex h-6 shrink-0 items-center gap-1.5 rounded-full px-2.5 text-[11px] font-semibold tracking-wide ${t.pill}`}
+      className={`tnum inline-flex h-6 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 text-xs font-semibold tracking-wide ${t.pill}`}
     >
-      <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${t.dot}`} />
+      <span aria-hidden className={`h-1.5 w-1.5 shrink-0 rounded-full ${t.dot}`} />
       {children}
     </span>
   );

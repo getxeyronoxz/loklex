@@ -159,24 +159,24 @@ function ThreadView() {
         <div className="border-b border-navy-700 px-5 pb-5 pt-5 sm:px-6">
           <div className="flex flex-wrap items-center gap-2">
             {pinned && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-gold-wash px-2.5 py-1 text-[11px] font-semibold text-gold-hi">
+              <span className="inline-flex items-center gap-1 rounded-full bg-gold-wash px-2.5 py-1 text-xs font-semibold text-gold-hi">
                 <Pin className="h-3 w-3" aria-hidden /> Pinned
               </span>
             )}
             {locked && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-navy-700 px-2.5 py-1 text-[11px] font-semibold text-ink-3">
+              <span className="inline-flex items-center gap-1 rounded-full border border-navy-700 px-2.5 py-1 text-xs font-semibold text-ink-3">
                 <Lock className="h-3 w-3" aria-hidden /> Locked
               </span>
             )}
             {thread.label && !pinned && !locked && (
-              <span className="tnum rounded-full bg-navy-800 px-2.5 py-1 text-[11px] font-semibold text-ink-2">
+              <span className="tnum rounded-full bg-navy-800 px-2.5 py-1 text-xs font-semibold text-ink-2">
                 {thread.label}
               </span>
             )}
             {linkedComplaint && (
               <Link
                 href={`/complaints/${linkedComplaint.id}`}
-                className="tnum inline-flex items-center gap-1 rounded-full bg-gold-wash px-2.5 py-1 text-[11px] font-semibold text-gold-hi hover:bg-gold/20"
+                className="tnum inline-flex items-center gap-1 rounded-full bg-gold-wash px-2.5 py-1 text-xs font-semibold text-gold-hi hover:bg-gold/20"
               >
                 Linked complaint {linkedComplaint.ref} →
               </Link>

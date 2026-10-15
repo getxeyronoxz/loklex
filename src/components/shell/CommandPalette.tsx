@@ -130,7 +130,7 @@ export function CommandPalette({
                   <span className="min-w-0 flex-1 truncate text-sm text-ink">
                     {r.label}
                   </span>
-                  <span className="tnum shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-ink-3">
+                  <span className="tnum shrink-0 font-mono text-xs uppercase tracking-[0.12em] text-ink-3">
                     {r.hint}
                   </span>
                 </button>

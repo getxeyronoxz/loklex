@@ -110,7 +110,7 @@ export default function ModPage() {
                       <Icon className="h-4 w-4 text-gold" strokeWidth={1.75} aria-hidden />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="tnum font-mono text-[11px] uppercase tracking-[0.12em] text-ink-3">
+                      <p className="tnum font-mono text-xs uppercase tracking-[0.12em] text-ink-3">
                         {q.kind} · {q.ref} · received {q.received}
                       </p>
                       <p className="mt-1 text-[15px] font-semibold text-ink">

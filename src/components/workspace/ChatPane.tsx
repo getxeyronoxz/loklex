@@ -18,7 +18,7 @@ export function ChatPane() {
   }, []);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {items === null ? (
           <SkeletonRows rows={4} />
@@ -36,20 +36,20 @@ export function ChatPane() {
                 >
                   <Avatar initials={c.initials} />
                   <span className="min-w-0 flex-1">
-                    <span className="flex items-baseline justify-between gap-2">
-                      <span className="truncate text-sm font-medium text-ink">
-                        {c.name}
-                      </span>
-                      <span className="tnum shrink-0 text-[11px] text-ink-3">
-                        {c.lastAt}
-                      </span>
+                    <span className="block truncate text-sm font-medium text-ink">
+                      {c.name}
                     </span>
-                    <span className="mt-0.5 flex items-center justify-between gap-2">
-                      <span className="min-w-0 truncate text-[13px] text-ink-2">
-                        {c.lastMessage}
-                      </span>
+                    <span className="mt-0.5 block truncate text-xs text-ink-2">
+                      {c.lastMessage}
+                    </span>
+                  </span>
+                  <span className="flex w-[64px] shrink-0 flex-col items-end gap-1">
+                    <span className="tnum whitespace-nowrap text-xs text-ink-3">
+                      {c.lastAt}
+                    </span>
+                    <span className="flex h-4 items-center">
                       {c.unread > 0 && (
-                        <span className="tnum shrink-0 rounded-full bg-teal px-1.5 py-px text-[10px] font-bold text-navy-950">
+                        <span className="tnum rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950">
                           {c.unread}
                         </span>
                       )}
@@ -61,10 +61,10 @@ export function ChatPane() {
           </ul>
         )}
       </div>
-      <div className="border-t border-navy-700 px-4 py-3">
+      <div className="flex min-h-[60px] shrink-0 items-center border-t border-navy-700 px-4 py-3">
         <Link
           href="/chat"
-          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-gold-hi"
         >
           Open chat <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </Link>

@@ -90,7 +90,7 @@ export const complaintStatuses: Record<
 > = {
   submitted: { label: "Submitted", tone: "neutral" },
   "under-review": { label: "Under review", tone: "info" },
-  "needs-info": { label: "Needs more information", tone: "warn" },
+  "needs-info": { label: "Needs info", tone: "warn" },
   "action-taken": { label: "Action taken", tone: "success" },
   closed: { label: "Closed", tone: "muted" },
 };

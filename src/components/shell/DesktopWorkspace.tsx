@@ -119,10 +119,15 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
     });
   };
 
+  /* Collapse direction: the outer-left panel folds left, the others fold
+     right. Collapsed rails show the reverse so the chevron always points
+     the way the panel will move. */
+  const collapseLeft = (i: number) => i === 0;
+
   return (
     <div
       ref={trackRef}
-      className="flex min-h-[calc(100vh-220px)] flex-col gap-4 lg:flex-row lg:gap-0"
+      className="flex min-h-0 flex-1 flex-col gap-4 lg:flex-row lg:gap-0"
     >
       {panes.map((pane, i) => (
         <div
@@ -132,16 +137,17 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
               ? { flexGrow: 0, flexBasis: "auto" }
               : { flexGrow: widths[i], flexBasis: 0, minWidth: 0 }
           }
-          className="flex min-w-0 flex-col lg:flex-row"
+          className="flex min-w-0 flex-col lg:h-full lg:min-h-0 lg:flex-row"
         >
           {collapsed[i] ? (
             <button
               type="button"
               onClick={() => toggle(i)}
               aria-label={`Expand ${pane.title} panel`}
-              className="hidden shrink-0 items-center justify-center rounded-xl border border-navy-700 bg-navy-900 px-2 py-4 hover:border-navy-600 lg:flex"
+              title={`Expand ${pane.title}`}
+              className="hidden shrink-0 items-center justify-center self-stretch rounded-xl border border-navy-700 bg-navy-900 px-2 py-4 transition-colors duration-150 hover:border-navy-600 lg:flex"
             >
-              {i === 0 ? (
+              {collapseLeft(i) ? (
                 <ChevronsRight className="h-4 w-4 text-ink-3" aria-hidden />
               ) : (
                 <ChevronsLeft className="h-4 w-4 text-ink-3" aria-hidden />
@@ -153,9 +159,9 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
           ) : (
             <section
               aria-label={pane.title}
-              className="flex min-h-[320px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:min-h-0"
+              className="flex min-h-[320px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:h-full lg:min-h-0"
             >
-              <header className="flex items-center justify-between gap-2 border-b border-navy-700 px-4 py-3">
+              <header className="flex shrink-0 items-center justify-between gap-2 border-b border-navy-700 px-4 py-3">
                 <h2 className="eyebrow text-gold">
                   <span aria-hidden className="mr-2 text-ink-3">
                     {String(i + 1).padStart(2, "0")}
@@ -166,16 +172,17 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
                   type="button"
                   onClick={() => toggle(i)}
                   aria-label={`Collapse ${pane.title} panel`}
-                  className="hidden rounded-md p-1.5 text-ink-3 hover:bg-navy-800 hover:text-ink lg:block"
+                  title={`Collapse ${pane.title}`}
+                  className="hidden rounded-md p-1.5 text-ink-3 transition-colors duration-150 hover:bg-navy-800 hover:text-ink lg:block"
                 >
-                  {i === 0 ? (
+                  {collapseLeft(i) ? (
                     <ChevronsLeft className="h-4 w-4" aria-hidden />
                   ) : (
                     <ChevronsRight className="h-4 w-4" aria-hidden />
                   )}
                 </button>
               </header>
-              <div className="min-h-0 flex-1 overflow-y-auto">{pane.node}</div>
+              <div className="flex min-h-0 flex-1 flex-col">{pane.node}</div>
             </section>
           )}
           {i < panes.length - 1 && (
@@ -184,11 +191,19 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
               tabIndex={0}
               aria-orientation="vertical"
               aria-label={`Resize ${panes[i].title} and ${panes[i + 1].title}. Arrow keys adjust.`}
+              title="Drag or use arrow keys to resize"
               onPointerDown={(e) => onDividerDown(i, e)}
               onKeyDown={nudgeKey(i)}
-              className={`divider-handle hidden w-4 shrink-0 cursor-col-resize touch-none items-center justify-center rounded lg:flex ${resizing ? "resizing" : ""}`}
+              className={`group relative hidden w-2 shrink-0 cursor-col-resize touch-none items-center justify-center self-stretch lg:flex ${resizing ? "resizing" : ""}`}
             >
-              <span aria-hidden className="h-10 w-1 rounded-full bg-navy-700" />
+              <span
+                aria-hidden
+                className="absolute inset-y-1 left-1/2 w-px -translate-x-1/2 bg-navy-700"
+              />
+              <span
+                aria-hidden
+                className={`relative h-10 w-1 rounded-full bg-gold opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 ${resizing ? "opacity-100 shadow-[0_0_12px_rgba(216,185,106,0.55)]" : ""}`}
+              />
             </div>
           )}
         </div>

@@ -133,7 +133,7 @@ export function TopBar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-navy-700 bg-navy-950/95 backdrop-blur">
+      <header className="sticky top-0 z-40 shrink-0 border-b border-navy-700 bg-navy-950/95 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-3 px-4 sm:px-5">
           <Link
             href="/"
@@ -179,7 +179,7 @@ export function TopBar() {
             >
               <Search className="h-4 w-4" strokeWidth={1.75} aria-hidden />
               <span>Search…</span>
-              <kbd className="tnum rounded border border-navy-700 bg-navy-950 px-1.5 py-0.5 font-mono text-[10px] text-ink-3">
+              <kbd className="tnum rounded border border-navy-700 bg-navy-950 px-1.5 py-0.5 font-mono text-xs text-ink-3">
                 ⌘K
               </kbd>
             </button>
@@ -199,7 +199,7 @@ export function TopBar() {
             >
               <Bell className="h-5 w-5" strokeWidth={1.75} aria-hidden />
               {unread > 0 && (
-                <span className="tnum absolute right-1 top-1 rounded-full bg-gold px-1.5 py-px text-[10px] font-bold text-navy-950">
+                <span className="tnum absolute right-1 top-1 rounded-full bg-gold px-1.5 py-px text-xs font-bold text-navy-950">
                   {unread}
                 </span>
               )}
