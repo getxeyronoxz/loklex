@@ -16,6 +16,14 @@ Service latency 220→140 ms, message send 900→400 ms. Reason: the old
 delays made every navigation flash skeletons and every message feel slow.
 Loading and sending states still show honestly — just briefer. Real
 network timing replaces both.
+
+## 2026-10 — Responsive rules (skill-backed)
+
+`h-dvh` shell (mobile chrome no longer hides content), fluid `clamp()`
+display type, `aspect-ratio` on message images, one breakpoint (`lg`)
+for all pane-vs-stack and nav decisions after finding chat used `md`
+while everything else used `lg` (dual chrome + hidden composer at
+tablet widths). Container queries noted as future, not adopted.
 Reason: in a community tool the reporter knows first when something is
 fixed; waiting on moderators for every closure doesn't scale. Moderators
 keep removal/restriction powers via the review queue. Status flips are

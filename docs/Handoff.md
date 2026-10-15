@@ -24,6 +24,9 @@ saves hours tomorrow.
 - Speed + comments pass: 140 ms service latency, 400 ms sends (measured
   sending@63 ms live), plain-English comments on every cross-file
   connection, day-chip aria fixed.
+- Responsive + repo: dvh/clamp/aspect per skill guidance, unified `lg`
+  breakpoint (tablet dual-chrome fixed), history rewritten to the owner's
+  git identity, public repo github.com/getxeyronoxz/loklex pushed.
 - Proper-way pass: branded `error.tsx` + `not-found.tsx`, per-route tab
   titles (client pages can't export metadata), `themeColor #000000` +
   dark `colorScheme`, sr-only h1 on all 8 h1-less routes. B-08 logged.
