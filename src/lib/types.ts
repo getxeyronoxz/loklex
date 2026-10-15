@@ -117,6 +117,9 @@ export interface Thread {
   replies: number;
   pinned?: boolean;
   locked?: boolean;
+  /* Why it was closed, in the moderator's own words. Shown beside the
+     locked notice so the reason is never a guess. */
+  lockReason?: string;
   label?: string;
   excerpt: string;
 }

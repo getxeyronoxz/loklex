@@ -334,9 +334,16 @@ function ThreadView() {
         {/* Reply bar, pinned below the scroll region on every screen. */}
         <div className="shrink-0 rounded-b-xl border-t border-navy-700 bg-navy-900 px-5 py-5 sm:px-6">
           {locked ? (
-            <p className="flex items-center gap-2 rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-ink-3">
-              <Lock className="h-4 w-4" aria-hidden />
-              This discussion is locked. No new replies can be added.
+            <p className="flex items-start gap-2 rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-ink-3">
+              <Lock className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              <span>
+                This discussion is locked. No new replies can be added.
+                {thread?.lockReason && (
+                  <span className="mt-0.5 block text-ink-2">
+                    {thread.lockReason}
+                  </span>
+                )}
+              </span>
             </p>
           ) : (
             <div className="space-y-3">

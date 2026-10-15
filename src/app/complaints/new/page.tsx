@@ -18,6 +18,24 @@ import { useApp } from "@/components/app-state";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { Panel } from "@/components/ui/Panel";
+import {
+  Field,
+  SelectInput,
+  TextArea,
+  TextInput,
+} from "@/components/ui/fields";
+import { catalogCategories } from "@/lib/services/catalog";
+import {
+  complaintCategories,
+  complaintStatuses,
+} from "@/lib/types";
+import type {
+  Attachment,
+  Complaint,
+  ComplaintCategory,
+  ForumCategory,
+  Thread,
+} from "@/lib/types";
 
 /* Draft carried over from the workspace quick-report box. */
 function readDraft(): { title: string; description: string } {
@@ -35,23 +53,6 @@ function readDraft(): { title: string; description: string } {
     return { title: "", description: "" };
   }
 }
-import {
-  Field,
-  SelectInput,
-  TextArea,
-  TextInput,
-} from "@/components/ui/fields";
-import { forumCategories } from "@/lib/data/forums";
-import {
-  complaintCategories,
-  complaintStatuses,
-} from "@/lib/types";
-import type {
-  Attachment,
-  Complaint,
-  ComplaintCategory,
-  Thread,
-} from "@/lib/types";
 
 type Intent = "awareness" | "ask" | "private";
 type NameChoice = "name" | "pseudonym" | "hidden";
@@ -119,16 +120,10 @@ export default function NewComplaintPage() {
   const [intent, setIntent] = useState<Intent | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
-  /* Pick up a draft carried over from the workspace quick-report box. */
-  useEffect(() => {
-    const d = readDraft();
-    if (d.title) setTitle(d.title);
-    if (d.description) setDescription(d.description);
-  }, []);
+  const [forumCategories, setForumCategories] = useState<ForumCategory[]>([]);
   const [files, setFiles] = useState<Attachment[]>([]);
   const [category, setCategory] = useState<ComplaintCategory | "">("");
-  const [forum, setForum] = useState(forumCategories[0].slug);
+  const [forum, setForum] = useState("");
   const [extraForums, setExtraForums] = useState<string[]>([]);
   const [audience, setAudience] = useState<"forum" | "forums" | "all" | "">("");
   const [nameChoice, setNameChoice] = useState<NameChoice>(
@@ -141,6 +136,43 @@ export default function NewComplaintPage() {
   const [confirmAll, setConfirmAll] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const [done, setDone] = useState<Complaint | Thread | null>(null);
+
+  /* Draft from the workspace box, plus the visitor's saved filing
+     defaults from profile. Forums come through the service seam. */
+  useEffect(() => {
+    const d = readDraft();
+    if (d.title) setTitle(d.title);
+    if (d.description) setDescription(d.description);
+    try {
+      const savedName = localStorage.getItem("lx-default-name");
+      if (
+        savedName === "pseudonym" ||
+        savedName === "hidden" ||
+        (savedName === "name" && !guest)
+      ) {
+        setNameChoice(savedName);
+      }
+      const savedVis = localStorage.getItem("lx-default-visibility");
+      if (savedVis === "public" || savedVis === "moderators") {
+        setVisibility(savedVis);
+      }
+    } catch {
+      /* private mode */
+    }
+    catalogCategories()
+      .then((cs) => {
+        setForumCategories(cs);
+        setForum((current) => current || cs[0]?.slug || "");
+      })
+      .catch(() => setForumCategories([]));
+    // guest is the first-paint value; the effect below corrects name choice
+    // once the restored account is known.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (guest && nameChoice === "name") setNameChoice("hidden");
+  }, [guest, nameChoice]);
 
   const isAsk = intent === "ask";
   const isPrivate = intent === "private";

@@ -23,10 +23,16 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Field, TextArea, TextInput } from "@/components/ui/fields";
-import { forumCategories } from "@/lib/data/forums";
 import { initialsOf } from "@/lib/format";
-import type { Attachment, Channel, ChatMessage, MessageState } from "@/lib/types";
-import { listChannels, listMessages } from "@/lib/services/chat";
+import type {
+  Attachment,
+  Channel,
+  ChatMessage,
+  ForumCategory,
+  MessageState,
+} from "@/lib/types";
+import { listMessages } from "@/lib/services/chat";
+import { catalogCategories, catalogChannels } from "@/lib/services/catalog";
 import { getComplaintByRef } from "@/lib/services/complaints";
 
 export default function ChatPage() {
@@ -63,6 +69,7 @@ function ChatView() {
   } = useApp();
 
   const [channels, setChannels] = useState<Channel[] | null>(null);
+  const [forumCategories, setForumCategories] = useState<ForumCategory[]>([]);
   const [seedMessages, setSeedMessages] = useState<ChatMessage[] | null>(null);
   const [readIds, setReadIds] = useState<string[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -82,7 +89,7 @@ function ChatView() {
       document.removeEventListener("mousedown", onClick);
       document.removeEventListener("keydown", onKey);
     };
-  }, [menuOpen ]);
+  }, [menuOpen]);
   const [reporting, setReporting] = useState(false);
   const [reported, setReported] = useState(false);
   const [finding, setFinding] = useState("");
@@ -92,10 +99,15 @@ function ChatView() {
      state, so their sending/sent flip is tracked here). */
   const [revived, setRevived] = useState<Record<string, MessageState>>({});
   const [linkedComplaintId, setLinkedComplaintId] = useState<string | null>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  /* The thread is rendered twice (mobile + desktop containers) and CSS
+     hides one. A single ref would always hold whichever mounted last,
+     so scroll-to-newest would aim at the hidden copy. One ref per
+     instance, then the effect picks the visible one. */
+  const bottomRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
-    listChannels().then(setChannels).catch(() => setChannels([]));
+    catalogChannels().then(setChannels).catch(() => setChannels([]));
+    catalogCategories().then(setForumCategories).catch(() => setForumCategories([]));
   }, []);
 
   useEffect(() => {
@@ -131,7 +143,16 @@ function ChatView() {
   }, [seedMessages, sessionMessages, selectedId]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const nodes = Object.values(bottomRefs.current).filter(
+      (n): n is HTMLDivElement => n !== null,
+    );
+    /* offsetParent is null on the instance CSS is hiding. */
+    const visible = nodes.find((n) => n.offsetParent !== null) ?? nodes[0];
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    visible?.scrollIntoView({
+      behavior: reduce ? "auto" : "smooth",
+      block: "end",
+    });
   }, [messages.length, selectedId]);
 
   const isMuted = active ? mutedIds.includes(active.id) : false;
@@ -492,7 +513,12 @@ function ChatView() {
               </Fragment>
               );
             })}
-            <div ref={bottomRef} aria-hidden />
+            <div
+              ref={(el) => {
+                bottomRefs.current[prefix] = el;
+              }}
+              aria-hidden
+            />
           </ol>
         )}
       </div>
@@ -545,10 +571,13 @@ function ChatView() {
         )}
       </div>
 
-      {/* Frozen on phones (floats above the bottom nav); the desktop
-          panel already pins it via flex layout. Solid background so
-          messages never ghost through it. */}
-      <div className="sticky bottom-[84px] z-10 border-t border-navy-700 bg-navy-900 px-4 py-3 shadow-[0_-12px_32px_rgba(0,0,0,0.55)] md:static md:z-auto md:border-t-0 md:bg-transparent md:shadow-none">
+      {/* The composer is a plain flex child pinned by the panel's own
+          height — the mobile view fits the viewport and scrolls the
+          message log inside, so nothing needs to float over the page
+          (a sticky rail had no scrollport to stick to, and slid under
+          the bottom nav on short phones). Solid background so messages
+          never ghost through it. */}
+      <div className="relative z-10 border-t border-navy-700 bg-navy-900 px-4 py-3 shadow-[0_-12px_32px_rgba(0,0,0,0.55)] lg:border-t-0 lg:bg-transparent lg:shadow-none">
         {photos.length > 0 && (
           <ul className="mb-2 flex flex-wrap gap-2" aria-label="Attached photos">
             {photos.map((p) => (
@@ -643,10 +672,12 @@ function ChatView() {
   };
 
   return (
-    <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-col lg:h-full">
+    <div className="mx-auto flex h-full min-h-0 w-full max-w-6xl flex-col">
       <h1 className="sr-only">Text chat channels</h1>
-      <div className="lg:hidden">
-        <div className="overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
+      {/* One at a time: CSS picks the container, and the fitted height
+          makes the message log the scroller on both. */}
+      <div className="flex min-h-0 flex-1 flex-col lg:hidden">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           {selectedId ? (active ? renderThread("m") : emptyThread) : listNode}
         </div>
       </div>

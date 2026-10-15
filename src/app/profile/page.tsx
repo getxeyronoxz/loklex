@@ -10,8 +10,10 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Panel, PanelHeader } from "@/components/ui/Panel";
 import { Field, SelectInput } from "@/components/ui/fields";
-import { channels } from "@/lib/data/chat";
+import { catalogChannels } from "@/lib/services/catalog";
 import { complaintStatuses } from "@/lib/types";
+import type { Channel } from "@/lib/types";
+import { effectiveStatus } from "@/lib/visibility";
 
 function useStored(key: string, initial: string): [string, (v: string) => void] {
   /* Device prefs only. Everything else about the visit is forgotten. */
@@ -82,7 +84,14 @@ export default function ProfilePage() {
     sessionThreads,
     mutedIds,
     toggleMute,
+    closedIds,
   } = useApp();
+  const [channelCatalog, setChannelCatalog] = useState<Channel[]>([]);
+  useEffect(() => {
+    catalogChannels()
+      .then(setChannelCatalog)
+      .catch(() => setChannelCatalog([]));
+  }, []);
   const [defaultName, setDefaultName] = useStored("lx-default-name", "name");
   const [defaultVisibility, setDefaultVisibility] = useStored(
     "lx-default-visibility",
@@ -90,7 +99,7 @@ export default function ProfilePage() {
   );
 
   const nameOf = (id: string) =>
-    channels.find((c) => c.id === id)?.name ?? "Channel";
+    channelCatalog.find((c) => c.id === id)?.name ?? "Channel";
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
@@ -213,7 +222,7 @@ export default function ProfilePage() {
                     {c.title}
                   </span>
                   <span className="tnum shrink-0 text-xs text-ink-3">
-                    {complaintStatuses[c.status].label}
+                    {complaintStatuses[effectiveStatus(c, closedIds)].label}
                   </span>
                 </Link>
               </li>
