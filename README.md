@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Loklex — Justice · Strategy · Results
 
-## Getting Started
+A community workspace for raising local concerns, discussing them in forums,
+and talking them through in forum-based chat channels. Built for
+Lokeswaraiah Legal Associates LLP.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production check
+npm start        # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires Node 18+. No database, no accounts server — everything runs in the
+browser on typed mock data.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What's inside
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Route | Screen |
+|---|---|
+| `/` | Community workspace: Complaints · Forums · Text chat panes (resizable, collapsible) |
+| `/complaints` | Filterable complaint list |
+| `/complaints/new` | 5-step filing wizard (intent → details → audience → privacy → review) |
+| `/complaints/[id]` | Complaint detail, status timeline, support, report |
+| `/forums` | Forum categories + latest discussions |
+| `/forums/[category]` | Thread list, search, sort, start discussion |
+| `/forums/[category]/[thread]` | Thread, replies, quote, moderator pin/lock, report |
+| `/chat` | Forum channels, composer with photo previews, mute/report |
+| `/notifications` | Activity + system-alert permission |
+| `/profile` | Account, notification prefs, filing defaults, muted channels |
+| `/mod` | Moderator review queue (switch via the account menu) |
+| `/rules` | Community rules + how reporting works |
 
-## Learn More
+Chat is forum-based only — there are no personal direct messages. Every
+channel belongs to a forum (or a watched complaint).
 
-To learn more about Next.js, take a look at the following resources:
+## Where the backend will plug in
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Every screen reads through `src/lib/services/*` — small async functions
+that return the types in `src/lib/types.ts`. Nothing else touches
+`src/lib/data/*`. To attach a real backend, replace each service body with
+a `fetch` call; signatures stay the same, and `types.ts` becomes the shared
+client/server contract.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Session-created content (filed complaints, threads, replies, messages,
+mutes) lives in React state in `src/components/app-state.tsx` and resets
+on reload — the backend replaces that layer too.
 
-## Deploy on Vercel
+## Design tokens
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tailwind v4 `@theme` in `src/app/globals.css`: AMOLED blacks, warmed
+greys, a gold ramp (metallic gradient on the emblem only), Fraunces /
+IBM Plex Sans / IBM Plex Mono. Motion (`lx-rise`, `lx-pop`,
+`lx-slide-in`) is disabled under `prefers-reduced-motion`.

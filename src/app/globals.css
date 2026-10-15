@@ -1,26 +1,193 @@
 @import "tailwindcss";
 
+@theme {
+  /* AMOLED blacks — panels read through hairlines, not elevation */
+  --color-navy-950: #000000;
+  --color-navy-900: #0a0a0d;
+  --color-navy-850: #101014;
+  --color-navy-800: #16161c;
+  --color-navy-700: #222228;
+  --color-navy-600: #303038;
+
+  /* Warmed inks — match the gold instead of default blue-grey */
+  --color-ink: #f5f3ec;
+  --color-ink-2: #a6a29a;
+  --color-ink-3: #6e6a63;
+
+  --color-gold: #d8b96a;
+  --color-gold-hi: #f2dda6;
+  --color-gold-deep: #9a7a34;
+  --color-gold-wash: #d8b96a1f;
+
+  --color-teal: #46c7b2;
+
+  --color-success: #46bb85;
+  --color-warn: #e3b45e;
+  --color-danger: #f2737e;
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-navy-950);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(216, 185, 106, 0.28);
+  color: var(--color-ink);
+}
+
+/* Visible, consistent keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Quiet scrollbars that stay out of the way */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-navy-700) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-navy-700);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Tabular figures for counts, codes and timestamps */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tracked caps for eyebrows, codes and references */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------- Loklex motion system ------------------------ */
+/* Restrained 2D motion: fade/rise entrances, pop dialogs, drifting sheen.
+   All disabled under prefers-reduced-motion (see above). */
+
+@keyframes lx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lx-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes lx-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes lx-sheen {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(220%);
+  }
+}
+
+.lx-rise {
+  animation: lx-rise 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.lx-slide-in {
+  animation: lx-slide-in 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.lx-pop {
+  animation: lx-pop 0.28s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Thin gold sheen sweeping across primary buttons on hover */
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 45%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: translateX(-100%);
+}
+.btn-sheen:hover::after {
+  animation: lx-sheen 0.7s ease;
+}
+
+/* Divider handles glow gold while resizing / hovering */
+.divider-handle {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.divider-handle:hover > span,
+.divider-handle.resizing > span {
+  background-color: var(--color-gold);
+  box-shadow: 0 0 12px rgba(216, 185, 106, 0.55);
 }
