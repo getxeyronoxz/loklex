@@ -7,7 +7,7 @@ export function Field({
   htmlFor,
   children,
 }: {
-  label: string;
+  label?: string;
   hint?: string;
   error?: string;
   htmlFor?: string;
@@ -15,13 +15,15 @@ export function Field({
 }) {
   return (
     <div>
-      <label
-        htmlFor={htmlFor}
-        className="block text-[13px] font-semibold text-ink"
-      >
-        {label}
-      </label>
-      <div className="mt-1.5">{children}</div>
+      {label && (
+        <label
+          htmlFor={htmlFor}
+          className="block text-[13px] font-semibold text-ink"
+        >
+          {label}
+        </label>
+      )}
+      <div className={label ? "mt-1.5" : ""}>{children}</div>
       {hint && !error && <p className="mt-1.5 text-[13px] text-ink-3">{hint}</p>}
       {error && (
         <p role="alert" className="mt-1.5 text-[13px] font-medium text-danger">

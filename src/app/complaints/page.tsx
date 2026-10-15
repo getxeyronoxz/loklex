@@ -14,7 +14,7 @@ import type { Complaint, ComplaintCategory, ComplaintStatus } from "@/lib/types"
 import { listComplaints } from "@/lib/services/complaints";
 
 export default function ComplaintsPage() {
-  const { sessionComplaints, closedIds } = useApp();
+  const { sessionComplaints, closedIds, accountKey } = useApp();
   const [all, setAll] = useState<Complaint[] | null>(null);
   const [failed, setFailed] = useState(false);
   const [query, setQuery] = useState("");
@@ -30,13 +30,17 @@ export default function ComplaintsPage() {
   const filtered = useMemo(() => {
     if (!all) return null;
     const q = query.trim().toLowerCase();
-    return all.filter(
+    const visible =
+      accountKey === "moderator"
+        ? all
+        : all.filter((c) => c.visibility !== "moderators");
+    return visible.filter(
       (c) =>
         (!q || `${c.title} ${c.description} ${c.ref}`.toLowerCase().includes(q)) &&
         (!category || c.category === category) &&
         (!status || c.status === status),
     );
-  }, [all, query, category, status]);
+  }, [all, query, category, status, accountKey]);
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">

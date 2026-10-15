@@ -20,19 +20,11 @@ import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Panel } from "@/components/ui/Panel";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { Field, SelectInput, TextArea } from "@/components/ui/fields";
+import { initialsOf } from "@/lib/format";
 import { complaintCategories, complaintStatuses } from "@/lib/types";
 import type { Complaint, Thread } from "@/lib/types";
 import { getComplaint } from "@/lib/services/complaints";
 import { listThreads } from "@/lib/services/forums";
-
-function initialsOf(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
 
 export default function ComplaintDetailPage() {
   return (
@@ -50,7 +42,7 @@ export default function ComplaintDetailPage() {
 
 function ComplaintDetailView() {
   const params = useParams<{ id: string }>();
-  const { sessionComplaints, sessionThreads, account, closedIds, closeComplaint } = useApp();
+  const { sessionComplaints, sessionThreads, account, accountKey, closedIds, closeComplaint } = useApp();
   const [complaint, setComplaint] = useState<Complaint | null | undefined>(
     undefined,
   );
@@ -123,11 +115,67 @@ function ComplaintDetailView() {
     );
   }
 
+  /* Private moderator reports stay restricted: anyone else sees only the
+     filing record, never the body or history. The filer themself can
+     always follow their own report. */
+  const ownFiling = sessionComplaints.some((c) => c.id === complaint.id);
+  if (
+    complaint.visibility === "moderators" &&
+    accountKey !== "moderator" &&
+    !ownFiling
+  ) {
+    return (
+      <div className="mx-auto max-w-3xl space-y-4">
+        <Link
+          href="/complaints"
+          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+        >
+          <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
+          All complaints
+        </Link>
+        <Panel>
+          <div className="border-b border-navy-700 px-5 pb-5 pt-5 sm:px-6">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="tnum font-mono text-xs tracking-[0.14em] text-gold">
+                {complaint.ref}
+              </span>
+              <StatusPill tone={complaintStatuses[complaint.status].tone}>
+                {complaintStatuses[complaint.status].label}
+              </StatusPill>
+              <span className="inline-flex items-center gap-1 rounded-full border border-navy-700 px-2.5 py-1 text-xs font-semibold text-ink-2">
+                <EyeOff className="h-3 w-3" aria-hidden />
+                Moderators only
+              </span>
+            </div>
+            <h1 className="mt-2 font-display text-[26px] font-light leading-tight text-ink">
+              Private report
+            </h1>
+          </div>
+          <EmptyState
+            icon={EyeOff}
+            title="Restricted to moderators"
+            body="This report was filed privately. Its contents are visible only to moderators and the person who filed it — switch to the moderator account to review it."
+            action={
+              <Link href="/complaints">
+                <Button variant="subtle" size="sm">
+                  Back to complaints
+                </Button>
+              </Link>
+            }
+          />
+        </Panel>
+      </div>
+    );
+  }
+
   const isClosed =
     !!complaint &&
     (closedIds.includes(complaint.id) || complaint.status === "closed");
   const status = complaintStatuses[isClosed ? "closed" : complaint.status];
   const isPrivate = complaint.visibility === "moderators";
+  /* Moderators and the filer themself can read the body; everyone else
+     was stopped by the restricted branch above. */
+  const canRead = !isPrivate || accountKey === "moderator" || ownFiling;
   const isOwn =
     complaint.author === account.displayName ||
     sessionComplaints.some((c) => c.id === complaint.id);
@@ -191,7 +239,7 @@ function ComplaintDetailView() {
         </div>
 
         <div className="space-y-5 px-5 py-5 sm:px-6">
-          {isPrivate ? (
+          {!canRead ? (
             <p className="rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm leading-relaxed text-ink-2">
               The body of this report is restricted to moderators. What you
               see here is the filing record — reference, category, status and

@@ -70,6 +70,15 @@
 - Fix: wrapped in `<Suspense fallback={null}>`.
 - Evidence: build green, all 13 routes + `/_not-found` listed.
 
+## B-09 · Moderators couldn't read private reports either
+
+- Found: live moderator-view check, Oct 2026.
+- Cause: the detail page showed a "restricted" placeholder for every
+  `moderators`-visibility filing — including to moderators themselves,
+  making the mod queue's "Open context" link useless.
+- Fix: `canRead = !isPrivate || isModerator || ownFiling`; placeholder only
+  for outsiders. Verified live: moderator sees the full body.
+
 - "doable" typo report: byte-level check proved the file already reads
   `doable`. Screenshot misread. No change.
 - "3 Issues" pill: external extension overlay (see B-06). No change.

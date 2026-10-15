@@ -49,7 +49,6 @@ interface AppState {
   systemAlerts: boolean;
   setSystemAlerts: (v: boolean) => void;
   enableSystemAlerts: () => Promise<void>;
-  alert: (title: string, body: string, tag: string) => void;
   /* session data (in-memory; backend replaces this) */
   sessionComplaints: Complaint[];
   fileComplaint: (c: FiledComplaint) => Complaint;
@@ -75,7 +74,7 @@ interface AppState {
 
 const Ctx = createContext<AppState | null>(null);
 
-let refCounter = 2490;
+let refCounter = 2482;
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [accountKey, setAccountKey] = useState<AccountKey>("member");
@@ -145,14 +144,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       );
     }
   }, []);
-
-  const alert = useCallback(
-    (title: string, body: string, tag: string) => {
-      if (!systemAlerts) return;
-      showSystemNotification(title, body, tag);
-    },
-    [systemAlerts],
-  );
 
   const fileComplaint = useCallback(
     (c: FiledComplaint): Complaint => {
@@ -299,7 +290,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       systemAlerts,
       setSystemAlerts,
       enableSystemAlerts,
-      alert,
       sessionComplaints,
       fileComplaint,
       sessionThreads,
@@ -323,7 +313,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       systemAlerts,
       setSystemAlerts,
       enableSystemAlerts,
-      alert,
       sessionComplaints,
       fileComplaint,
       sessionThreads,

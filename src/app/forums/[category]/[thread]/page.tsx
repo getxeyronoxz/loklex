@@ -20,18 +20,10 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Panel } from "@/components/ui/Panel";
 import { Field, SelectInput, TextArea } from "@/components/ui/fields";
+import { initialsOf } from "@/lib/format";
 import type { Reply, Thread } from "@/lib/types";
 import { getThread, listReplies } from "@/lib/services/forums";
 import { getComplaintByRef } from "@/lib/services/complaints";
-
-function initialsOf(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
 
 export default function ThreadPage() {
   return (

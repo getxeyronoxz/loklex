@@ -16,7 +16,7 @@ export function CommandPalette({
   onClose: () => void;
 }) {
   const router = useRouter();
-  const { sessionComplaints } = useApp();
+  const { sessionComplaints, sessionThreads } = useApp();
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -51,7 +51,7 @@ export function CommandPalette({
           hint: "Complaint",
           href: `/complaints/${c.id}`,
         })),
-      ...threads
+      ...[...sessionThreads, ...threads]
         .filter((t) => t.title.toLowerCase().includes(q))
         .slice(0, 4)
         .map((t) => ({
@@ -72,7 +72,7 @@ export function CommandPalette({
           href: `/chat?v=${c.id}`,
         })),
     ];
-  }, [query, sessionComplaints]);
+  }, [query, sessionComplaints, sessionThreads]);
 
   if (!open) return null;
 

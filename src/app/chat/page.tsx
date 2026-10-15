@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Field, TextArea, TextInput } from "@/components/ui/fields";
 import { forumCategories } from "@/lib/data/forums";
+import { initialsOf } from "@/lib/format";
 import type { Attachment, Channel, ChatMessage, MessageState } from "@/lib/types";
 import { listChannels, listMessages } from "@/lib/services/chat";
 import { getComplaintByRef } from "@/lib/services/complaints";
@@ -40,15 +41,6 @@ export default function ChatPage() {
       <ChatView />
     </Suspense>
   );
-}
-
-function initialsOf(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
 }
 
 /* Day chips like familiar chat apps: clock times mean today,
@@ -74,6 +66,23 @@ function ChatView() {
   const [seedMessages, setSeedMessages] = useState<ChatMessage[] | null>(null);
   const [readIds, setReadIds] = useState<string[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen ]);
   const [reporting, setReporting] = useState(false);
   const [reported, setReported] = useState(false);
   const [finding, setFinding] = useState("");
@@ -294,7 +303,7 @@ function ChatView() {
             Open {active.complaintRef} →
           </Link>
         )}
-        <div className="relative shrink-0">
+        <div ref={menuRef} className="relative shrink-0">
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
@@ -507,7 +516,6 @@ function ChatView() {
               id={`${prefix}-chat-report`}
               required
               defaultValue=""
-              onChange={(e) => e.target.value && setReported(true)}
               className="h-9 rounded-lg border border-navy-700 bg-navy-950 px-2 text-[13px] text-ink"
             >
               <option value="" disabled>
@@ -517,6 +525,9 @@ function ChatView() {
               <option value="spam">Spam or scam</option>
               <option value="other">Something else</option>
             </select>
+            <Button type="submit" size="sm">
+              Send report
+            </Button>
             <Button variant="ghost" size="sm" onClick={() => setReporting(false)}>
               Cancel
             </Button>
@@ -589,7 +600,7 @@ function ChatView() {
               />
             </label>
             <div className="min-w-0 flex-1">
-              <Field label="" htmlFor={`${prefix}-composer`}>
+              <Field htmlFor={`${prefix}-composer`}>
                 <TextArea
                   id={`${prefix}-composer`}
                   value={draft}
@@ -603,7 +614,7 @@ function ChatView() {
                   rows={1}
                   placeholder={`Message ${active.name}…`}
                   aria-label={`Message ${active.name}`}
-                  className="composer-input max-h-[140px] min-h-[40px]! resize-none border-transparent bg-transparent py-2 focus:border-transparent!"
+                  className="max-h-[140px] min-h-[40px]! resize-none border-transparent bg-transparent py-2 focus:border-transparent!"
                 />
               </Field>
             </div>

@@ -572,9 +572,10 @@ export default function NewComplaintPage() {
                       Audience
                     </span>
                     <div className="mt-1.5">
-                      <Field label="" htmlFor="f-forum">
+                      <Field htmlFor="f-forum">
                         <SelectInput
                           id="f-forum"
+                          aria-label="Choose a forum"
                           value={forum}
                           onChange={(e) => setForum(e.target.value)}
                         >

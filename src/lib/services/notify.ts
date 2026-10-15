@@ -59,12 +59,5 @@ export function pushReadiness(): PushReadiness {
       "Notifications arrive while Loklex is open. Delivery after the browser is closed needs the Loklex push service, which isn't connected in this build.",
   };
 }
-
-/** Placeholder for the future Web Push subscription. Always resolves
-    unsuccessful until a backend provides VAPID keys + a subscriber store. */
-export async function subscribePush(): Promise<{ ok: false; reason: string }> {
-  return {
-    ok: false,
-    reason: "backend-required",
-  };
-}
+/* NOTE: no subscribePush stub — when the backend exists, add the real
+   Web Push subscription here next to pushReadiness. */

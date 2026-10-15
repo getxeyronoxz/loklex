@@ -1,18 +1,10 @@
 import Link from "next/link";
 import { EyeOff, HandHeart, MessageSquare, Paperclip } from "lucide-react";
+import { initialsOf } from "@/lib/format";
 import { Avatar } from "@/components/ui/Avatar";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { complaintCategories, complaintStatuses } from "@/lib/types";
 import type { Complaint } from "@/lib/types";
-
-function initialsOf(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
 
 export function ComplaintCard({ complaint }: { complaint: Complaint }) {
   const status = complaintStatuses[complaint.status];

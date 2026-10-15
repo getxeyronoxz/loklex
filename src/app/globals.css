@@ -205,13 +205,4 @@ body {
   display: none;
 }
 
-/* Borderless composer field: the pill carries the focus ring instead.
-   Unlayered on purpose so it beats the shared input utilities. */
-.composer-input {
-  min-height: 40px;
-}
-.composer-input:focus {
-  border-color: transparent;
-  outline: none;
-}
 

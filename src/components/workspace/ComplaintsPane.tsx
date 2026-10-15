@@ -68,14 +68,21 @@ function QuickReport() {
 }
 
 export function ComplaintsPane() {
-  const { sessionComplaints, closedIds } = useApp();
+  const { sessionComplaints, closedIds, accountKey } = useApp();
   const [items, setItems] = useState<Complaint[] | null>(null);
 
   useEffect(() => {
     listComplaints()
-      .then((all) => setItems([...sessionComplaints, ...all].slice(0, 4)))
+      .then((all) => {
+        const pool = [...sessionComplaints, ...all];
+        const visible =
+          accountKey === "moderator"
+            ? pool
+            : pool.filter((c) => c.visibility !== "moderators");
+        setItems(visible.slice(0, 4));
+      })
       .catch(() => setItems([]));
-  }, [sessionComplaints]);
+  }, [sessionComplaints, accountKey]);
 
   return (
     <div className="flex min-h-0 flex-col lg:h-full">

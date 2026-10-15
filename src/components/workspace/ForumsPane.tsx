@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, MessageSquare, Pin } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useApp } from "@/components/app-state";
 import { SkeletonRows } from "@/components/ui/EmptyState";
 import type { Thread } from "@/lib/types";
 import { listThreads } from "@/lib/services/forums";
@@ -12,13 +13,21 @@ const categoryName = (slug: string) =>
   forumCategories.find((c) => c.slug === slug)?.name ?? slug;
 
 export function ForumsPane() {
+  const { sessionThreads, sessionReplies } = useApp();
   const [items, setItems] = useState<Thread[] | null>(null);
 
   useEffect(() => {
     listThreads()
-      .then((all) => setItems(all.slice(0, 6)))
+      .then((all) =>
+        setItems(
+          [
+            ...sessionThreads,
+            ...all.filter((t) => !sessionThreads.some((s) => s.id === t.id)),
+          ].slice(0, 6),
+        ),
+      )
       .catch(() => setItems([]));
-  }, []);
+  }, [sessionThreads]);
 
   return (
     <div className="flex min-h-0 flex-col lg:h-full">
@@ -55,7 +64,8 @@ export function ForumsPane() {
                     <span className="truncate">{categoryName(t.categorySlug)}</span>
                     <span className="flex shrink-0 items-center gap-1">
                       <MessageSquare className="h-3 w-3" aria-hidden />
-                      {t.replies}
+                      {t.replies +
+                        sessionReplies.filter((r) => r.threadId === t.id).length}
                     </span>
                     <span className="shrink-0">{t.lastActivity}</span>
                   </span>
