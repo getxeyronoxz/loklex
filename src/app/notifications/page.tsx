@@ -84,11 +84,11 @@ export default function NotificationsPage() {
                   >
                     <span
                       className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-                        n.read ? "bg-navy-800" : "bg-gold-wash"
+                        n.read ? "bg-navy-800" : "bg-accent-wash"
                       }`}
                     >
                       <Icon
-                        className={`h-4 w-4 ${n.read ? "text-ink-3" : "text-gold-hi"}`}
+                        className={`h-4 w-4 ${n.read ? "text-ink-3" : "text-accent-hi"}`}
                         strokeWidth={1.75}
                         aria-hidden
                       />
@@ -103,7 +103,7 @@ export default function NotificationsPage() {
                         {!n.read && (
                           <span
                             aria-label="Unread"
-                            className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gold"
+                            className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-accent"
                           />
                         )}
                       </span>

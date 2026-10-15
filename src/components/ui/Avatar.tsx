@@ -11,7 +11,7 @@ export function Avatar({
 }: {
   initials: string;
   size?: keyof typeof sizes;
-  tone?: "default" | "gold";
+  tone?: "default" | "accent";
 }) {
   return (
     <span
@@ -23,8 +23,8 @@ export function Avatar({
       className={`tnum flex shrink-0 items-center justify-center rounded-full border font-semibold ${
         sizes[size]
       } ${
-        tone === "gold"
-          ? "border-gold-deep/60 bg-gold-wash text-gold-hi"
+        tone === "accent"
+          ? "border-accent-deep/60 bg-accent-wash text-accent-hi"
           : "border-navy-700 bg-navy-800 text-ink-2"
       }`}
     >

@@ -122,7 +122,7 @@ function CategoryView() {
       <h1 className="sr-only">Forum threads</h1>
       <Link
         href="/forums"
-        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-accent-hi"
       >
         <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
         All forums
@@ -234,7 +234,7 @@ function CategoryView() {
                   <span className="flex items-start gap-2">
                     {t.pinned && (
                       <Pin
-                        className="mt-1 h-3.5 w-3.5 shrink-0 text-gold"
+                        className="mt-1 h-3.5 w-3.5 shrink-0 text-accent"
                         strokeWidth={2}
                         aria-hidden
                       />

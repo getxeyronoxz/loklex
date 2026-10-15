@@ -132,7 +132,7 @@ function ComplaintDetailView() {
       <div className="mx-auto max-w-4xl space-y-4">
         <Link
           href="/complaints"
-          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-accent-hi"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
           All complaints
@@ -140,7 +140,7 @@ function ComplaintDetailView() {
         <Panel>
           <div className="border-b border-navy-700 px-5 pb-5 pt-5 sm:px-6">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="tnum font-mono text-xs tracking-[0.14em] text-gold">
+              <span className="tnum font-mono text-xs tracking-[0.14em] text-accent">
                 {complaint.ref}
               </span>
               <StatusPill tone={complaintStatuses[complaint.status].tone}>
@@ -212,7 +212,7 @@ function ComplaintDetailView() {
     <div className="mx-auto max-w-4xl space-y-4">
       <Link
         href="/complaints"
-        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-accent-hi"
       >
         <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
         All complaints
@@ -221,7 +221,7 @@ function ComplaintDetailView() {
       <Panel>
         <div className="border-b border-navy-700 px-5 pb-5 pt-5 sm:px-6">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="tnum font-mono text-xs tracking-[0.14em] text-gold">
+            <span className="tnum font-mono text-xs tracking-[0.14em] text-accent">
               {complaint.ref}
             </span>
             <StatusPill tone={status.tone}>{status.label}</StatusPill>
@@ -272,7 +272,7 @@ function ComplaintDetailView() {
                 {files.map((f) => (
                   <li
                     key={f.url ?? f.name}
-                    className="group relative overflow-hidden rounded-lg border border-navy-700 bg-navy-950 transition-colors duration-150 hover:border-gold-deep"
+                    className="group relative overflow-hidden rounded-lg border border-navy-700 bg-navy-950 transition-colors duration-150 hover:border-accent-deep"
                     title={f.name}
                   >
                     {f.url ? (
@@ -306,7 +306,7 @@ function ComplaintDetailView() {
                           download={f.name}
                           aria-label={`Download ${f.name}`}
                           title={`Download ${f.name}`}
-                          className="shrink-0 rounded-md p-1 text-ink-2 transition-colors duration-150 hover:text-gold-hi"
+                          className="shrink-0 rounded-md p-1 text-ink-2 transition-colors duration-150 hover:text-accent-hi"
                         >
                           <Download className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                         </a>
@@ -365,7 +365,7 @@ function ComplaintDetailView() {
                     <span
                       className={`mt-1.5 h-2.5 w-2.5 rounded-full ${
                         i === timeline.length - 1
-                          ? "bg-gold"
+                          ? "bg-accent"
                           : "bg-navy-600"
                       }`}
                     />

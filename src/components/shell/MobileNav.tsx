@@ -35,7 +35,7 @@ export function MobileNav() {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={`relative flex min-h-[60px] flex-col items-center justify-center gap-1 text-xs font-semibold ${
-                  active ? "text-gold-hi" : "text-ink-3"
+                  active ? "text-accent-hi" : "text-ink-3"
                 }`}
               >
                 <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
@@ -55,7 +55,7 @@ export function MobileNav() {
                 {active && (
                   <span
                     aria-hidden
-                    className="absolute inset-x-8 bottom-0 h-0.5 rounded-full bg-gold"
+                    className="absolute inset-x-8 bottom-0 h-0.5 rounded-full bg-accent"
                   />
                 )}
               </Link>

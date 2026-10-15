@@ -68,3 +68,8 @@ extensions disabled for `localhost` (see Bugs.md B-06).
   prefilled, draft consumed, no drift; wizard console 0 errors /
   0 warnings. B-15 hydration fix verified live (persisted moderator
   reload, 0 console errors).
+- Oct 2026 (WhatsApp-dark retheme): all green pairs computed —
+  accent-hi 12.08, accent 6.53, ink-on-accent-deep 7.18,
+  navy-on-accent 6.93 (all PASS). Live chat probe: outgoing bubble
+  `rgb(0,92,75)` with light text, no gold hex left in DOM, 0 console
+  errors.

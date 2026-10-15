@@ -23,7 +23,7 @@ export function ComplaintCard({ complaint }: { complaint: Complaint }) {
         {complaint.description}
       </span>
       <span className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] text-ink-3">
-        <span className="tnum font-mono tracking-[0.1em] text-gold/80">
+        <span className="tnum font-mono tracking-[0.1em] text-accent/80">
           {complaint.ref}
         </span>
         <span>{complaintCategories[complaint.category].label}</span>

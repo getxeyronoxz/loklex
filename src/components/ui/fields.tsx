@@ -35,7 +35,7 @@ export function Field({
 }
 
 const control =
-  "w-full rounded-lg border bg-navy-950 px-3 py-2.5 text-[15px] text-ink placeholder:text-ink-3 transition-colors duration-150 focus:border-gold focus:outline-none aria-[invalid=true]:border-danger";
+  "w-full rounded-lg border bg-navy-950 px-3 py-2.5 text-[15px] text-ink placeholder:text-ink-3 transition-colors duration-150 focus:border-accent focus:outline-none aria-[invalid=true]:border-danger";
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={`${control} ${props.className ?? ""}`} />;

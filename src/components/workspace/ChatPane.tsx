@@ -70,7 +70,7 @@ export function ChatPane() {
       <div className="flex min-h-[60px] shrink-0 items-center border-t border-navy-700 px-4 py-3">
         <Link
           href="/chat"
-          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-gold-hi"
+          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-accent-hi"
         >
           Open chat <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </Link>

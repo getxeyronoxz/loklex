@@ -75,3 +75,14 @@ saves hours tomorrow.
   `/_not-found`). Lint unchanged: advisory-red on the pre-existing
   effect pattern, no CI gate.
 - Closed the loop by merging PR #1 into `master`.
+
+## 2026-10 — session: WhatsApp-dark retheme (done, PR open)
+
+- Owner direction: whole-site WhatsApp-dark, green accent, flat
+  black, no gold. Renamed the `gold*` token ramp to `accent*`
+  (`#00a884` / `#4de3a3` / `#005c4b` / wash); outgoing bubbles deep
+  green with light text; native checks use the green; logo PNG kept
+  as-is. Constraints + Decisions updated.
+- Verified: `tsc` clean, `next build` green, lint profile identical
+  (13/7, pre-existing), all green contrast pairs PASS, live chat
+  screenshot confirms the look with 0 console errors.

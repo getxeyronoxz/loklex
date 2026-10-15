@@ -2,6 +2,16 @@
 
 Recorded by Muse Spark (Oct 2026). Newest first.
 
+## 2026-10 — WhatsApp-dark retheme, gold retired
+
+Owner direction: whole-site retheme inspired by WhatsApp dark —
+flat black, green accent, no gold anywhere in UI chrome. `gold*`
+tokens renamed to `accent*` (`#00a884` / `#4de3a3` / `#005c4b`);
+outgoing chat bubbles are deep green with light text, matching the
+reference. The logo PNG keeps its own gold (supplied file, used
+as-is). All pairs recomputed against AA: accent-hi 12.08, accent
+6.53, ink-on-deep 7.18, navy-on-accent 6.93.
+
 ## 2026-10 — Author-close, not moderator-close (complaints/threads)
 
 Filers can close their own complaints and resolve their own threads.

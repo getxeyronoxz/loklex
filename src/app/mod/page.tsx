@@ -78,7 +78,7 @@ export default function ModPage() {
           title="Review queue"
           action={
             isModerator ? (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-wash px-3 py-1 text-xs font-semibold text-gold-hi">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-wash px-3 py-1 text-xs font-semibold text-accent-hi">
                 <Gavel className="h-3.5 w-3.5" aria-hidden />
                 {account.displayName}
               </span>
@@ -110,7 +110,7 @@ export default function ModPage() {
                 <li key={q.id} className="px-5 py-5 sm:px-6">
                   <div className="flex items-start gap-3">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-navy-800">
-                      <Icon className="h-4 w-4 text-gold" strokeWidth={1.75} aria-hidden />
+                      <Icon className="h-4 w-4 text-accent" strokeWidth={1.75} aria-hidden />
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="tnum font-mono text-xs uppercase tracking-[0.12em] text-ink-3">

@@ -54,7 +54,7 @@ export function ForumsPane() {
                     <span aria-hidden className="mt-0.5 w-3.5 shrink-0">
                       {t.pinned && (
                         <Pin
-                          className="h-3.5 w-3.5 text-gold"
+                          className="h-3.5 w-3.5 text-accent"
                           strokeWidth={2}
                           aria-hidden
                         />
@@ -82,7 +82,7 @@ export function ForumsPane() {
       <div className="flex min-h-[60px] shrink-0 items-center border-t border-navy-700 px-4 py-3">
         <Link
           href="/forums"
-          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-gold-hi"
+          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-accent-hi"
         >
           All forums <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </Link>

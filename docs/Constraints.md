@@ -21,11 +21,13 @@ explicit approval.
    caveat stays wherever a name choice is offered.
 7. **en-IN voice.** Indian-English spellings and locality content stay.
    No Americanization to satisfy a spell checker.
-8. **Theme discipline.** AMOLED blacks, warmed greys, gold ramp. No purple
+8. **Theme discipline.** AMOLED blacks, warmed greys, WhatsApp-green
+   accent ramp (`accent` / `accent-hi` / `accent-deep`). No purple
    gradients, no glass, no neon, no marketing heroes, no emoji iconography.
-   Metallic gradient on the emblem only.
+   Metallic gradient on the emblem only. The supplied logo PNG is used
+   as-is and may still contain its own gold.
 9. **Services seam.** No `fetch`, no data imports outside `lib/services/*`.
    `types.ts` carries no network code.
-10. **Accessibility floor.** Keyboard-operable controls, visible gold focus,
+10. **Accessibility floor.** Keyboard-operable controls, visible green focus,
     `text-xs` minimum for meta text, AA contrast on small text,
     `prefers-reduced-motion` respected. No fix may regress these.

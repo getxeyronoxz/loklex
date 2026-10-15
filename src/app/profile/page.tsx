@@ -63,7 +63,7 @@ function Toggle({
         aria-label={label}
         onClick={() => setValue(on ? "0" : "1")}
         className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-150 ${
-          on ? "bg-gold" : "bg-navy-700"
+          on ? "bg-accent" : "bg-navy-700"
         }`}
       >
         <span
@@ -106,7 +106,7 @@ export default function ProfilePage() {
       <h1 className="sr-only">Profile and settings</h1>
       <Panel>
         <div className="flex items-center gap-4 px-5 py-5 sm:px-6">
-          <Avatar initials={account.initials} size="lg" tone="gold" />
+          <Avatar initials={account.initials} size="lg" tone="accent" />
           <div className="min-w-0">
             <h1 className="font-display text-2xl font-light text-ink">
               {account.displayName}
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                   href={`/complaints/${c.id}`}
                   className="flex items-center gap-3 px-5 py-3.5 hover:bg-navy-850 sm:px-6"
                 >
-                  <FileText className="h-4 w-4 shrink-0 text-gold" strokeWidth={1.75} aria-hidden />
+                  <FileText className="h-4 w-4 shrink-0 text-accent" strokeWidth={1.75} aria-hidden />
                   <span className="min-w-0 flex-1 truncate text-sm text-ink">
                     {c.title}
                   </span>
@@ -233,7 +233,7 @@ export default function ProfilePage() {
                   href={`/forums/${t.categorySlug}/${t.id}`}
                   className="flex items-center gap-3 px-5 py-3.5 hover:bg-navy-850 sm:px-6"
                 >
-                  <MessagesSquare className="h-4 w-4 shrink-0 text-gold" strokeWidth={1.75} aria-hidden />
+                  <MessagesSquare className="h-4 w-4 shrink-0 text-accent" strokeWidth={1.75} aria-hidden />
                   <span className="min-w-0 flex-1 truncate text-sm text-ink">
                     {t.title}
                   </span>

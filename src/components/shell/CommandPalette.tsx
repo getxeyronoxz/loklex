@@ -162,7 +162,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
                   className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left hover:bg-navy-800"
                 >
                   <r.icon
-                    className="h-4 w-4 shrink-0 text-gold"
+                    className="h-4 w-4 shrink-0 text-accent"
                     strokeWidth={1.75}
                     aria-hidden
                   />

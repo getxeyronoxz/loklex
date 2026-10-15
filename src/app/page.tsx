@@ -19,7 +19,7 @@ export default function Home() {
       <div className="mb-4 flex shrink-0 items-center justify-between gap-3">
         <p className="flex items-center gap-2.5">
           <ShieldCheck
-            className="h-5 w-5 text-gold"
+            className="h-5 w-5 text-accent"
             strokeWidth={1.75}
             aria-hidden
           />
@@ -32,7 +32,7 @@ export default function Home() {
           onClick={reset}
           title="Reset panel layout"
           aria-label="Reset panel layout"
-          className="hidden rounded-lg p-2.5 text-ink-3 transition-colors duration-150 hover:bg-navy-800 hover:text-gold-hi lg:block"
+          className="hidden rounded-lg p-2.5 text-ink-3 transition-colors duration-150 hover:bg-navy-800 hover:text-accent-hi lg:block"
         >
           <SlidersHorizontal className="h-5 w-5" strokeWidth={1.75} aria-hidden />
         </button>
@@ -52,7 +52,7 @@ export default function Home() {
         </p>
         <Link
           href="/profile"
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium text-ink-3 transition-colors duration-150 hover:text-gold-hi"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium text-ink-3 transition-colors duration-150 hover:text-accent-hi"
         >
           <Settings2 className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
           Settings
