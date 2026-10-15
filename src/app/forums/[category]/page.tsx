@@ -24,7 +24,7 @@ export default function CategoryPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           <SkeletonRows rows={5} />
         </div>
       }
@@ -88,7 +88,7 @@ function CategoryView() {
 
   if (category === undefined) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-5xl">
         <Panel>
           <SkeletonRows rows={5} />
         </Panel>
@@ -98,7 +98,7 @@ function CategoryView() {
 
   if (category === null) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-5xl">
         <Panel>
           <EmptyState
             icon={MessagesSquare}
@@ -118,7 +118,7 @@ function CategoryView() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4">
       <h1 className="sr-only">Forum threads</h1>
       <Link
         href="/forums"

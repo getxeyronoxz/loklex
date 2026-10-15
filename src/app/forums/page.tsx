@@ -20,7 +20,7 @@ export default function ForumsPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4">
       <h1 className="sr-only">Forums</h1>
       <Panel>
         <PanelHeader eyebrow="Forums" title="Find your conversation" />

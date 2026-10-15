@@ -33,7 +33,7 @@ export default function ChatPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           <SkeletonRows rows={6} />
         </div>
       }
@@ -546,8 +546,9 @@ function ChatView() {
       </div>
 
       {/* Frozen on phones (floats above the bottom nav); the desktop
-          panel already pins it via flex layout. */}
-      <div className="sticky bottom-[84px] z-10 border-t border-navy-700 bg-navy-900/95 px-4 py-3 backdrop-blur md:static md:z-auto md:border-t-0 md:bg-transparent md:backdrop-blur-none">
+          panel already pins it via flex layout. Solid background so
+          messages never ghost through it. */}
+      <div className="sticky bottom-[84px] z-10 border-t border-navy-700 bg-navy-900 px-4 py-3 shadow-[0_-12px_32px_rgba(0,0,0,0.55)] md:static md:z-auto md:border-t-0 md:bg-transparent md:shadow-none">
         {photos.length > 0 && (
           <ul className="mb-2 flex flex-wrap gap-2" aria-label="Attached photos">
             {photos.map((p) => (
@@ -642,7 +643,7 @@ function ChatView() {
   };
 
   return (
-    <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-col lg:h-full">
+    <div className="mx-auto flex min-h-0 w-full max-w-6xl flex-col lg:h-full">
       <h1 className="sr-only">Text chat channels</h1>
       <div className="md:hidden">
         <div className="overflow-hidden rounded-xl border border-navy-700 bg-navy-900">

@@ -43,7 +43,7 @@ export default function ComplaintsPage() {
   }, [all, query, category, status, accountKey]);
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4">
       <h1 className="sr-only">Complaints raised by the community</h1>
       <Panel>
         <PanelHeader

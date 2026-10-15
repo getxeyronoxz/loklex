@@ -30,7 +30,7 @@ export default function ComplaintDetailPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
+        <div className="mx-auto max-w-4xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           <SkeletonRows rows={6} />
         </div>
       }
@@ -86,7 +86,7 @@ function ComplaintDetailView() {
 
   if (complaint === undefined) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <Panel>
           <SkeletonRows rows={6} />
         </Panel>
@@ -96,7 +96,7 @@ function ComplaintDetailView() {
 
   if (complaint === null) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <Panel>
           <EmptyState
             icon={FileWarning}
@@ -125,7 +125,7 @@ function ComplaintDetailView() {
     !ownFiling
   ) {
     return (
-      <div className="mx-auto max-w-3xl space-y-4">
+      <div className="mx-auto max-w-4xl space-y-4">
         <Link
           href="/complaints"
           className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
@@ -196,7 +196,7 @@ function ComplaintDetailView() {
   const files = complaint.files ?? [];
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto max-w-4xl space-y-4">
       <Link
         href="/complaints"
         className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"

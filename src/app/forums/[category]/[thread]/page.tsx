@@ -29,7 +29,7 @@ export default function ThreadPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
+        <div className="mx-auto max-w-4xl overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           <SkeletonRows rows={6} />
         </div>
       }
@@ -109,7 +109,7 @@ function ThreadView() {
 
   if (thread === undefined || seedReplies === null) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <Panel>
           <SkeletonRows rows={6} />
         </Panel>
@@ -119,7 +119,7 @@ function ThreadView() {
 
   if (thread === null) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <Panel>
           <EmptyState
             icon={MessagesSquare}
@@ -139,17 +139,17 @@ function ThreadView() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 lg:h-full lg:min-h-0">
       <Link
         href={`/forums/${params.category}`}
-        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+        className="inline-flex shrink-0 items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
       >
         <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
         Back to forum
       </Link>
 
-      <Panel>
-        <div className="border-b border-navy-700 px-5 pb-5 pt-5 sm:px-6">
+      <Panel className="flex min-h-0 flex-col lg:h-full lg:flex-1">
+        <div className="shrink-0 border-b border-navy-700 px-5 pb-5 pt-5 sm:px-6">
           <div className="flex flex-wrap items-center gap-2">
             {pinned && (
               <span className="inline-flex items-center gap-1 rounded-full bg-gold-wash px-2.5 py-1 text-xs font-semibold text-gold-hi">
@@ -223,7 +223,10 @@ function ThreadView() {
           )}
         </div>
 
-        <ol className="divide-y divide-navy-700/60">
+        {/* Replies scroll here on every screen; the reply bar below
+            never moves. Desktop stretches it, phones cap it. */}
+        <div className="scroll-quiet max-h-[70dvh] min-h-0 overflow-y-auto lg:max-h-none lg:flex-1">
+          <ol className="divide-y divide-navy-700/60">
           <li className="px-5 py-4 sm:px-6">
             <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
               <Avatar initials={initialsOf(thread.author)} size="sm" />
@@ -277,10 +280,59 @@ function ThreadView() {
             </li>
           ))}
         </ol>
+          <div className="border-t border-navy-700/60 px-5 py-3.5 sm:px-6">
+            {reported ? (
+              <p role="status" className="text-sm leading-relaxed text-ink-2">
+                Report received. Moderators will review this discussion against
+                the community rules.
+              </p>
+            ) : reporting ? (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (reportReason) setReported(true);
+                }}
+                className="space-y-3"
+              >
+                <Field label="Why are you reporting this discussion?" htmlFor="t-reason">
+                  <SelectInput
+                    id="t-reason"
+                    value={reportReason}
+                    onChange={(e) => setReportReason(e.target.value)}
+                    required
+                  >
+                    <option value="">Choose a reason…</option>
+                    <option value="abuse">Harassment or abuse</option>
+                    <option value="misinfo">False or misleading</option>
+                    <option value="offtopic">Off-topic or spam</option>
+                    <option value="other">Something else</option>
+                  </SelectInput>
+                </Field>
+                <div className="flex gap-2">
+                  <Button type="submit" size="sm" disabled={!reportReason}>
+                    Send report
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => setReporting(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-[13px] text-ink-3">
+                  Breaks the community rules?
+                </p>
+                <Button variant="ghost" size="sm" onClick={() => setReporting(true)}>
+                  <Flag className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  Report discussion
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
 
-        {/* Frozen reply bar: stays pinned while the discussion scrolls.
-            On phones it floats above the bottom navigation. */}
-        <div className="sticky bottom-[84px] z-10 rounded-b-xl border-t border-navy-700 bg-navy-900/95 px-5 py-5 backdrop-blur sm:px-6 md:bottom-0">
+        {/* Reply bar, pinned below the scroll region on every screen. */}
+        <div className="shrink-0 rounded-b-xl border-t border-navy-700 bg-navy-900 px-5 py-5 sm:px-6">
           {locked ? (
             <p className="flex items-center gap-2 rounded-lg border border-navy-700 bg-navy-950 px-4 py-3 text-sm text-ink-3">
               <Lock className="h-4 w-4" aria-hidden />
@@ -318,58 +370,6 @@ function ThreadView() {
               <Button size="sm" onClick={post} disabled={body.trim().length < 2}>
                 <Send className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                 Post reply
-              </Button>
-            </div>
-          )}
-        </div>
-      </Panel>
-
-      <Panel>
-        <div className="px-5 py-4 sm:px-6">
-          {reported ? (
-            <p role="status" className="text-sm leading-relaxed text-ink-2">
-              Report received. Moderators will review this discussion against
-              the community rules.
-            </p>
-          ) : reporting ? (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (reportReason) setReported(true);
-              }}
-              className="space-y-3"
-            >
-              <Field label="Why are you reporting this discussion?" htmlFor="t-reason">
-                <SelectInput
-                  id="t-reason"
-                  value={reportReason}
-                  onChange={(e) => setReportReason(e.target.value)}
-                  required
-                >
-                  <option value="">Choose a reason…</option>
-                  <option value="abuse">Harassment or abuse</option>
-                  <option value="misinfo">False or misleading</option>
-                  <option value="offtopic">Off-topic or spam</option>
-                  <option value="other">Something else</option>
-                </SelectInput>
-              </Field>
-              <div className="flex gap-2">
-                <Button type="submit" size="sm" disabled={!reportReason}>
-                  Send report
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => setReporting(false)}>
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          ) : (
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-[13px] text-ink-3">
-                Breaks the community rules?
-              </p>
-              <Button variant="ghost" size="sm" onClick={() => setReporting(true)}>
-                <Flag className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-                Report discussion
               </Button>
             </div>
           )}
