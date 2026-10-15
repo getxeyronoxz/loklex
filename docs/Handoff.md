@@ -24,3 +24,9 @@ saves hours tomorrow.
 - Proper-way pass: branded `error.tsx` + `not-found.tsx`, per-route tab
   titles (client pages can't export metadata), `themeColor #000000` +
   dark `colorScheme`, sr-only h1 on all 8 h1-less routes. B-08 logged.
+- Analysis execution: private-report restriction (list filter + detail
+  guard + filer exception + moderator readability, B-09), ref counter to
+  LX-2482, session threads in palette/pane, chat report Send button,
+  channel menu dismissal, optional Field labels, initialsOf centralized,
+  removed 5 SVGs + 4 dead exports + dead alert/CSS. Verified live both
+  roles; build green.
