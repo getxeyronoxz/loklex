@@ -140,7 +140,8 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
           className="flex min-w-0 flex-col lg:h-full lg:min-h-0 lg:flex-row"
         >
           {collapsed[i] ? (
-            <button
+            <>
+              <button
               type="button"
               onClick={() => toggle(i)}
               aria-label={`Expand ${pane.title} panel`}
@@ -156,6 +157,23 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
                 {pane.title}
               </span>
             </button>
+            {/* Collapsed panels still render fully on small screens,
+                where the rail control is unavailable. */}
+            <section
+              aria-label={pane.title}
+              className="flex min-h-[320px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:hidden"
+            >
+              <header className="flex shrink-0 items-center gap-2 border-b border-navy-700 px-4 py-3">
+                <h2 className="eyebrow text-gold">
+                  <span aria-hidden className="mr-2 text-ink-3">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {pane.title}
+                </h2>
+              </header>
+              <div className="flex min-h-0 flex-1 flex-col">{pane.node}</div>
+            </section>
+            </>
           ) : (
             <section
               aria-label={pane.title}
