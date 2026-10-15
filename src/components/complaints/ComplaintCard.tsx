@@ -11,7 +11,7 @@ export function ComplaintCard({ complaint }: { complaint: Complaint }) {
   return (
     <Link
       href={`/complaints/${complaint.id}`}
-      className="block rounded-xl border border-navy-700 bg-navy-900 px-5 py-4 transition-colors duration-150 hover:border-navy-600 hover:bg-navy-850"
+      className="block rounded-xl border border-navy-700 bg-navy-900 px-5 py-5 transition-colors duration-150 hover:border-navy-600 hover:bg-navy-850"
     >
       <span className="flex items-start justify-between gap-3">
         <span className="line-clamp-2 min-w-0 break-words font-display text-[17px] font-normal leading-snug text-ink">

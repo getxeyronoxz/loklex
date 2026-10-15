@@ -80,7 +80,7 @@ export default function NotificationsPage() {
                 >
                   <Link
                     href={n.href}
-                    className="flex gap-3.5 px-5 py-4 transition-colors duration-150 hover:bg-navy-850 sm:px-6"
+                    className="flex gap-3.5 px-5 py-5 transition-colors duration-150 hover:bg-navy-850 sm:px-6"
                   >
                     <span
                       className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${

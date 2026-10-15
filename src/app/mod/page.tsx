@@ -107,7 +107,7 @@ export default function ModPage() {
             {remaining.map((q) => {
               const Icon = kindIcon[q.kind];
               return (
-                <li key={q.id} className="px-5 py-4 sm:px-6">
+                <li key={q.id} className="px-5 py-5 sm:px-6">
                   <div className="flex items-start gap-3">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-navy-800">
                       <Icon className="h-4 w-4 text-gold" strokeWidth={1.75} aria-hidden />

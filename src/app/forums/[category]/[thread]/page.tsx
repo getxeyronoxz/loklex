@@ -227,18 +227,18 @@ function ThreadView() {
             never moves. Desktop stretches it, phones cap it. */}
         <div className="scroll-quiet max-h-[70dvh] min-h-0 overflow-y-auto lg:max-h-none lg:flex-1">
           <ol className="divide-y divide-navy-700/60">
-          <li className="px-5 py-4 sm:px-6">
+          <li className="px-5 py-5 sm:px-6">
             <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
               <Avatar initials={initialsOf(thread.author)} size="sm" />
               <span className="min-w-0 break-words text-sm font-semibold text-ink">{thread.author}</span>
               <span className="tnum shrink-0 text-xs text-ink-3">{thread.createdAt}</span>
             </div>
-            <p className="mt-2 whitespace-pre-line break-words text-[15px] leading-relaxed text-ink">
+            <p className="mt-2.5 whitespace-pre-line break-words text-[15px] leading-[1.7] text-ink">
               {thread.excerpt}
             </p>
           </li>
           {replies.map((r) => (
-            <li key={r.id} className="px-5 py-4 sm:px-6">
+            <li key={r.id} className="px-5 py-5 sm:px-6">
               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
                 <Avatar
                   initials={initialsOf(r.author)}
@@ -274,7 +274,7 @@ function ThreadView() {
                   {r.quote.body}
                 </blockquote>
               )}
-              <p className="mt-2 whitespace-pre-line break-words text-[15px] leading-relaxed text-ink">
+              <p className="mt-2.5 whitespace-pre-line break-words text-[15px] leading-[1.7] text-ink">
                 {r.body}
               </p>
             </li>
@@ -363,7 +363,7 @@ function ThreadView() {
                   id="reply"
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
-                  className="min-h-[96px]"
+                  className="min-h-[80px]"
                   placeholder="Write a reply…"
                 />
               </Field>

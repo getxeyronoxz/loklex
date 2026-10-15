@@ -27,6 +27,8 @@ saves hours tomorrow.
 - Responsive + repo: dvh/clamp/aspect per skill guidance, unified `lg`
   breakpoint (tablet dual-chrome fixed), history rewritten to the owner's
   git identity, public repo github.com/getxeyronoxz/loklex pushed.
+- Reading rhythm pass: roomier content rows and airier prose everywhere
+  (the same tightness repeated on every surface).
 - Proper-way pass: branded `error.tsx` + `not-found.tsx`, per-route tab
   titles (client pages can't export metadata), `themeColor #000000` +
   dark `colorScheme`, sr-only h1 on all 8 h1-less routes. B-08 logged.

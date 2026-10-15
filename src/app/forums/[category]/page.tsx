@@ -229,7 +229,7 @@ function CategoryView() {
               <li key={t.id}>
                 <Link
                   href={`/forums/${t.categorySlug}/${t.id}`}
-                  className="block px-5 py-4 transition-colors duration-150 hover:bg-navy-850 sm:px-6"
+                  className="block px-5 py-5 transition-colors duration-150 hover:bg-navy-850 sm:px-6"
                 >
                   <span className="flex items-start gap-2">
                     {t.pinned && (

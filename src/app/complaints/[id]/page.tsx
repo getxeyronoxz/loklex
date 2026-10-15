@@ -248,7 +248,7 @@ function ComplaintDetailView() {
               history.
             </p>
           ) : (
-            <p className="whitespace-pre-line break-words text-[15px] leading-relaxed text-ink">
+            <p className="whitespace-pre-line break-words text-[15px] leading-[1.7] text-ink">
               {complaint.description}
             </p>
           )}
