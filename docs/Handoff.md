@@ -40,7 +40,6 @@ saves hours tomorrow.
   roles; build green.
 
 ## 2026-10 — session: loklex UI remediation from the desktop plan (done, pending live re-measure)
-
 - Done: chat composer fitted-height fix (C4) + per-instance scroll refs
   with reduced-motion respect; support-toggle override (C2); shared
   catalog seam across panes/pages/palette (H1/H3/P1/P2); palette
@@ -59,3 +58,20 @@ saves hours tomorrow.
 - Watch out for: no browser tool in this session — the final
   fresh-tab console audit and palette read-count re-measure still need
   one live pass before the PR can claim them.
+
+## 2026-10 — session: test → fix → verify loop via MCP + Playwright (done, merged)
+
+- Loop: full route console sweep (13 routes, 0 errors / 0 warnings);
+  chat geometry at 360/390/1440 (gap, no overlap, single composer);
+  send → sent and retry → sent verified; support toggle 46 → 47;
+  wizard blocks empty Continue and carries the quick-report draft;
+  member 7 vs moderator 8 complaints; forum not-found + lock reason
+  render; persisted-moderator reload clean (B-15 fix).
+- Two findings were test-tool artifacts, not app bugs: MCP `click`
+  does not activate the chat Send / Retry buttons (both work via
+  real event sequences and Playwright), and `offsetParent` is null on
+  the fixed mobile nav (rect check shows it correctly placed).
+- Verified: `tsc` clean, `next build` green (13 routes +
+  `/_not-found`). Lint unchanged: advisory-red on the pre-existing
+  effect pattern, no CI gate.
+- Closed the loop by merging PR #1 into `master`.
