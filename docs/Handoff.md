@@ -3,7 +3,7 @@
 Update this file at the end of every work session. Half a minute today
 saves hours tomorrow.
 
-## 2026-10 — session: author-close, complaint downloads, docs pack
+## 2026-10 — session: author-close, complaint downloads, docs pack (done)
 
 - Done: image borders + view/download on chat photos; complaint wizard
   keeps photo files → detail grid with view + download; author "Mark as
@@ -11,11 +11,10 @@ saves hours tomorrow.
   timeline reflection; live session reply counts; mobile-collapsed fix;
   full `docs/` pack (this set).
 - Model: Muse Spark. Decisions/rationale in Decisions.md.
-- Verified: `tsc` clean (re-run `next build` before shipping — last full
-  build predates the close/resolve + docs work).
-- Still open: live-click test of close/resolve + reply-count bump in the
-  browser; mobile-viewport screenshot of the collapsed-panel fix; proofread
-  pass on new copy ("Closed by the filer", "Resolved by author").
+- Verified live: reply posts + category count 28→29; session thread +
+  "Resolved by author" chip; "Mark as closed" → Closed pill + "Closed by
+  the filer" timeline entry + button gone; image upload → preview →
+  image bubble; production build green (13 routes); committed ab808a0.
 - Watch out for: B-05/B-06 (stale server, extension) whenever verification
   looks weird — clean tab first, code second. Never edit source with
   `powershell.exe` Set-Content (B-07).
