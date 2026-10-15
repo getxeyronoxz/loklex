@@ -127,7 +127,7 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
   return (
     <div
       ref={trackRef}
-      className="flex min-h-0 flex-1 flex-col gap-4 lg:flex-row lg:gap-0"
+      className="flex min-h-0 flex-col gap-4 lg:min-h-0 lg:flex-1 lg:flex-row lg:gap-0"
     >
       {panes.map((pane, i) => (
         <div
@@ -171,13 +171,13 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
                   {pane.title}
                 </h2>
               </header>
-              <div className="flex min-h-0 flex-1 flex-col">{pane.node}</div>
+              <div className="flex flex-col lg:min-h-0 lg:flex-1">{pane.node}</div>
             </section>
             </>
           ) : (
             <section
               aria-label={pane.title}
-              className="flex min-h-[320px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:h-full lg:min-h-0"
+              className="flex min-h-[320px] min-w-0 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:h-full lg:min-h-0 lg:flex-1"
             >
               <header className="flex shrink-0 items-center justify-between gap-2 border-b border-navy-700 px-4 py-3">
                 <h2 className="eyebrow text-gold">
@@ -200,7 +200,7 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
                   )}
                 </button>
               </header>
-              <div className="flex min-h-0 flex-1 flex-col">{pane.node}</div>
+              <div className="flex flex-col lg:min-h-0 lg:flex-1">{pane.node}</div>
             </section>
           )}
           {i < panes.length - 1 && (

@@ -627,7 +627,7 @@ function ChatView() {
   };
 
   return (
-    <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-col">
+    <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-col lg:h-full">
       <div className="md:hidden">
         <div className="overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           {selectedId ? (active ? renderThread("m") : emptyThread) : listNode}

@@ -14,7 +14,7 @@ export default function Home() {
   const reset = () => window.dispatchEvent(new CustomEvent("lx-reset-panes"));
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
+    <div className="flex min-h-0 flex-col lg:h-full">
       <h1 className="sr-only">Loklex community workspace</h1>
       <div className="mb-4 flex shrink-0 items-center justify-between gap-3">
         <p className="flex items-center gap-2.5">

@@ -809,6 +809,28 @@ export default function NewComplaintPage() {
               ))}
             </dl>
           )}
+          {step === 4 && !isAsk && files.length > 0 && (
+            <div>
+              <p className="eyebrow text-ink-3">Photos · {files.length}</p>
+              <ul className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-5" aria-label="Attached photos preview">
+                {files.map((f) => (
+                  <li
+                    key={f.url ?? f.name}
+                    className="h-16 overflow-hidden rounded-lg border border-navy-700 bg-navy-950"
+                    title={f.name}
+                  >
+                    {f.url ? (
+                      <img src={f.url} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="grid h-full w-full place-items-center">
+                        <ImagePlus className="h-4 w-4 text-gold" aria-hidden />
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {step === 4 && audience === "all" && !isAsk && (
             <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-warn/40 bg-warn/[0.07] px-4 py-3 text-[13px] leading-relaxed text-ink">
               <input
