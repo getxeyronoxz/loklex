@@ -37,6 +37,7 @@ interface FiledComplaint {
   anonymous: boolean;
   pseudonym?: string;
   attachments?: number;
+  files?: Attachment[];
 }
 
 interface AppState {
@@ -65,6 +66,11 @@ interface AppState {
   retryMessage: (id: string) => void;
   mutedIds: string[];
   toggleMute: (id: string) => void;
+  /* Author-driven lifecycle (session-only until the backend owns status). */
+  closedIds: string[];
+  closeComplaint: (id: string) => void;
+  resolvedThreadIds: string[];
+  resolveThread: (id: string) => void;
 }
 
 const Ctx = createContext<AppState | null>(null);
@@ -82,6 +88,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [sessionReplies, setSessionReplies] = useState<Reply[]>([]);
   const [sessionMessages, setSessionMessages] = useState<ChatMessage[]>([]);
   const [mutedIds, setMutedIds] = useState<string[]>([]);
+  const [closedIds, setClosedIds] = useState<string[]>([]);
+  const [resolvedThreadIds, setResolvedThreadIds] = useState<string[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
@@ -181,6 +189,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         supported: false,
         comments: 0,
         attachments: c.attachments ?? 0,
+        files: c.files ?? [],
       };
       setSessionComplaints((prev) => [complaint, ...prev]);
       return complaint;
@@ -273,6 +282,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     );
   }, []);
 
+  const closeComplaint = useCallback((id: string) => {
+    setClosedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+  }, []);
+
+  const resolveThread = useCallback((id: string) => {
+    setResolvedThreadIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+  }, []);
+
   const value = useMemo<AppState>(
     () => ({
       accountKey,
@@ -294,6 +311,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       retryMessage,
       mutedIds,
       toggleMute,
+      closedIds,
+      closeComplaint,
+      resolvedThreadIds,
+      resolveThread,
     }),
     [
       accountKey,
@@ -314,6 +335,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       retryMessage,
       mutedIds,
       toggleMute,
+      closedIds,
+      closeComplaint,
+      resolvedThreadIds,
+      resolveThread,
     ],
   );
 

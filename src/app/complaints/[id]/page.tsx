@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
   ArrowLeft,
+  Download,
   EyeOff,
   FileWarning,
   Flag,
@@ -49,7 +50,7 @@ export default function ComplaintDetailPage() {
 
 function ComplaintDetailView() {
   const params = useParams<{ id: string }>();
-  const { sessionComplaints, sessionThreads } = useApp();
+  const { sessionComplaints, sessionThreads, account, closedIds, closeComplaint } = useApp();
   const [complaint, setComplaint] = useState<Complaint | null | undefined>(
     undefined,
   );
@@ -122,8 +123,27 @@ function ComplaintDetailView() {
     );
   }
 
-  const status = complaintStatuses[complaint.status];
+  const isClosed =
+    !!complaint &&
+    (closedIds.includes(complaint.id) || complaint.status === "closed");
+  const status = complaintStatuses[isClosed ? "closed" : complaint.status];
   const isPrivate = complaint.visibility === "moderators";
+  const isOwn =
+    complaint.author === account.displayName ||
+    sessionComplaints.some((c) => c.id === complaint.id);
+  const timeline =
+    isClosed &&
+    complaint.timeline[complaint.timeline.length - 1]?.status !== "closed"
+      ? [
+          ...complaint.timeline,
+          {
+            status: "closed" as const,
+            at: "Just now",
+            note: "Closed by the filer. The community can still read it.",
+          },
+        ]
+      : complaint.timeline;
+  const files = complaint.files ?? [];
 
   return (
     <div className="mx-auto max-w-3xl space-y-4">
@@ -182,12 +202,65 @@ function ComplaintDetailView() {
               {complaint.description}
             </p>
           )}
-          {complaint.attachments > 0 && (
-            <p className="tnum flex items-center gap-2 text-[13px] text-ink-3">
-              <Paperclip className="h-4 w-4" aria-hidden />
-              {complaint.attachments} photo
-              {complaint.attachments === 1 ? "" : "s"} attached to this filing
-            </p>
+          {files.length > 0 ? (
+            <div>
+              <h2 className="eyebrow text-ink-3">Photos · {files.length}</h2>
+              <ul className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {files.map((f) => (
+                  <li
+                    key={f.url ?? f.name}
+                    className="group relative overflow-hidden rounded-lg border border-navy-700 bg-navy-950 transition-colors duration-150 hover:border-gold-deep"
+                    title={f.name}
+                  >
+                    {f.url ? (
+                      <a
+                        href={f.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Open ${f.name} in full`}
+                        className="block"
+                      >
+                        <img
+                          src={f.url}
+                          alt={f.name}
+                          loading="lazy"
+                          className="h-28 w-full object-cover"
+                        />
+                      </a>
+                    ) : (
+                      <span className="tnum flex h-28 items-center gap-1.5 px-3 text-xs text-ink-2">
+                        <Paperclip className="h-4 w-4 shrink-0" aria-hidden />
+                        <span className="truncate">{f.name}</span>
+                      </span>
+                    )}
+                    {f.url && (
+                      <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-navy-950/85 px-2.5 py-1.5">
+                        <span className="tnum min-w-0 truncate text-xs text-ink-2">
+                          {f.name}
+                        </span>
+                        <a
+                          href={f.url}
+                          download={f.name}
+                          aria-label={`Download ${f.name}`}
+                          title={`Download ${f.name}`}
+                          className="shrink-0 rounded-md p-1 text-ink-2 transition-colors duration-150 hover:text-gold-hi"
+                        >
+                          <Download className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                        </a>
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            complaint.attachments > 0 && (
+              <p className="tnum flex items-center gap-2 text-[13px] text-ink-3">
+                <Paperclip className="h-4 w-4" aria-hidden />
+                {complaint.attachments} photo
+                {complaint.attachments === 1 ? "" : "s"} attached to this filing
+              </p>
+            )
           )}
 
           {!isPrivate && (
@@ -206,23 +279,32 @@ function ComplaintDetailView() {
                 <MessageSquare className="h-4 w-4" aria-hidden />
                 {complaint.comments} comments
               </span>
+              {!isPrivate && !isClosed && isOwn && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => closeComplaint(complaint.id)}
+                >
+                  Mark as closed
+                </Button>
+              )}
             </div>
           )}
 
           <div>
             <h2 className="eyebrow text-ink-3">Status history</h2>
             <ol className="mt-3 space-y-0">
-              {complaint.timeline.map((t, i) => (
+              {timeline.map((t, i) => (
                 <li key={`${t.status}-${t.at}`} className="relative flex gap-3 pb-5 last:pb-0">
                   <span className="flex flex-col items-center" aria-hidden>
                     <span
                       className={`mt-1.5 h-2.5 w-2.5 rounded-full ${
-                        i === complaint.timeline.length - 1
+                        i === timeline.length - 1
                           ? "bg-gold"
                           : "bg-navy-600"
                       }`}
                     />
-                    {i < complaint.timeline.length - 1 && (
+                    {i < timeline.length - 1 && (
                       <span className="w-px flex-1 bg-navy-700" />
                     )}
                   </span>

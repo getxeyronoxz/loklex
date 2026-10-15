@@ -6,6 +6,8 @@ import {
   ArrowLeft,
   BellOff,
   Check,
+  Download,
+  Expand,
   Hash,
   ImagePlus,
   MessageCircle,
@@ -391,21 +393,49 @@ function ChatView() {
                       {m.attachments.map((a) =>
                         a.url ? (
                           <li key={a.url}>
-                            <a
-                              href={a.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              title={`Open ${a.name} in full`}
-                              className="block overflow-hidden rounded-lg"
-                            >
-                              {/* Plain img: object URLs are session-local, not served files */}
-                              <img
-                                src={a.url}
-                                alt={a.name}
-                                loading="lazy"
-                                className="max-h-64 w-full object-cover"
-                              />
-                            </a>
+                            <div className="group overflow-hidden rounded-lg border border-navy-700 bg-navy-950 transition-colors duration-150 hover:border-gold-deep">
+                              <a
+                                href={a.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                title={`Open ${a.name} in full`}
+                                className="block"
+                              >
+                                {/* Plain img: object URLs are session-local, not served files */}
+                                <img
+                                  src={a.url}
+                                  alt={a.name}
+                                  loading="lazy"
+                                  className="max-h-64 w-full object-cover"
+                                />
+                              </a>
+                              <span className="flex items-center justify-between gap-2 px-2.5 py-1.5">
+                                <span className="tnum min-w-0 truncate text-xs text-ink-2">
+                                  {a.name}
+                                </span>
+                                <span className="flex shrink-0 items-center gap-0.5">
+                                  <a
+                                    href={a.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label={`Open ${a.name} in full`}
+                                    title={`Open ${a.name} in full`}
+                                    className="rounded-md p-1 text-ink-3 transition-colors duration-150 hover:text-gold-hi"
+                                  >
+                                    <Expand className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
+                                  </a>
+                                  <a
+                                    href={a.url}
+                                    download={a.name}
+                                    aria-label={`Download ${a.name}`}
+                                    title={`Download ${a.name}`}
+                                    className="rounded-md p-1 text-ink-3 transition-colors duration-150 hover:text-gold-hi"
+                                  >
+                                    <Download className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
+                                  </a>
+                                </span>
+                              </span>
+                            </div>
                           </li>
                         ) : (
                           <li

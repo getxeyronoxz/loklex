@@ -59,6 +59,8 @@ export interface Complaint {
   supported: boolean;
   comments: number;
   attachments: number;
+  /* Session-attached photos with local preview URLs (backend stores these). */
+  files?: Attachment[];
 }
 
 export const complaintCategories: Record<

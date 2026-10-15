@@ -37,7 +37,7 @@ export default function CategoryPage() {
 function CategoryView() {
   const params = useParams<{ category: string }>();
   const router = useRouter();
-  const { sessionThreads, startThread } = useApp();
+  const { sessionThreads, sessionReplies, resolvedThreadIds, startThread } = useApp();
   const [category, setCategory] = useState<ForumCategory | null | undefined>(
     undefined,
   );
@@ -248,10 +248,16 @@ function CategoryView() {
                     <span className="line-clamp-2 min-w-0 flex-1 break-words text-[15px] font-medium leading-snug text-ink">
                       {t.title}
                     </span>
-                    {t.label && (
-                      <span className="tnum shrink-0 rounded-full bg-navy-800 px-2 py-0.5 text-xs font-semibold text-ink-2">
-                        {t.label}
+                    {resolvedThreadIds.includes(t.id) ? (
+                      <span className="tnum shrink-0 rounded-full bg-success/15 px-2 py-0.5 text-xs font-semibold text-success">
+                        Resolved
                       </span>
+                    ) : (
+                      t.label && (
+                        <span className="tnum shrink-0 rounded-full bg-navy-800 px-2 py-0.5 text-xs font-semibold text-ink-2">
+                          {t.label}
+                        </span>
+                      )
                     )}
                   </span>
                   <span className="tnum mt-1.5 block truncate text-[13px] text-ink-3">
@@ -263,7 +269,8 @@ function CategoryView() {
                     </span>
                     <span className="flex items-center gap-1">
                       <MessageSquare className="h-3 w-3" aria-hidden />
-                      {t.replies}
+                      {t.replies +
+                        sessionReplies.filter((r) => r.threadId === t.id).length}
                     </span>
                   </span>
                 </Link>

@@ -14,7 +14,7 @@ import type { Complaint, ComplaintCategory, ComplaintStatus } from "@/lib/types"
 import { listComplaints } from "@/lib/services/complaints";
 
 export default function ComplaintsPage() {
-  const { sessionComplaints } = useApp();
+  const { sessionComplaints, closedIds } = useApp();
   const [all, setAll] = useState<Complaint[] | null>(null);
   const [failed, setFailed] = useState(false);
   const [query, setQuery] = useState("");
@@ -134,11 +134,17 @@ export default function ComplaintsPage() {
           />
         ) : (
           <ul className="space-y-3 px-5 py-5">
-            {filtered.map((c) => (
-              <li key={c.id}>
-                <ComplaintCard complaint={c} />
-              </li>
-            ))}
+            {filtered.map((c) => {
+              const shown =
+                closedIds.includes(c.id) && c.status !== "closed"
+                  ? { ...c, status: "closed" as const }
+                  : c;
+              return (
+                <li key={c.id}>
+                  <ComplaintCard complaint={shown} />
+                </li>
+              );
+            })}
           </ul>
         )}
       </Panel>

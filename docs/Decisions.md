@@ -1,0 +1,65 @@
+# Decisions — why, not just what
+
+Recorded by Muse Spark (Oct 2026). Newest first.
+
+## 2026-10 — Author-close, not moderator-close (complaints/threads)
+
+Filers can close their own complaints and resolve their own threads.
+Reason: in a community tool the reporter knows first when something is
+fixed; waiting on moderators for every closure doesn't scale. Moderators
+keep removal/restriction powers via the review queue. Status flips are
+session-local until the backend owns status transitions.
+
+## 2026-10 — Complaint photos stored as `{name, url}`, counts kept
+
+Seed complaints keep `attachments: number`; session filings add
+`files: Attachment[]`. Reason: seed rows have no real files, and inventing
+fake filenames would be dishonest mock data. Counts render for seed;
+thumbnails + view + download render for session files. Backend unifies both.
+
+## 2026-10 — Chat is channels-only, DMs removed
+
+Owner directive: no personal chat; everything attached to forums. Removed
+the New-conversation dialog, per-person threads, and user blocking.
+Kept per-channel mute + report (those make sense for public channels).
+
+## 2026-10 — Exact logo file, recreation deleted
+
+Owner directive: use the supplied PNG, nothing extra. The SVG wordmark
+recreation was deleted. Cropped to the emblem circle via CSS.
+
+## 2026-10 — 112 banner removed
+
+Owner request. The anonymity caveat, honest delivery wording ("Sent",
+never "delivered"), and unconfirmed-outcome statuses stay — those are
+product honesty, not labeling.
+
+## 2026-10 — AMOLED black + warmed greys
+
+Pure `#000` base (panels read through hairlines), greys warmed to sit with
+gold instead of default blue-grey SaaS. Gold brightened a step for black-bg
+contrast. `ink-3` pinned at ≥ 4.5:1 for small text.
+
+## 2026-10 — Quiet scrollbars + viewport-locked pages
+
+Multiple permanent scrollbars read as "broken". Pages lock to the viewport;
+internal scrollers hide thumbs until hover/focus. `scrollbar-gutter` left
+default to avoid layout shift debates; acceptable at this density.
+
+## 2026-10 — Services seam, not a backend
+
+All reads go through `lib/services/*` async functions. Reason: when the
+backend arrives, only that folder changes and `types.ts` becomes the shared
+contract. No fetch calls anywhere else — enforced by review, not tooling.
+
+## 2026-10 — en-IN spelling kept under a US-dictionary checker
+
+neighbours, honouring, sterilisation, kerb are correct for the audience.
+Not Americanized. A browser extension flagging them is environmental noise.
+
+## 2026-10 — `!important` utilities over custom CSS for overrides
+
+Tailwind v4 sorts same-specificity utilities by stylesheet order, so
+appended overrides (e.g. `min-h-[40px]` vs base `min-h-[120px]`) can lose.
+`min-h-[40px]!` wins deterministically. Custom unlayered CSS is a fallback,
+not the mechanism.

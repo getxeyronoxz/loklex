@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
   ArrowLeft,
+  Check,
   Flag,
   Lock,
   MessagesSquare,
@@ -48,7 +49,7 @@ export default function ThreadPage() {
 
 function ThreadView() {
   const params = useParams<{ category: string; thread: string }>();
-  const { accountKey, sessionThreads, sessionReplies, addReply, sessionComplaints } = useApp();
+  const { accountKey, account, sessionThreads, sessionReplies, addReply, sessionComplaints, resolvedThreadIds, resolveThread } = useApp();
   const isModerator = accountKey === "moderator";
 
   const [thread, setThread] = useState<Thread | null | undefined>(undefined);
@@ -180,6 +181,24 @@ function ThreadView() {
               >
                 Linked complaint {linkedComplaint.ref} →
               </Link>
+            )}
+            {thread && resolvedThreadIds.includes(thread.id) ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-2.5 py-1 text-xs font-semibold text-success">
+                <Check className="h-3 w-3" strokeWidth={2} aria-hidden />
+                Resolved by author
+              </span>
+            ) : (
+              thread &&
+              thread.author === account.displayName && (
+                <button
+                  type="button"
+                  onClick={() => resolveThread(thread.id)}
+                  className="inline-flex items-center gap-1 rounded-full border border-navy-700 px-2.5 py-1 text-xs font-semibold text-ink-2 transition-colors duration-150 hover:border-success/50 hover:text-success"
+                >
+                  <Check className="h-3 w-3" strokeWidth={2} aria-hidden />
+                  Mark as resolved
+                </button>
+              )
             )}
           </div>
           <h1 className="mt-2 font-display text-[26px] font-light leading-tight text-ink">

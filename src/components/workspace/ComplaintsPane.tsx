@@ -68,7 +68,7 @@ function QuickReport() {
 }
 
 export function ComplaintsPane() {
-  const { sessionComplaints } = useApp();
+  const { sessionComplaints, closedIds } = useApp();
   const [items, setItems] = useState<Complaint[] | null>(null);
 
   useEffect(() => {
@@ -85,7 +85,12 @@ export function ComplaintsPane() {
           <SkeletonRows rows={3} />
         ) : (
           <ul className="divide-y divide-navy-700/60">
-            {items.map((c, i) => (
+            {items.map((c, i) => {
+              const st =
+                closedIds.includes(c.id) && c.status !== "closed"
+                  ? "closed"
+                  : c.status;
+              return (
               <li
                 key={c.id}
                 className="lx-rise"
@@ -99,8 +104,8 @@ export function ComplaintsPane() {
                     <span className="line-clamp-2 min-w-0 break-words text-sm font-medium leading-snug text-ink">
                       {c.title}
                     </span>
-                    <StatusPill tone={complaintStatuses[c.status].tone}>
-                      {complaintStatuses[c.status].label}
+                    <StatusPill tone={complaintStatuses[st].tone}>
+                      {complaintStatuses[st].label}
                     </StatusPill>
                   </span>
                   <span className="tnum mt-1.5 flex items-center gap-3 font-mono text-xs text-ink-3">
@@ -116,7 +121,8 @@ export function ComplaintsPane() {
                   </span>
                 </Link>
               </li>
-            ))}
+              );
+            })}
           </ul>
         )}
       </div>

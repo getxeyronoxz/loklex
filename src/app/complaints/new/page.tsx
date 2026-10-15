@@ -47,6 +47,7 @@ import {
   complaintStatuses,
 } from "@/lib/types";
 import type {
+  Attachment,
   Complaint,
   ComplaintCategory,
   Thread,
@@ -125,7 +126,7 @@ export default function NewComplaintPage() {
     if (d.title) setTitle(d.title);
     if (d.description) setDescription(d.description);
   }, []);
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<Attachment[]>([]);
   const [category, setCategory] = useState<ComplaintCategory | "">("");
   const [forum, setForum] = useState(forumCategories[0].slug);
   const [extraForums, setExtraForums] = useState<string[]>([]);
@@ -218,6 +219,7 @@ export default function NewComplaintPage() {
       pseudonym:
         nameChoice === "pseudonym" ? pseudonym.trim() : undefined,
       attachments: files.length,
+      files: [...files],
     });
     setDone(complaint);
   };
@@ -428,33 +430,42 @@ export default function NewComplaintPage() {
                       multiple
                       className="sr-only"
                       onChange={(e) => {
-                        const names = Array.from(e.target.files ?? []).map(
-                          (f) => f.name,
-                        );
-                        setFiles((prev) =>
-                          [...prev, ...names].slice(0, 5),
-                        );
+                        const picked: Attachment[] = Array.from(
+                          e.target.files ?? [],
+                        ).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
+                        setFiles((prev) => [...prev, ...picked].slice(0, 5));
                         e.target.value = "";
                       }}
                     />
                   </label>
                   {files.length > 0 && (
-                    <ul className="mt-2 space-y-1.5">
-                      {files.map((name) => (
+                    <ul className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-5">
+                      {files.map((f) => (
                         <li
-                          key={name}
-                          className="flex items-center justify-between gap-2 rounded-lg bg-navy-950 px-3 py-2 text-[13px] text-ink-2"
+                          key={f.url ?? f.name}
+                          className="relative h-16 overflow-hidden rounded-lg border border-navy-700 bg-navy-950"
+                          title={f.name}
                         >
-                          <span className="min-w-0 truncate">{name}</span>
+                          {f.url ? (
+                            <img src={f.url} alt="" className="h-full w-full object-cover" />
+                          ) : (
+                            <span className="grid h-full w-full place-items-center">
+                              <ImagePlus className="h-4 w-4 text-gold" aria-hidden />
+                            </span>
+                          )}
+                          <span className="sr-only">{f.name}</span>
                           <button
                             type="button"
-                            onClick={() =>
-                              setFiles((prev) => prev.filter((f) => f !== name))
-                            }
-                            aria-label={`Remove ${name}`}
-                            className="rounded p-1 text-ink-3 hover:text-danger"
+                            onClick={() => {
+                              if (f.url) URL.revokeObjectURL(f.url);
+                              setFiles((prev) =>
+                                prev.filter((x) => x.url !== f.url || x.name !== f.name),
+                              );
+                            }}
+                            aria-label={`Remove ${f.name}`}
+                            className="absolute right-0.5 top-0.5 rounded-full bg-navy-950/90 p-0.5 text-ink-3 hover:text-danger"
                           >
-                            <X className="h-4 w-4" aria-hidden />
+                            <X className="h-3.5 w-3.5" aria-hidden />
                           </button>
                         </li>
                       ))}
