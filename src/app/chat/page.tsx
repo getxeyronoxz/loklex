@@ -185,7 +185,7 @@ function ChatView() {
           next to the complaints and threads.
         </p>
       </div>
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div className="scroll-quiet min-h-0 flex-1 overflow-y-auto">
         {channels === null ? (
           <SkeletonRows rows={5} />
         ) : visibleChannels.length === 0 ? (
@@ -332,7 +332,7 @@ function ChatView() {
       </header>
 
       <div
-        className="min-h-0 flex-1 overflow-y-auto px-4 py-4"
+        className="scroll-quiet min-h-0 flex-1 overflow-y-auto px-4 py-4"
         role="log"
         aria-label={`Messages in ${active.name}`}
         aria-live="polite"
@@ -535,7 +535,7 @@ function ChatView() {
                   rows={1}
                   placeholder={`Message ${active.name}…`}
                   aria-label={`Message ${active.name}`}
-                  className="composer-input min-h-[40px] max-h-[140px] resize-none border-transparent bg-transparent py-2 focus:border-transparent"
+                  className="composer-input max-h-[140px] min-h-[40px]! resize-none border-transparent bg-transparent py-2 focus:border-transparent!"
                 />
               </Field>
             </div>
@@ -558,13 +558,13 @@ function ChatView() {
   );
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-col">
       <div className="md:hidden">
         <div className="overflow-hidden rounded-xl border border-navy-700 bg-navy-900">
           {selectedId ? threadNode : listNode}
         </div>
       </div>
-      <div className="hidden min-h-[calc(100vh-220px)] gap-4 md:flex">
+      <div className="hidden min-h-0 flex-1 gap-4 md:flex">
         <section
           aria-label="Channels"
           className="flex w-[320px] shrink-0 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900"

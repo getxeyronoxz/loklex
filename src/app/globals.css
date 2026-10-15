@@ -84,6 +84,23 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Quiet scrollers: thumb appears only on hover or keyboard focus,
+   so lists and threads scroll without permanent visual noise. */
+.scroll-quiet {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.scroll-quiet:hover,
+.scroll-quiet:focus-within {
+  scrollbar-color: var(--color-navy-700) transparent;
+}
+.scroll-quiet::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+.scroll-quiet:hover::-webkit-scrollbar-thumb,
+.scroll-quiet:focus-within::-webkit-scrollbar-thumb {
+  background: var(--color-navy-700);
+}
 /* Tracked caps for eyebrows, codes and references */
 .eyebrow {
   font-family: var(--font-mono);
@@ -190,6 +207,9 @@ body {
 
 /* Borderless composer field: the pill carries the focus ring instead.
    Unlayered on purpose so it beats the shared input utilities. */
+.composer-input {
+  min-height: 40px;
+}
 .composer-input:focus {
   border-color: transparent;
   outline: none;

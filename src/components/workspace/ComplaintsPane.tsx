@@ -80,7 +80,7 @@ export function ComplaintsPane() {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <QuickReport />
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div className="scroll-quiet min-h-0 flex-1 overflow-y-auto">
         {items === null ? (
           <SkeletonRows rows={3} />
         ) : (
