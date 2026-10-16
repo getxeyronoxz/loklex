@@ -479,7 +479,10 @@ export default function NewComplaintPage() {
                           title={f.name}
                         >
                           {f.url ? (
-                            <img src={f.url} alt="" className="h-full w-full object-cover" />
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element -- session-local preview URL */}
+                              <img src={f.url} alt="" className="h-full w-full object-cover" />
+                            </>
                           ) : (
                             <span className="grid h-full w-full place-items-center">
                               <ImagePlus className="h-4 w-4 text-accent" aria-hidden />
@@ -853,7 +856,10 @@ export default function NewComplaintPage() {
                     title={f.name}
                   >
                     {f.url ? (
-                      <img src={f.url} alt="" className="h-full w-full object-cover" />
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element -- session-local preview URL */}
+                        <img src={f.url} alt="" className="h-full w-full object-cover" />
+                      </>
                     ) : (
                       <span className="grid h-full w-full place-items-center">
                         <ImagePlus className="h-4 w-4 text-accent" aria-hidden />

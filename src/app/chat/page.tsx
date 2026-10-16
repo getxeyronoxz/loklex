@@ -20,6 +20,7 @@ import {
 import { Fragment, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/components/app-state";
 import { Avatar } from "@/components/ui/Avatar";
+import { CountBadge } from "@/components/ui/CountBadge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Field, TextArea, TextInput } from "@/components/ui/fields";
@@ -264,9 +265,11 @@ function ChatView() {
                           {liveLast}
                         </span>
                         {unread > 0 && (
-                          <span className="tnum shrink-0 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950">
-                            {unread}
-                          </span>
+                          <CountBadge
+                            value={unread}
+                            label="unread"
+                            className="shrink-0"
+                          />
                         )}
                       </span>
                     </span>
@@ -434,6 +437,7 @@ function ChatView() {
                                 className="block"
                               >
                                 {/* Plain img: object URLs are session-local, not served files */}
+                                {/* eslint-disable-next-line @next/next/no-img-element -- blob: preview URLs can't be optimized */}
                                 <img
                                   src={a.url}
                                   alt={a.name}
@@ -587,7 +591,10 @@ function ChatView() {
                 title={p.name}
               >
                 {p.url ? (
-                  <img src={p.url} alt="" className="h-full w-full object-cover" />
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element -- session-local preview URL */}
+                    <img src={p.url} alt="" className="h-full w-full object-cover" />
+                  </>
                 ) : (
                   <span className="grid h-full w-full place-items-center">
                     <ImagePlus className="h-4 w-4 text-accent" aria-hidden />

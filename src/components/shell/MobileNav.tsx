@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { MessageCircle, MessagesSquare, ScrollText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { unreadTotal } from "@/lib/services/chat";
+import { CountBadge } from "@/components/ui/CountBadge";
 
 const items = [
   { href: "/complaints", label: "Complaints", icon: ScrollText },
@@ -40,17 +41,12 @@ export function MobileNav() {
               >
                 <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
                 {label}
-                {href === "/chat" && unread > 0 && (
-                  <>
-                    {/* The pill stays narrow; the count is announced. */}
-                    <span
-                      aria-hidden
-                      className="tnum absolute right-1/2 top-1.5 translate-x-5 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950"
-                    >
-                      {unread > 99 ? "99+" : unread}
-                    </span>
-                    <span className="sr-only">{unread} unread</span>
-                  </>
+                {href === "/chat" && (
+                  <CountBadge
+                    value={unread}
+                    label="unread"
+                    className="absolute right-1/2 top-1.5 translate-x-5"
+                  />
                 )}
                 {active && (
                   <span
