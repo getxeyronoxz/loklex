@@ -45,7 +45,7 @@ export function MobileNav() {
                     {/* The pill stays narrow; the count is announced. */}
                     <span
                       aria-hidden
-                      className="tnum absolute right-1/2 top-1.5 translate-x-5 rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950"
+                      className="tnum absolute right-1/2 top-1.5 translate-x-5 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950"
                     >
                       {unread > 99 ? "99+" : unread}
                     </span>

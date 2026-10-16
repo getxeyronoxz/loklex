@@ -264,7 +264,7 @@ function ChatView() {
                           {liveLast}
                         </span>
                         {unread > 0 && (
-                          <span className="tnum shrink-0 rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950">
+                          <span className="tnum shrink-0 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950">
                             {unread}
                           </span>
                         )}

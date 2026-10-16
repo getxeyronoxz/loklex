@@ -54,7 +54,7 @@ export function ChatPane() {
                         <>
                           <span
                             aria-hidden
-                            className="h-2 w-2 rounded-full bg-teal"
+                            className="h-2 w-2 rounded-full bg-accent"
                           />
                           <span className="sr-only">{c.unread} unread</span>
                         </>
