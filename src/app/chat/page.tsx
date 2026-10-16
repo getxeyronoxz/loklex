@@ -20,6 +20,7 @@ import {
 import { Fragment, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useApp } from "@/components/app-state";
 import { Avatar } from "@/components/ui/Avatar";
+import { CountBadge } from "@/components/ui/CountBadge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState, SkeletonRows } from "@/components/ui/EmptyState";
 import { Field, TextArea, TextInput } from "@/components/ui/fields";
@@ -264,9 +265,11 @@ function ChatView() {
                           {liveLast}
                         </span>
                         {unread > 0 && (
-                          <span className="tnum shrink-0 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950">
-                            {unread}
-                          </span>
+                          <CountBadge
+                            value={unread}
+                            label="unread"
+                            className="shrink-0"
+                          />
                         )}
                       </span>
                     </span>

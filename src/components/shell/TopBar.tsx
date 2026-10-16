@@ -6,6 +6,7 @@ import { Bell, Check, ChevronDown, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { Avatar } from "@/components/ui/Avatar";
+import { CountBadge } from "@/components/ui/CountBadge";
 import { useApp } from "@/components/app-state";
 import { unreadNotifications } from "@/lib/services/activity";
 import { getAccount, listDemoAccounts } from "@/lib/services/users";
@@ -207,12 +208,11 @@ export function TopBar() {
               className="relative rounded-lg p-2.5 text-ink-2 hover:bg-navy-800 hover:text-ink"
             >
               <Bell className="h-5 w-5" strokeWidth={1.75} aria-hidden />
-              {/* The label carries the real number; the pill stays narrow. */}
-              {unread > 0 && (
-                <span className="tnum absolute right-1 top-1 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950">
-                  {unread > 99 ? "99+" : unread}
-                </span>
-              )}
+              <CountBadge
+                value={unread}
+                label="unread"
+                className="absolute right-1 top-1"
+              />
             </button>
             <AccountMenu />
           </div>
