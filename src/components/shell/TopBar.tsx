@@ -179,6 +179,7 @@ export function TopBar() {
             <button
               type="button"
               onClick={() => setPalette(true)}
+              id="command-palette-trigger"
               className="hidden items-center gap-2 rounded-lg border border-navy-700 bg-navy-900 px-3 py-2 text-[13px] text-ink-3 hover:border-navy-600 hover:text-ink-2 md:flex"
               aria-label="Search (Control or Command K)"
               aria-haspopup="dialog"

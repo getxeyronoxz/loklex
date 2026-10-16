@@ -160,7 +160,6 @@
   advisory, not a gate. `tsc --noEmit` clean, `next build` green.
 
 ## B-15 · Hydration mismatch on full load with a persisted non-default account
-
 - Found: dev-server log `Uncaught Error: Hydration failed…` on `/`,
   Oct 2026 — only when `lx-account` held a non-default value
   (moderator); cleared storage loaded clean.
@@ -176,9 +175,20 @@
   errors/warnings (was: 1 hydration error). `tsc` clean.
 
 ## H2 retest note (Playwright, clean run)
-
 - Quick-report → Continue lands on Step 1 of 5 · Intent with the
   subject and description prefilled in the Step-2 fields and the draft
   consumed (`lx-draft` null). No step drift across the run. The one
   earlier Step-2 sighting was a test artifact (stale click/snapshot
-  race), not app behavior — the Playwright run is definitive.
+  race), not app behavior - the Playwright run is definitive.
+
+## B-16 · Palette Escape strands focus on body when opened via Ctrl+K
+
+- Found: subagent QA sweep, Oct 2026 (reproduced twice).
+- Cause: the dialog restores focus to `document.activeElement` at open
+  time — via keyboard shortcut that is `<body>`, so Escape left
+  keyboard users at the top of the page instead of the Search button.
+- Fix: when the opener is body (or nothing), fall back to the
+  `#command-palette-trigger` button (new id on the TopBar search
+  button). Button-opens still restore to the button itself.
+- Evidence: live Ctrl+K → Escape → `activeElement` is the Search
+  button, dialog closed. `tsc` clean.
