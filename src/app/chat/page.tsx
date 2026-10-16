@@ -248,7 +248,7 @@ function ChatView() {
                       isActive ? "bg-navy-850" : ""
                     }`}
                   >
-                    <Avatar initials={c.initials} tone={isActive ? "gold" : "default"} />
+                    <Avatar initials={c.initials} tone={isActive ? "accent" : "default"} />
                     <span className="min-w-0 flex-1">
                       <span className="flex items-baseline justify-between gap-2">
                         <span className="truncate text-sm font-medium text-ink">
@@ -264,7 +264,7 @@ function ChatView() {
                           {liveLast}
                         </span>
                         {unread > 0 && (
-                          <span className="tnum shrink-0 rounded-full bg-teal px-1.5 py-px text-xs font-bold text-navy-950">
+                          <span className="tnum shrink-0 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950">
                             {unread}
                           </span>
                         )}
@@ -302,7 +302,7 @@ function ChatView() {
         >
           <ArrowLeft className="h-5 w-5" strokeWidth={1.75} aria-hidden />
         </Link>
-        <Avatar initials={active.initials} tone="gold" />
+        <Avatar initials={active.initials} tone="accent" />
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-ink">{active.name}</p>
           <p className="tnum truncate text-xs text-ink-3">
@@ -313,7 +313,7 @@ function ChatView() {
         {forumName && active.forumSlug && (
           <Link
             href={`/forums/${active.forumSlug}`}
-            className="hidden shrink-0 text-[13px] font-medium text-ink-2 hover:text-gold-hi sm:block"
+            className="hidden shrink-0 text-[13px] font-medium text-ink-2 hover:text-accent-hi sm:block"
           >
             Open forum →
           </Link>
@@ -321,7 +321,7 @@ function ChatView() {
         {linkedComplaintId && active.complaintRef && (
           <Link
             href={`/complaints/${linkedComplaintId}`}
-            className="tnum hidden shrink-0 rounded-full bg-gold-wash px-2.5 py-1 text-xs font-semibold text-gold-hi hover:bg-gold/20 sm:block"
+            className="tnum hidden shrink-0 rounded-full bg-accent-wash px-2.5 py-1 text-xs font-semibold text-accent-hi hover:bg-accent/20 sm:block"
           >
             Open {active.complaintRef} →
           </Link>
@@ -354,7 +354,7 @@ function ChatView() {
               >
                 <BellOff className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                 {isMuted ? "Unmute channel" : "Mute channel"}
-                {isMuted && <Check className="ml-auto h-4 w-4 text-gold" aria-hidden />}
+                {isMuted && <Check className="ml-auto h-4 w-4 text-accent" aria-hidden />}
               </button>
               <Link
                 href="/profile"
@@ -411,12 +411,12 @@ function ChatView() {
                 <div
                   className={`max-w-[78%] rounded-xl px-3.5 py-2.5 ${
                     m.fromMe
-                      ? "rounded-br-sm bg-gold text-navy-950"
+                      ? "rounded-br-sm bg-accent-deep text-ink"
                       : "rounded-bl-sm border border-navy-700 bg-navy-800 text-ink"
                   }`}
                 >
                   {!m.fromMe && m.author && (
-                    <p className="mb-0.5 text-xs font-semibold text-gold-hi">
+                    <p className="mb-0.5 text-xs font-semibold text-accent-hi">
                       {m.author}
                     </p>
                   )}
@@ -425,7 +425,7 @@ function ChatView() {
                       {m.attachments.map((a) =>
                         a.url ? (
                           <li key={a.url}>
-                            <div className="group overflow-hidden rounded-lg border border-navy-700 bg-navy-950 transition-colors duration-150 hover:border-gold-deep">
+                            <div className="group overflow-hidden rounded-lg border border-navy-700 bg-navy-950 transition-colors duration-150 hover:border-accent-deep">
                               <a
                                 href={a.url}
                                 target="_blank"
@@ -452,7 +452,7 @@ function ChatView() {
                                     rel="noreferrer"
                                     aria-label={`Open ${a.name} in full`}
                                     title={`Open ${a.name} in full`}
-                                    className="rounded-md p-1 text-ink-3 transition-colors duration-150 hover:text-gold-hi"
+                                    className="rounded-md p-1 text-ink-3 transition-colors duration-150 hover:text-accent-hi"
                                   >
                                     <Expand className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
                                   </a>
@@ -461,7 +461,7 @@ function ChatView() {
                                     download={a.name}
                                     aria-label={`Download ${a.name}`}
                                     title={`Download ${a.name}`}
-                                    className="rounded-md p-1 text-ink-3 transition-colors duration-150 hover:text-gold-hi"
+                                    className="rounded-md p-1 text-ink-3 transition-colors duration-150 hover:text-accent-hi"
                                   >
                                     <Download className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
                                   </a>
@@ -590,7 +590,7 @@ function ChatView() {
                   <img src={p.url} alt="" className="h-full w-full object-cover" />
                 ) : (
                   <span className="grid h-full w-full place-items-center">
-                    <ImagePlus className="h-4 w-4 text-gold" aria-hidden />
+                    <ImagePlus className="h-4 w-4 text-accent" aria-hidden />
                   </span>
                 )}
                 <span className="sr-only">{p.name}</span>
@@ -609,7 +609,7 @@ function ChatView() {
             ))}
           </ul>
         )}
-        <div className="rounded-full border border-navy-700 bg-navy-950 transition-colors duration-150 focus-within:border-gold">
+        <div className="rounded-full border border-navy-700 bg-navy-950 transition-colors duration-150 focus-within:border-accent">
           <div className="flex items-end gap-1 px-1.5 py-1.5">
             <label
               className="cursor-pointer rounded-full p-2.5 text-ink-2 transition-colors duration-150 hover:bg-navy-800 hover:text-ink"
@@ -657,7 +657,7 @@ function ChatView() {
               onClick={send}
               disabled={draft.trim().length === 0 && photos.length === 0}
               aria-label="Send message"
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold text-navy-950 transition-colors duration-150 hover:bg-gold-hi disabled:cursor-not-allowed disabled:bg-navy-700 disabled:text-ink-3"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent text-navy-950 transition-colors duration-150 hover:bg-accent-hi disabled:cursor-not-allowed disabled:bg-navy-700 disabled:text-ink-3"
             >
               <Send className="h-5 w-5" strokeWidth={1.75} aria-hidden />
             </button>

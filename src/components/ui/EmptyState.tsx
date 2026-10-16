@@ -14,7 +14,7 @@ export function EmptyState({
   return (
     <div role="status" className="flex flex-col items-center px-6 py-12 text-center">
       <span className="flex h-12 w-12 items-center justify-center rounded-full border border-navy-700 bg-navy-850">
-        <Icon className="h-5 w-5 text-gold/60" strokeWidth={1.5} aria-hidden />
+        <Icon className="h-5 w-5 text-accent/60" strokeWidth={1.5} aria-hidden />
       </span>
       <h3 className="mt-4 font-display text-lg font-normal text-ink">{title}</h3>
       <p className="mt-1 max-w-sm text-sm text-ink-2">{body}</p>

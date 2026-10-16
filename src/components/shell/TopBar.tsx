@@ -87,7 +87,7 @@ function AccountMenu() {
                 <Avatar
                   initials={a.initials}
                   size="sm"
-                  tone={active ? "gold" : "default"}
+                  tone={active ? "accent" : "default"}
                 />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-medium text-ink">
@@ -99,7 +99,7 @@ function AccountMenu() {
                 </span>
                 {active && (
                   <Check
-                    className="h-4 w-4 shrink-0 text-gold"
+                    className="h-4 w-4 shrink-0 text-accent"
                     strokeWidth={2}
                     aria-hidden
                   />
@@ -159,7 +159,7 @@ export function TopBar() {
                   aria-current={active ? "page" : undefined}
                   className={`relative rounded-md px-3 py-2 text-sm font-medium transition-colors duration-150 ${
                     active
-                      ? "text-gold-hi"
+                      ? "text-accent-hi"
                       : "text-ink-2 hover:text-ink"
                   }`}
                 >
@@ -167,7 +167,7 @@ export function TopBar() {
                   {active && (
                     <span
                       aria-hidden
-                      className="absolute inset-x-3 -bottom-[13px] h-0.5 bg-gold"
+                      className="absolute inset-x-3 -bottom-[13px] h-0.5 bg-accent"
                     />
                   )}
                 </Link>
@@ -209,7 +209,7 @@ export function TopBar() {
               <Bell className="h-5 w-5" strokeWidth={1.75} aria-hidden />
               {/* The label carries the real number; the pill stays narrow. */}
               {unread > 0 && (
-                <span className="tnum absolute right-1 top-1 rounded-full bg-gold px-1.5 py-px text-xs font-bold text-navy-950">
+                <span className="tnum absolute right-1 top-1 rounded-full bg-accent px-1.5 py-px text-xs font-bold text-navy-950">
                   {unread > 99 ? "99+" : unread}
                 </span>
               )}
@@ -217,7 +217,7 @@ export function TopBar() {
             <AccountMenu />
           </div>
         </div>
-        <div aria-hidden className="h-px bg-gradient-to-r from-transparent via-gold-deep/50 to-transparent" />
+        <div aria-hidden className="h-px bg-gradient-to-r from-transparent via-accent-deep/50 to-transparent" />
       </header>
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </>

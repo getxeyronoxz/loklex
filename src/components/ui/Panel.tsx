@@ -26,7 +26,7 @@ export function PanelHeader({
   return (
     <header className="flex items-start justify-between gap-3 border-b border-navy-700 px-5 pb-4 pt-5">
       <div>
-        <p className="eyebrow text-gold">{eyebrow}</p>
+        <p className="eyebrow text-accent">{eyebrow}</p>
         <h2 className="mt-1 font-display text-[clamp(1.2rem,1rem+1.5vw,1.375rem)] font-light leading-snug text-ink">
           {title}
         </h2>

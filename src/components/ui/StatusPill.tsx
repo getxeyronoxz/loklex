@@ -1,6 +1,6 @@
 const tones: Record<string, { pill: string; dot: string }> = {
   neutral: { pill: "bg-navy-800 text-ink-2", dot: "bg-ink-3" },
-  info: { pill: "bg-gold-wash text-gold-hi", dot: "bg-gold" },
+  info: { pill: "bg-accent-wash text-accent-hi", dot: "bg-accent" },
   warn: { pill: "bg-warn/15 text-warn", dot: "bg-warn" },
   success: { pill: "bg-success/15 text-success", dot: "bg-success" },
   muted: { pill: "border border-navy-700 text-ink-3", dot: "bg-navy-600" },

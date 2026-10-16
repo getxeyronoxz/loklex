@@ -175,7 +175,7 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
               className="flex min-h-[320px] min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:hidden"
             >
               <header className="flex shrink-0 items-center gap-2 border-b border-navy-700 px-4 py-3">
-                <h2 className="eyebrow text-gold">
+                <h2 className="eyebrow text-accent">
                   <span aria-hidden className="mr-2 text-ink-3">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -192,7 +192,7 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
               className="flex min-h-[320px] min-w-0 flex-col overflow-hidden rounded-xl border border-navy-700 bg-navy-900 lg:h-full lg:min-h-0 lg:flex-1"
             >
               <header className="flex shrink-0 items-center justify-between gap-2 border-b border-navy-700 px-4 py-3">
-                <h2 className="eyebrow text-gold">
+                <h2 className="eyebrow text-accent">
                   <span aria-hidden className="mr-2 text-ink-3">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -234,7 +234,7 @@ export function DesktopWorkspace({ panes }: { panes: WorkspacePane[] }) {
               />
               <span
                 aria-hidden
-                className={`relative h-10 w-1 rounded-full bg-gold opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 ${resizing ? "opacity-100 shadow-[0_0_12px_rgba(216,185,106,0.55)]" : ""}`}
+                className={`relative h-10 w-1 rounded-full bg-accent opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 ${resizing ? "opacity-100 shadow-[0_0_12px_rgba(0,168,132,0.55)]" : ""}`}
               />
             </div>
           )}

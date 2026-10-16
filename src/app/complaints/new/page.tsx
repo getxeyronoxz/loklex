@@ -96,9 +96,9 @@ function StepDots({ step }: { step: number }) {
             title={name}
             className={`h-2 rounded-full transition-all duration-150 ${
               i < step
-                ? "w-6 bg-gold-deep"
+                ? "w-6 bg-accent-deep"
                 : i === step
-                  ? "w-8 bg-gold"
+                  ? "w-8 bg-accent"
                   : "w-2 bg-navy-700"
             }`}
           />
@@ -271,7 +271,7 @@ export default function NewComplaintPage() {
             {isThread ? "Discussion posted" : "Complaint filed"}
           </h1>
           {!isThread && (
-            <p className="tnum mt-2 font-mono text-sm tracking-[0.14em] text-gold">
+            <p className="tnum mt-2 font-mono text-sm tracking-[0.14em] text-accent">
               {(done as Complaint).ref}
             </p>
           )}
@@ -329,7 +329,7 @@ export default function NewComplaintPage() {
     <div className="mx-auto max-w-2xl space-y-4">
       <Panel>
         <div className="border-b border-navy-700 px-5 pb-4 pt-5 sm:px-6">
-          <p className="eyebrow text-gold">New filing</p>
+          <p className="eyebrow text-accent">New filing</p>
           <h1 className="mt-1 font-display text-[clamp(1.375rem,1rem+2vw,1.625rem)] font-light text-ink">
             {step === 0
               ? "What would you like to happen?"
@@ -383,17 +383,17 @@ export default function NewComplaintPage() {
                     }}
                     className={`flex w-full items-start gap-4 rounded-xl border p-4 text-left transition-colors duration-150 ${
                       active
-                        ? "border-gold-deep bg-gold-wash"
+                        ? "border-accent-deep bg-accent-wash"
                         : "border-navy-700 bg-navy-950 hover:border-navy-600"
                     }`}
                   >
                     <span
                       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-                        active ? "bg-gold/20" : "bg-navy-800"
+                        active ? "bg-accent/20" : "bg-navy-800"
                       }`}
                     >
                       <Icon
-                        className={`h-5 w-5 ${active ? "text-gold-hi" : "text-ink-2"}`}
+                        className={`h-5 w-5 ${active ? "text-accent-hi" : "text-ink-2"}`}
                         strokeWidth={1.75}
                         aria-hidden
                       />
@@ -482,7 +482,7 @@ export default function NewComplaintPage() {
                             <img src={f.url} alt="" className="h-full w-full object-cover" />
                           ) : (
                             <span className="grid h-full w-full place-items-center">
-                              <ImagePlus className="h-4 w-4 text-gold" aria-hidden />
+                              <ImagePlus className="h-4 w-4 text-accent" aria-hidden />
                             </span>
                           )}
                           <span className="sr-only">{f.name}</span>
@@ -559,7 +559,7 @@ export default function NewComplaintPage() {
                       }}
                       className={`flex w-full items-start justify-between gap-3 rounded-lg border px-4 py-3 text-left transition-colors duration-150 ${
                         active
-                          ? "border-gold-deep bg-gold-wash"
+                          ? "border-accent-deep bg-accent-wash"
                           : "border-navy-700 hover:border-navy-600"
                       }`}
                     >
@@ -574,7 +574,7 @@ export default function NewComplaintPage() {
                       <span
                         aria-hidden
                         className={`mt-1 h-4 w-4 shrink-0 rounded-full border-2 ${
-                          active ? "border-gold bg-gold" : "border-navy-600"
+                          active ? "border-accent bg-accent" : "border-navy-600"
                         }`}
                       />
                     </button>
@@ -641,7 +641,7 @@ export default function NewComplaintPage() {
                             onClick={() => setAudience(key)}
                             className={`rounded-lg border px-3 py-2.5 text-left transition-colors duration-150 ${
                               active
-                                ? "border-gold-deep bg-gold-wash"
+                                ? "border-accent-deep bg-accent-wash"
                                 : "border-navy-700 hover:border-navy-600"
                             }`}
                           >
@@ -675,7 +675,7 @@ export default function NewComplaintPage() {
                                   type="checkbox"
                                   checked={checked}
                                   onChange={() => toggleExtra(f.slug)}
-                                  className="h-4 w-4 accent-[#d8b96a]"
+                                  className="h-4 w-4 accent-[#00a884]"
                                 />
                                 {f.name}
                               </label>
@@ -702,7 +702,7 @@ export default function NewComplaintPage() {
                   aria-checked={nameChoice === "name"}
                   disabled={guest}
                   onClick={() => setNameChoice("name")}
-                  className="flex w-full items-center gap-3 rounded-lg border border-navy-700 px-4 py-3 text-left disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:border-navy-600 aria-checked:border-gold-deep aria-checked:bg-gold-wash"
+                  className="flex w-full items-center gap-3 rounded-lg border border-navy-700 px-4 py-3 text-left disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:border-navy-600 aria-checked:border-accent-deep aria-checked:bg-accent-wash"
                 >
                   <Avatar initials={account.initials} size="sm" />
                   <span>
@@ -721,7 +721,7 @@ export default function NewComplaintPage() {
                   role="radio"
                   aria-checked={nameChoice === "pseudonym"}
                   onClick={() => setNameChoice("pseudonym")}
-                  className="w-full rounded-lg border border-navy-700 px-4 py-3 text-left hover:border-navy-600 aria-checked:border-gold-deep aria-checked:bg-gold-wash"
+                  className="w-full rounded-lg border border-navy-700 px-4 py-3 text-left hover:border-navy-600 aria-checked:border-accent-deep aria-checked:bg-accent-wash"
                 >
                   <span className="block text-sm font-semibold text-ink">
                     A pseudonym
@@ -748,7 +748,7 @@ export default function NewComplaintPage() {
                   role="radio"
                   aria-checked={nameChoice === "hidden"}
                   onClick={() => setNameChoice("hidden")}
-                  className="w-full rounded-lg border border-navy-700 px-4 py-3 text-left hover:border-navy-600 aria-checked:border-gold-deep aria-checked:bg-gold-wash"
+                  className="w-full rounded-lg border border-navy-700 px-4 py-3 text-left hover:border-navy-600 aria-checked:border-accent-deep aria-checked:bg-accent-wash"
                 >
                   <span className="block text-sm font-semibold text-ink">
                     Hide my name
@@ -789,7 +789,7 @@ export default function NewComplaintPage() {
                         onClick={() => setVisibility(key)}
                         className={`rounded-lg border px-4 py-3 text-left transition-colors duration-150 ${
                           active
-                            ? "border-gold-deep bg-gold-wash"
+                            ? "border-accent-deep bg-accent-wash"
                             : "border-navy-700 hover:border-navy-600"
                         }`}
                       >
@@ -856,7 +856,7 @@ export default function NewComplaintPage() {
                       <img src={f.url} alt="" className="h-full w-full object-cover" />
                     ) : (
                       <span className="grid h-full w-full place-items-center">
-                        <ImagePlus className="h-4 w-4 text-gold" aria-hidden />
+                        <ImagePlus className="h-4 w-4 text-accent" aria-hidden />
                       </span>
                     )}
                   </li>
@@ -870,7 +870,7 @@ export default function NewComplaintPage() {
                 type="checkbox"
                 checked={confirmAll}
                 onChange={(e) => setConfirmAll(e.target.checked)}
-                className="mt-0.5 h-4 w-4 shrink-0 accent-[#d8b96a]"
+                className="mt-0.5 h-4 w-4 shrink-0 accent-[#00a884]"
               />
               I understand this publishes to every forum on Loklex, and I want
               that wide audience.

@@ -66,7 +66,7 @@ export function SystemAlertsControl() {
           aria-label="System alerts"
           onClick={() => setSystemAlerts(!systemAlerts)}
           className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-150 ${
-            systemAlerts ? "bg-gold" : "bg-navy-700"
+            systemAlerts ? "bg-accent" : "bg-navy-700"
           }`}
         >
           <span

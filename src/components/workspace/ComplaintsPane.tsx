@@ -42,7 +42,7 @@ function QuickReport() {
         onChange={(e) => setSubject(e.target.value)}
         placeholder="Subject…"
         maxLength={140}
-        className="w-full rounded-lg border border-navy-700 bg-navy-950 px-3 py-2.5 text-sm text-ink placeholder:text-ink-3 transition-colors duration-150 focus:border-gold focus:outline-none"
+        className="w-full rounded-lg border border-navy-700 bg-navy-950 px-3 py-2.5 text-sm text-ink placeholder:text-ink-3 transition-colors duration-150 focus:border-accent focus:outline-none"
       />
       <label htmlFor="qr-desc" className="sr-only">
         Description
@@ -53,7 +53,7 @@ function QuickReport() {
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Description…"
         rows={3}
-        className="w-full resize-none rounded-lg border border-navy-700 bg-navy-950 px-3 py-2.5 text-sm text-ink placeholder:text-ink-3 transition-colors duration-150 focus:border-gold focus:outline-none"
+        className="w-full resize-none rounded-lg border border-navy-700 bg-navy-950 px-3 py-2.5 text-sm text-ink placeholder:text-ink-3 transition-colors duration-150 focus:border-accent focus:outline-none"
       />
       <Button
         size="sm"
@@ -115,7 +115,7 @@ export function ComplaintsPane() {
                     </StatusPill>
                   </span>
                   <span className="tnum mt-1.5 flex items-center gap-3 font-mono text-xs text-ink-3">
-                    <span className="tracking-[0.1em] text-gold/80">{c.ref}</span>
+                    <span className="tracking-[0.1em] text-accent/80">{c.ref}</span>
                     <span className="flex items-center gap-1">
                       <HandHeart className="h-3 w-3" aria-hidden />
                       {c.supporters}
@@ -135,7 +135,7 @@ export function ComplaintsPane() {
       <div className="flex min-h-[60px] shrink-0 items-center justify-between gap-2 border-t border-navy-700 px-4 py-3">
         <Link
           href="/complaints"
-          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-gold-hi"
+          className="inline-flex items-center gap-1 text-[13px] font-medium text-ink-2 transition-colors duration-150 hover:text-accent-hi"
         >
           All complaints <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </Link>

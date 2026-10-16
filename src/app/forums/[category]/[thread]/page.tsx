@@ -142,7 +142,7 @@ function ThreadView() {
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-4 lg:h-full lg:min-h-0">
       <Link
         href={`/forums/${params.category}`}
-        className="inline-flex shrink-0 items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-gold-hi"
+        className="inline-flex shrink-0 items-center gap-1.5 text-[13px] font-medium text-ink-2 hover:text-accent-hi"
       >
         <ArrowLeft className="h-4 w-4" strokeWidth={2} aria-hidden />
         Back to forum
@@ -152,7 +152,7 @@ function ThreadView() {
         <div className="shrink-0 border-b border-navy-700 px-5 pb-5 pt-5 sm:px-6">
           <div className="flex flex-wrap items-center gap-2">
             {pinned && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-gold-wash px-2.5 py-1 text-xs font-semibold text-gold-hi">
+              <span className="inline-flex items-center gap-1 rounded-full bg-accent-wash px-2.5 py-1 text-xs font-semibold text-accent-hi">
                 <Pin className="h-3 w-3" aria-hidden /> Pinned
               </span>
             )}
@@ -169,7 +169,7 @@ function ThreadView() {
             {linkedComplaint && (
               <Link
                 href={`/complaints/${linkedComplaint.id}`}
-                className="tnum inline-flex items-center gap-1 rounded-full bg-gold-wash px-2.5 py-1 text-xs font-semibold text-gold-hi hover:bg-gold/20"
+                className="tnum inline-flex items-center gap-1 rounded-full bg-accent-wash px-2.5 py-1 text-xs font-semibold text-accent-hi hover:bg-accent/20"
               >
                 Linked complaint {linkedComplaint.ref} →
               </Link>
@@ -243,7 +243,7 @@ function ThreadView() {
                 <Avatar
                   initials={initialsOf(r.author)}
                   size="sm"
-                  tone={r.mine ? "gold" : "default"}
+                  tone={r.mine ? "accent" : "default"}
                 />
                 <span className="min-w-0 break-words text-sm font-semibold text-ink">{r.author}</span>
                 <span className="tnum shrink-0 text-xs text-ink-3">{r.postedAt}</span>
@@ -259,7 +259,7 @@ function ThreadView() {
                             : r.body,
                       })
                     }
-                    className="ml-auto inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-ink-3 hover:bg-navy-800 hover:text-gold-hi"
+                    className="ml-auto inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-ink-3 hover:bg-navy-800 hover:text-accent-hi"
                   >
                     <Quote className="h-3.5 w-3.5" aria-hidden />
                     Quote
@@ -267,7 +267,7 @@ function ThreadView() {
                 )}
               </div>
               {r.quote && (
-                <blockquote className="mt-2 rounded-lg border-l-2 border-gold-deep bg-navy-950 px-3 py-2 text-[13px] leading-relaxed text-ink-2">
+                <blockquote className="mt-2 rounded-lg border-l-2 border-accent-deep bg-navy-950 px-3 py-2 text-[13px] leading-relaxed text-ink-2">
                   <span className="font-semibold text-ink-3">
                     {r.quote.author} —{" "}
                   </span>

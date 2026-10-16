@@ -58,7 +58,7 @@ export default function RulesPage() {
             <li key={r.title} className="flex gap-4 py-3">
               <span
                 aria-hidden
-                className="tnum font-display text-xl font-light text-gold/80"
+                className="tnum font-display text-xl font-light text-accent/80"
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -77,8 +77,8 @@ export default function RulesPage() {
         <ol className="space-y-4 px-5 py-5 sm:px-6">
           {process.map((p, i) => (
             <li key={p.title} className="flex gap-3">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-gold-deep/60 bg-gold-wash">
-                <BookOpen className="h-3.5 w-3.5 text-gold-hi" aria-hidden />
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-accent-deep/60 bg-accent-wash">
+                <BookOpen className="h-3.5 w-3.5 text-accent-hi" aria-hidden />
               </span>
               <div>
                 <h2 className="text-sm font-semibold text-ink">
