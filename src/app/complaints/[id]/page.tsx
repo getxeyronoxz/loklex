@@ -283,6 +283,7 @@ function ComplaintDetailView() {
                         aria-label={`Open ${f.name} in full`}
                         className="block"
                       >
+                        {/* eslint-disable-next-line @next/next/no-img-element -- session-local file URL */}
                         <img
                           src={f.url}
                           alt={f.name}
