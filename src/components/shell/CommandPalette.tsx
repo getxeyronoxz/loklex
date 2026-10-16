@@ -36,11 +36,17 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
 
   useEffect(() => {
     /* Whatever had focus before the palette opened gets it back when the
-       dialog unmounts, instead of the caret landing on <body>. */
-    const returnTo =
+       dialog unmounts. Opened from the keyboard, nothing is focused
+       (body) — then focus falls back to the palette trigger so keyboard
+       users don't lose their place at the top of the page. */
+    const active =
       document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
+    const returnTo =
+      active && active !== document.body
+        ? active
+        : document.getElementById("command-palette-trigger");
     requestAnimationFrame(() => inputRef.current?.focus());
     /* The catalogs are shared and read once per visit, so a repeat ⌘K
        resolves from the same promise instead of re-reading all three. */
